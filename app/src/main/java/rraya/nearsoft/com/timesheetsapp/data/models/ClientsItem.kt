@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp.models
+package rraya.nearsoft.com.timesheetsapp.data.models
 
 data class ClientsItem(val name: String = "",
                        val estimatedHours: Int = 0,

@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp.models
+package rraya.nearsoft.com.timesheetsapp.data.models
 
 data class TimesheetItem(val date: String = "",
                          val other: String = "",
@@ -6,12 +6,12 @@ data class TimesheetItem(val date: String = "",
                          val totalHours: Int = 0,
                          val hasHoliday: Boolean = false,
                          val workHours: List<Int>?,
-                         val PTOHours: Int = 0,
+                         val ptoHours: Int = 0,
                          val stringDate: String = "",
                          val hasVacation: Boolean = false,
                          val showOption: Boolean = false,
                          val hasOption: Boolean = false,
-                         val hasPTO: Boolean = false,
+                         val hasPto: Boolean = false,
                          val hasOther: Boolean = false,
                          val weekDay: String = "",
                          val vacationHours: Int = 0)
