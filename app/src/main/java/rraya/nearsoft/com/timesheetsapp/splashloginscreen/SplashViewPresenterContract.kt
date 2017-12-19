@@ -6,7 +6,7 @@ import rraya.nearsoft.com.timesheetsapp.common.BaseViewPresenterContract
  * Created by ccuevas on 12/1/17.
  */
 //TODO: modify this contract as needed
-interface ViewPresenterContract {
+interface SplashViewPresenterContract {
 
     interface View : BaseViewPresenterContract.View {
 
@@ -14,11 +14,16 @@ interface ViewPresenterContract {
 
         fun onLoginSuccess()
 
+        fun isLoggedIn(): Boolean
+
     }
 
     interface Presenter : BaseViewPresenterContract.Presenter {
 
-        fun Login()
+        fun login(idToken: String)
+        fun checkLoginResult(requestCode: Int): Boolean
+        fun setView(view: SplashView)
+        fun checkIsLoggedIn()
 
     }
 
