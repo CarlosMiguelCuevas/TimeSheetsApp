@@ -14,9 +14,9 @@ import android.widget.Toast
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_splash_view.*
+import rraya.nearsoft.com.timesheetsapp.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
-import rraya.nearsoft.com.timesheetsapp.Repository
 import javax.inject.Inject
 
 
@@ -24,6 +24,7 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
 
 
     @Inject lateinit var presenter: SplashPresenter
+    @Inject lateinit var userPrefs: IUserPrefs
 
     companion object {
         val TAG = "SplashView"
@@ -85,7 +86,7 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
     }
 
     override fun isLoggedIn(): Boolean {
-        return !TextUtils.isEmpty(context?.let { Repository.getUserToken(it) })
+        return !TextUtils.isEmpty(context?.let { userPrefs.getUserToken() })
     }
 
     override fun showProgressBar() {
