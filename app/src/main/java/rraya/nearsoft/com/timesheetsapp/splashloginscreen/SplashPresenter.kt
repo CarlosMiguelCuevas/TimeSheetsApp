@@ -42,6 +42,7 @@ class SplashPresenter(private var repository: IRepository, private var userPrefs
         if(splashView!=null){
             if(!splashView!!.isLoggedIn()){
                 launchFirebaseLogin()
+                splashView?.hideProgressBar()
             }else{
                 continueToNextActivity()
             }
@@ -60,6 +61,10 @@ class SplashPresenter(private var repository: IRepository, private var userPrefs
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN)
+    }
+
+    override fun onClickedLogin() {
+        launchFirebaseLogin()
     }
 
     private fun continueToNextActivity() {

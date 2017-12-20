@@ -6,4 +6,8 @@
     <string name="error_with_firebase">Error signing in to account, try again.</string>
     <string name="accept">Accept</string>
     <string name="timesheets">Timesheets</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="time_to_give">Time to give credit\nfor your hard work</string>
+    <string name="ops">Ooops!</string>
+    <string name="problem_logging">There was a problem\nlogging you in.</string>
 </resources>

@@ -1,5 +1,6 @@
 package rraya.nearsoft.com.timesheetsapp.splashloginscreen
 
+import android.content.Intent
 import rraya.nearsoft.com.timesheetsapp.common.BaseViewPresenterContract
 
 /**
@@ -11,11 +12,9 @@ interface SplashViewPresenterContract {
     interface View : BaseViewPresenterContract.View {
 
         fun onLoginError(error: Throwable)
-
         fun onLoginSuccess()
-
         fun isLoggedIn(): Boolean
-
+        fun startActivityForResult(intent: Intent, requestCode: Int)
     }
 
     interface Presenter : BaseViewPresenterContract.Presenter {
@@ -24,6 +23,7 @@ interface SplashViewPresenterContract {
         fun checkLoginResult(requestCode: Int): Boolean
         fun setView(view: SplashViewPresenterContract.View)
         fun checkIsLoggedIn()
+        fun onClickedLogin()
 
     }
 

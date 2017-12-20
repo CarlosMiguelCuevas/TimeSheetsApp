@@ -43,6 +43,15 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
         return inflater.inflate(R.layout.fragment_splash_view, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        signInBtn.setOnClickListener {
+            hideErrorLayout()
+            showProgressBar()
+            presenter.onClickedLogin()
+        }
+    }
+
     override fun onLoginError(error: Throwable) {
         Log.e(TAG, "Error logging in to the server")
         context?.let {
@@ -54,11 +63,18 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
             val dialog = builder.create()
             dialog.show()
         }
-        showRetryOptions()
+        showErrorLayout()
+        hideProgressBar()
     }
 
-    private fun showRetryOptions() {
-        //TODO: Show button that lets you retry if there was a network error.
+    private fun showErrorLayout() {
+        login_error_holder.visibility = View.VISIBLE
+        splash_info.visibility = View.GONE
+    }
+
+    private fun hideErrorLayout() {
+        login_error_holder.visibility = View.GONE
+        splash_info.visibility = View.VISIBLE
     }
 
     override fun onLoginSuccess() {
@@ -67,20 +83,25 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        //Check if the result has something to to with firebase login.
         if(presenter.checkLoginResult(requestCode)){
-            val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-                val user = FirebaseAuth.getInstance().currentUser
-                user?.getIdToken(false)?.addOnCompleteListener {
-                    if(it.isSuccessful && !TextUtils.isEmpty(it.result.token)){
-                        presenter.login(it.result.token!!)
-                    }else{
-                        onLoginError(it.exception!!)
-                    }
-                }
+                getUserAndRequestLogin()
             } else {
+                val response = IdpResponse.fromResultIntent(data)
                 Log.v(TAG, response.toString())
                 onLoginError(Exception(getText(R.string.error_with_firebase).toString()))
+            }
+        }
+    }
+
+    private fun getUserAndRequestLogin() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.getIdToken(false)?.addOnCompleteListener {
+            if(it.isSuccessful && !TextUtils.isEmpty(it.result.token)){
+                presenter.login(it.result.token!!)
+            }else{
+                onLoginError(it.exception!!)
             }
         }
     }
@@ -91,10 +112,12 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
 
     override fun showProgressBar() {
         progress_bar.visibility = View.VISIBLE
+        signInBtn.visibility = View.GONE
     }
 
     override fun hideProgressBar() {
         progress_bar.visibility = View.GONE
+        signInBtn.visibility = View.VISIBLE
     }
 
     override fun onStop() {
