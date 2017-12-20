@@ -34,7 +34,8 @@ class SplashPresenter(private var repository: IRepository, private var userPrefs
                 splashView?.hideProgressBar()
                 splashView?.onLoginError(it)
             })
-        subscriptions.add(getTokenSubcription)
+
+        subscribe(getTokenSubcription)
     }
 
     override fun checkIsLoggedIn() {

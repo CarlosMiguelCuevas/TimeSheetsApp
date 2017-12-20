@@ -5,7 +5,7 @@ import io.reactivex.disposables.Disposable
 
 abstract class RxBasePresenter : BaseViewPresenterContract.Presenter {
 
-    protected var subscriptions = CompositeDisposable()
+    private var subscriptions = CompositeDisposable()
 
     override fun subscribe(subscription: Disposable) {
         subscriptions.add(subscription)

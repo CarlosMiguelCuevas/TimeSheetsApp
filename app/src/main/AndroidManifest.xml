@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".confirmation.ConfirmationActivity" />
-        <activity android:name=".timesheetform.TimeSheetActivity"></activity>
+        <activity android:name=".timesheetform.TimeSheetActivity" />
     </application>
 
 </manifest>
