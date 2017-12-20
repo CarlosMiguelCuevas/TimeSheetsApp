@@ -111,13 +111,13 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
     }
 
     override fun showProgressBar() {
-        progress_bar.visibility = View.VISIBLE
-        signInBtn.visibility = View.GONE
+        progress_bar?.visibility = View.VISIBLE
+        signInBtn?.visibility = View.GONE
     }
 
     override fun hideProgressBar() {
-        progress_bar.visibility = View.GONE
-        signInBtn.visibility = View.VISIBLE
+        progress_bar?.visibility = View.GONE
+        signInBtn?.visibility = View.VISIBLE
     }
 
     override fun onStop() {
