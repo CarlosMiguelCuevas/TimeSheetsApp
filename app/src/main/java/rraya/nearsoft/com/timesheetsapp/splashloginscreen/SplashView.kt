@@ -23,7 +23,7 @@ import javax.inject.Inject
 class SplashView : Fragment(), SplashViewPresenterContract.View {
 
 
-    @Inject lateinit var presenter: SplashPresenter
+    @Inject lateinit var presenter: SplashViewPresenterContract.Presenter
     @Inject lateinit var userPrefs: IUserPrefs
 
     companion object {
