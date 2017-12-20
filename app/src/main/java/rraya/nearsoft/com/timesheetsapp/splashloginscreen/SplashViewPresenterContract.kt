@@ -22,7 +22,7 @@ interface SplashViewPresenterContract {
 
         fun login(idToken: String)
         fun checkLoginResult(requestCode: Int): Boolean
-        fun setView(view: SplashView)
+        fun setView(view: SplashViewPresenterContract.View)
         fun checkIsLoggedIn()
 
     }

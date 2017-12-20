@@ -8,18 +8,16 @@ import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IRepository
 import java.util.*
 
-/**
- * Created by ccuevas on 12/1/17.
- */
-class SplashPresenter(private var repository: IRepository, var userPrefs: IUserPrefs) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
 
-    private var splashView : SplashView? = null
+class SplashPresenter(private var repository: IRepository, private var userPrefs: IUserPrefs) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
+
+    private var splashView : SplashViewPresenterContract.View? = null
 
     companion object {
         private  val RC_SIGN_IN: Int = 1
     }
 
-    override fun setView(view: SplashView) {
+    override fun setView(view: SplashViewPresenterContract.View) {
         splashView = view
     }
 
