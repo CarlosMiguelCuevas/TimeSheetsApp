@@ -11,7 +11,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="40dp">
+        android:paddingTop="50dp">
 
 
         <android.support.constraint.ConstraintLayout
@@ -22,8 +22,8 @@
 
             <ImageView
                 android:id="@+id/happy_avatar"
-                android:layout_width="83dp"
-                android:layout_height="80dp"
+                android:layout_width="80dp"
+                android:layout_height="89dp"
                 android:scaleType="centerInside"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,11 +35,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/welcome_to"
                 android:textAllCaps="true"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/happy_avatar" />
@@ -48,7 +48,7 @@
             <ImageView
                 android:id="@+id/timesheets_logo"
                 android:layout_width="230dp"
-                android:layout_height="80dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
@@ -66,10 +66,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/splash_margins"
                 android:gravity="center"
                 android:text="@string/time_to_give"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timesheets_logo" />
@@ -119,7 +119,7 @@
             android:indeterminate="true"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="@dimen/top_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -130,7 +130,7 @@
             android:layout_height="54dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="@dimen/top_margin"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,12 +140,12 @@
         <ImageView
             android:id="@+id/company_logo"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="60dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:layout_marginTop="@dimen/splash_margins"
             android:src="@drawable/ic_nearsoft_aic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
