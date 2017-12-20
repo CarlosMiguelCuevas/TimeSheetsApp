@@ -5,9 +5,6 @@ import rraya.nearsoft.com.timesheetsapp.dagger.AppComponent
 import rraya.nearsoft.com.timesheetsapp.dagger.AppModule
 import rraya.nearsoft.com.timesheetsapp.dagger.DaggerAppComponent
 
-/**
- * Created by ccuevas on 12/1/17.
- */
 class TimeSheetsApp : Application() {
 
     private var appComponent: AppComponent? = null

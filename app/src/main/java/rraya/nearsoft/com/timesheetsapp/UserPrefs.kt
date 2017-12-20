@@ -2,9 +2,6 @@ package rraya.nearsoft.com.timesheetsapp
 
 import android.content.Context
 
-/**
- * Created by oaguilar on 12/15/17.
- */
 class UserPrefs(val context: Context): IUserPrefs {
     companion object {
         private val TOKEN_TAG = "Token"

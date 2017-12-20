@@ -8,7 +8,6 @@ import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IRepository
 import java.util.*
 
-
 class SplashPresenter(private var repository: IRepository, private var userPrefs: IUserPrefs) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
 
     private var splashView : SplashViewPresenterContract.View? = null

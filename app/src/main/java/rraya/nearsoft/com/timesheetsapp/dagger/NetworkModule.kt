@@ -14,10 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rraya.nearsoft.com.timesheetsapp.BuildConfig
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 
-/**
- * Created by oaguilar on 12/5/17.
- */
-
 @Module
 class NetworkModule {
 

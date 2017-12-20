@@ -19,9 +19,7 @@ import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import javax.inject.Inject
 
-
 class SplashView : Fragment(), SplashViewPresenterContract.View {
-
 
     @Inject lateinit var presenter: SplashViewPresenterContract.Presenter
     @Inject lateinit var userPrefs: IUserPrefs

@@ -7,10 +7,6 @@ import rraya.nearsoft.com.timesheetsapp.data.IRepository
 import rraya.nearsoft.com.timesheetsapp.splashloginscreen.SplashPresenter
 import rraya.nearsoft.com.timesheetsapp.splashloginscreen.SplashViewPresenterContract
 
-/**
- * Created by oaguilar on 12/5/17.
- */
-
 @Module
 class PresenterModule {
 

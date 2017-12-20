@@ -7,10 +7,6 @@ import okhttp3.RequestBody
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
-/**
- * Created by oaguilar on 12/19/17.
- */
-
 class Repository(val api: TimesheetsApi) : IRepository {
 
     @Throws(Throwable::class)

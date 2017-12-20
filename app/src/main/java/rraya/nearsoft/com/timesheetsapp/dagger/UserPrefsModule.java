@@ -9,10 +9,6 @@ import dagger.Provides;
 import rraya.nearsoft.com.timesheetsapp.IUserPrefs;
 import rraya.nearsoft.com.timesheetsapp.UserPrefs;
 
-/**
- * Created by oaguilar on 12/5/17.
- */
-
 @Module
 public class UserPrefsModule {
 

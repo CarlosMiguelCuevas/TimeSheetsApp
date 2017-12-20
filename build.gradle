@@ -21,33 +21,32 @@ allprojects {
         google()
         jcenter()
     }
+
+    project.ext {
+        //SDK and tools
+        minSdkVersion = 19
+        targetSdkVersion = 27
+        compileSdkVersion = 27
+        buildToolsVersion = '27.0.1'
+
+        //App dependencies
+        supportLibraryVersion = '27.0.2'
+        constraintLayoutVersion = '1.1.0-beta3'
+        firebaseLibrariesVersion = '11.6.2'
+        firebaseUiLibrariesVersion = '3.1.1'
+        daggerLibrariesVersion = '2.11'
+        retrofitLibrariesVersion = '2.3.0'
+        okHttpInterceptorLibrariesVersion = '3.8.0'
+        rxJavaVersion = '2.0.8'
+        rxAndroidVersion = '2.0.1'
+
+        //Testing dependencies
+        junitVersion = '4.12'
+        runnerVersion = '1.0.1'
+        espressoVersion = '3.0.1'
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-    //SDK and tools
-    minSdkVersion = 19
-    targetSdkVersion = 27
-    compileSdkVersion = 27
-    buildToolsVersion = '27.0.1'
-
-    //App dependencies
-    supportLibraryVersion = '27.0.2'
-    constraintLayoutVersion = '1.1.0-beta3'
-    firebaseLibrariesVersion = '11.6.2'
-    daggerLibrariesVersion = '2.11'
-    retrofitLibrariesVersion = '2.3.0'
-
-    //Testing dependencies
-    junitVersion = '4.12'
-    runnerVersion = '1.0.1'
-    espressoVersion = '3.0.1'
-
-    //Rx dependencies
-    rxJavaVersion = '2.0.8'
-    rxAndroidVersion = '2.0.1'
-
 }
