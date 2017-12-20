@@ -9,8 +9,12 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val frag = SplashView()
-        supportFragmentManager.beginTransaction().replace(R.id.container, frag).commit()
+
+        if (null == savedInstanceState) {
+            val frag = SplashView()
+            supportFragmentManager.beginTransaction().replace(R.id.container, frag).commit()
+        }
+
     }
 
 }
