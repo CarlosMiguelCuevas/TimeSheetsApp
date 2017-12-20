@@ -38,6 +38,8 @@ ext {
     supportLibraryVersion = '27.0.2'
     constraintLayoutVersion = '1.1.0-beta1'
     firebaseLibrariesVersion = '11.6.2'
+    daggerLibrariesVersion = '2.11'
+    retrofitLibrariesVersion = '2.3.0'
 
     //Testing dependencies
     junitVersion = '4.12'

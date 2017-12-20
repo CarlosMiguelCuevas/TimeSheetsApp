@@ -39,16 +39,18 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:3.1.1'
 
     //Dagger2
-    implementation "com.google.dagger:dagger:2.11"
-    implementation "com.google.dagger:dagger-android:2.11"
-    implementation "com.google.dagger:dagger-android-support:2.11"
-    kapt "com.google.dagger:dagger-compiler:2.11"
-    kapt "com.google.dagger:dagger-android-processor:2.11"
+    implementation "com.google.dagger:dagger:$rootProject.ext.daggerLibrariesVersion"
+    implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerLibrariesVersion"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerLibrariesVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerLibrariesVersion"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerLibrariesVersion"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitLibrariesVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitLibrariesVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitLibrariesVersion"
+
+    //Okhttp
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
 
     //testing
