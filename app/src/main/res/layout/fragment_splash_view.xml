@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".splashloginscreen.SplashView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@drawable/artifacts_background"
+    android:fillViewport="true"
+    tools:context=".splashloginscreen.SplashView">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,14 +18,15 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/splash_info"
             android:layout_width="match_parent"
-            android:visibility="visible"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/happy_avatar"
                 android:layout_width="80dp"
                 android:layout_height="89dp"
                 android:scaleType="centerInside"
+                android:src="@drawable/character_1_punk"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +56,7 @@
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_nearsoft_aic"
+                android:src="@drawable/logo_timesheets"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/welcome_to_title" />
@@ -76,50 +78,50 @@
 
         </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/login_error_holder"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/sad_avatar"
-            android:layout_width="83dp"
-            android:layout_height="80dp"
-            android:scaleType="centerInside"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/oops"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/login_error_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/ops"
-            style="@style/Base.TextAppearance.AppCompat.Display1"/>
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/sad_avatar"
+                android:layout_width="83dp"
+                android:layout_height="80dp"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/oops"
+                style="@style/Base.TextAppearance.AppCompat.Display1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/ops" />
 
 
-        <TextView
-            android:id="@+id/problem_logging_exp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@string/problem_logging"
-            app:layout_constraintTop_toBottomOf="@+id/oops" />
+            <TextView
+                android:id="@+id/problem_logging_exp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/problem_logging"
+                app:layout_constraintTop_toBottomOf="@+id/oops" />
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="54dp"
             android:layout_height="54dp"
             android:layout_gravity="center"
-            android:indeterminate="true"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/top_margin"
+            android:indeterminate="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -131,11 +133,11 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/top_margin"
+            android:text="Sign in with Google"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="Sign in with Google"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/company_logo"
