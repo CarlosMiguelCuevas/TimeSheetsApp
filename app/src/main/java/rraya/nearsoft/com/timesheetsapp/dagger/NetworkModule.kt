@@ -1,8 +1,5 @@
 package rraya.nearsoft.com.timesheetsapp.dagger
 
-import javax.inject.Named
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -13,11 +10,18 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import rraya.nearsoft.com.timesheetsapp.BuildConfig
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 class NetworkModule {
 
+    companion object {
+        const val NAME_BASE_URL = "NAME_BASE_URL"
+    }
+
     @Provides
+    @Singleton
     @Named(NAME_BASE_URL)
     internal fun provideBaseUrlString(): String {
         return BuildConfig.HOST
@@ -64,8 +68,4 @@ class NetworkModule {
         return retrofit.create(TimesheetsApi::class.java)
     }
 
-    companion object {
-
-        private const val NAME_BASE_URL = "NAME_BASE_URL"
-    }
 }

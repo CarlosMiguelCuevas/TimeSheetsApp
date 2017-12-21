@@ -1,27 +1,15 @@
 package rraya.nearsoft.com.timesheetsapp
 
-import android.app.Application
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 import rraya.nearsoft.com.timesheetsapp.dagger.AppComponent
-import rraya.nearsoft.com.timesheetsapp.dagger.AppModule
 import rraya.nearsoft.com.timesheetsapp.dagger.DaggerAppComponent
 
-class TimeSheetsApp : Application() {
+class TimeSheetsApp : DaggerApplication() {
 
-    private var appComponent: AppComponent? = null
-
-    override fun onCreate() {
-        super.onCreate()
-        appComponent = initDagger(this)
-    }
-
-    fun getAppComponent(): AppComponent? {
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        val appComponent: AppComponent = DaggerAppComponent.builder().application(this).build()
+        appComponent.inject(this)
         return appComponent
-    }
-
-    @Suppress("DEPRECATION")
-    private fun initDagger(application: TimeSheetsApp): AppComponent {
-        return DaggerAppComponent.builder()
-                .appModule(AppModule(application))
-                .build()
     }
 }

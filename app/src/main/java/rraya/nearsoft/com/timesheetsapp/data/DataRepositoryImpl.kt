@@ -4,23 +4,32 @@ import com.google.gson.GsonBuilder
 import io.reactivex.Single
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
-class Repository(val api: TimesheetsApi) : IRepository {
+class DataRepositoryImpl(val api: TimesheetsApi, val sharedPreferences: IUserPrefs) : IDataRepository {
+
+    override fun getGoogleTokenFromSharedPreferences(): Single<String> {
+        return Single.just(sharedPreferences.getUserToken())
+    }
+
+    override fun saveGoogleTokenFromIntoPreferences(token: String) {
+        sharedPreferences.setUserToken(token)
+    }
 
     @Throws(Throwable::class)
     override fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<String> {
         return api.getTSTokenFromGoogleToken(createRequestBody(googleToken))
                 .map({
-                    if(it.isSuccessful && it.body()!= null){
+                    if (it.isSuccessful && it.body() != null) {
                         it.body()!!.token
-                    }else{
+                    } else {
                         throw RuntimeException("Error del servidor.")
                     }
                 }).doOnError({
-                    throw RuntimeException("Error de conexión.")
-                })
+            throw RuntimeException("Error de conexión.")
+        })
     }
 
 

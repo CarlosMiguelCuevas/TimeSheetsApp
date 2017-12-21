@@ -2,18 +2,16 @@ package rraya.nearsoft.com.timesheetsapp.dagger
 
 import android.app.Application
 import android.content.Context
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-class AppModule(private val application: Application) {
+class AppModule() {
 
     @Provides
     @Singleton
-    fun provideContext(): Context {
+    fun provideContext(application: Application): Context {
         return application
     }
 }

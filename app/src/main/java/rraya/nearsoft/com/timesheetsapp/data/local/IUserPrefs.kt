@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp
+package rraya.nearsoft.com.timesheetsapp.data.local
 
 interface IUserPrefs {
     fun getUserToken(): String
