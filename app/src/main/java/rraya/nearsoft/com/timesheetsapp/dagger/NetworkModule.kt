@@ -1,8 +1,5 @@
 package rraya.nearsoft.com.timesheetsapp.dagger
 
-import javax.inject.Named
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -12,7 +9,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import rraya.nearsoft.com.timesheetsapp.BuildConfig
+import rraya.nearsoft.com.timesheetsapp.network.GiphyApi
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
+import javax.inject.Named
+import javax.inject.Singleton
+
 
 /**
  * Created by oaguilar on 12/5/17.
@@ -25,6 +26,17 @@ class NetworkModule {
     @Named(NAME_BASE_URL)
     internal fun provideBaseUrlString(): String {
         return BuildConfig.HOST
+    }
+    @Provides
+    @Named(GIPHY_BASE_URL)
+    internal fun provideGiphyUrlString(): String {
+        return BuildConfig.GIPHY_BACKEND
+    }
+
+    @Provides
+    @Named(GIPHY_API_KEY)
+    internal fun provideGiphyApiKeyString(): String {
+        return BuildConfig.GIPHY_API_KEY
     }
 
     @Provides
@@ -62,14 +74,57 @@ class NetworkModule {
                 .build()
     }
 
+
+
+    @Provides
+    @Singleton
+    @Named(GIPHY_HTTP_CLIENT)
+    internal fun provideGiphyOkHttpClient(logging: HttpLoggingInterceptor, @Named(GIPHY_API_KEY) apiKey: String): OkHttpClient.Builder {
+        val httpClientBuilder = OkHttpClient.Builder()
+        httpClientBuilder.addInterceptor(logging)
+        httpClientBuilder.addInterceptor {
+            val original = it.request()
+            val originalHttpUrl = it.request().url()
+            val url = originalHttpUrl.newBuilder()
+                    .addQueryParameter("api_key", apiKey)
+                    .build()
+            it.proceed(original.newBuilder().url(url).build())
+        }
+        return httpClientBuilder
+    }
+
+    @Provides
+    @Singleton
+    @Named(GIPHY_RETROFIT)
+    internal fun provideGiphyRetrofit(converter: Converter.Factory, @Named(GIPHY_BASE_URL) baseUrl: String, @Named(GIPHY_HTTP_CLIENT) httpClientBuilder: OkHttpClient.Builder): Retrofit {
+        return Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(converter)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(httpClientBuilder.build())
+                .build()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideGiphyApi(@Named(GIPHY_RETROFIT) retrofit: Retrofit): GiphyApi {
+        return retrofit.create(GiphyApi::class.java)
+    }
+
     @Provides
     @Singleton
     internal fun provideTimesheetsApi(retrofit: Retrofit): TimesheetsApi {
         return retrofit.create(TimesheetsApi::class.java)
     }
 
+
     companion object {
 
         private const val NAME_BASE_URL = "NAME_BASE_URL"
+        private const val GIPHY_BASE_URL = "GIPHY_BASE_URL"
+        private const val GIPHY_API_KEY = "GIPHY_API_KEY"
+        private const val GIPHY_RETROFIT = "GIPHY_RETROFIT"
+        private const val GIPHY_HTTP_CLIENT = "GIPHY_HTTP_CLIENT"
+        private const val GIPHY_INTERCEPTOR = "GIPHY_INTERCEPTOR"
     }
 }

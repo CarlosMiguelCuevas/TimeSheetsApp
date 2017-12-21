@@ -16,6 +16,8 @@ android {
         resConfigs "auto"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'HOST', '"http://nearsoft-invoices.herokuapp.com"'
+        buildConfigField 'String', 'GIPHY_BACKEND', '"https://api.giphy.com"'
+        buildConfigField 'String', 'GIPHY_API_KEY', '"dc6zaTOxFJmzC"'
     }
     buildTypes {
         release {
@@ -59,9 +61,13 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+
     //RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
+
+    //Gifs
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.9'
 }
 
 apply plugin: 'com.google.gms.google-services'
