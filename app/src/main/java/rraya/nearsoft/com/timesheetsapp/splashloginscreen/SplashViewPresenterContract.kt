@@ -28,7 +28,7 @@ interface SplashViewPresenterContract {
 
         fun firebaseLoginResponce()
 
-        fun setView(view: SplashViewPresenterContract.View)
+//        fun setView(view: SplashViewPresenterContract.View)
 
         fun dropView()
 
