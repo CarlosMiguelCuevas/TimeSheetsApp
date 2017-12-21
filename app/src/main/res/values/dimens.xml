@@ -2,4 +2,5 @@
 <resources>
     <dimen name="splash_margins">40dp</dimen>
     <dimen name="top_margin">320dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

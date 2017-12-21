@@ -44,6 +44,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerLibrariesVersion"
     implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerLibrariesVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerLibrariesVersion"
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerLibrariesVersion"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerLibrariesVersion"
 
