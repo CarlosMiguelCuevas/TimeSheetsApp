@@ -12,4 +12,6 @@
     <string name="problem_logging">There was a problem\nlogging you in.</string>
     <string name="thank_you">Thank you!</string>
     <string name="doing_great">You’re doing great</string>
+    <string name="thank_you_but">Thank you but...</string>
+    <string name="next_time">Next time you could do better</string>
 </resources>
