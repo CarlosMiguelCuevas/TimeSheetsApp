@@ -8,10 +8,16 @@ import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import java.util.*
 
-class SplashPresenter(private var dataRepository: IDataRepository, private var splashView: SplashViewPresenterContract.View?) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
+class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
 
     companion object {
         private val RC_SIGN_IN: Int = 1
+    }
+
+    private var splashView: SplashViewPresenterContract.View? = null
+
+    override fun setView(view: SplashViewPresenterContract.View) {
+        splashView = view
     }
 
     override fun loginInTimesheets(idToken: String) {
@@ -32,7 +38,16 @@ class SplashPresenter(private var dataRepository: IDataRepository, private var s
         subscribe(getTokenSubcription)
     }
 
-    override fun loginWithGoogle() {
+    override fun tryLoginApp() {
+        splashView?.hideProgressBar()
+        if (isTokenStored()) {
+            continueToNextActivity()
+        } else {
+            launchFirebaseLogin()
+        }
+    }
+
+    override fun forceLoginWithGoogle() {
         splashView?.hideProgressBar()
         launchFirebaseLogin()
     }
@@ -56,6 +71,7 @@ class SplashPresenter(private var dataRepository: IDataRepository, private var s
 
     private fun continueToNextActivity() {
         splashView?.onLoginSuccess()
+        //TODO: here we will call the next activity
     }
 
     override fun checkLoginResult(requestCode: Int): Boolean {
@@ -70,9 +86,7 @@ class SplashPresenter(private var dataRepository: IDataRepository, private var s
         val user = FirebaseAuth.getInstance().currentUser
         user?.getIdToken(false)?.addOnCompleteListener {
             if (it.isSuccessful && it.result.token?.isNotEmpty() ?: false) {
-                if (!isTokenStored()) {
-                    loginInTimesheets(it.result.token!!)
-                }
+                loginInTimesheets(it.result.token!!)
                 continueToNextActivity()
             } else {
                 splashView?.onLoginError(it.exception ?: Throwable("something happened"))

@@ -22,11 +22,15 @@ interface SplashViewPresenterContract {
 
         fun checkLoginResult(requestCode: Int): Boolean
 
-        fun loginWithGoogle()
+        fun tryLoginApp()
 
-        fun dropView()
+        fun forceLoginWithGoogle()
 
         fun firebaseLoginResponce()
+
+        fun setView(view: SplashViewPresenterContract.View)
+
+        fun dropView()
 
     }
 

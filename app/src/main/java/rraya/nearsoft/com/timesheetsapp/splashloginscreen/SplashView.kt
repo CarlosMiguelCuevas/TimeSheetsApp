@@ -25,22 +25,23 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.loginWithGoogle()
+        presenter.tryLoginApp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.setView(this)
+        signIn_button.setOnClickListener {
+            hideErrorLayout()
+            showProgressBar()
+            presenter.forceLoginWithGoogle()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_splash_view, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        signIn_button.setOnClickListener {
-            hideErrorLayout()
-            showProgressBar()
-            presenter.loginWithGoogle()
-        }
     }
 
     override fun onLoginError(error: Throwable) {
@@ -74,8 +75,9 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        //Check if the result has something to to with firebase loginInTimesheets.
-        if (presenter.checkLoginResult(requestCode)) {
+
+        //Check if the result has something to do with firebase login.
+        if(presenter.checkLoginResult(requestCode)){
             if (resultCode == Activity.RESULT_OK) {
                 presenter.firebaseLoginResponce()
             } else {
