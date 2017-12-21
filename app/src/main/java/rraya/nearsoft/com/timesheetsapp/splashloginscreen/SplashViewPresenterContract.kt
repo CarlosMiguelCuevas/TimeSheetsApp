@@ -18,15 +18,15 @@ interface SplashViewPresenterContract {
 
     interface Presenter : BaseViewPresenterContract.Presenter {
 
-        fun login(idToken: String)
+        fun loginInTimesheets(idToken: String)
 
         fun checkLoginResult(requestCode: Int): Boolean
 
-        fun checkIfTokenAlreadySaved()
-
-        fun onClickedLogin()
+        fun loginWithGoogle()
 
         fun dropView()
+
+        fun firebaseLoginResponce()
 
     }
 

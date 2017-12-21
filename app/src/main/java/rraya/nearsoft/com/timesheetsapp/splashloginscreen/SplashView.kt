@@ -4,14 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_splash_view.*
 import rraya.nearsoft.com.timesheetsapp.R
@@ -27,7 +25,7 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.checkIfTokenAlreadySaved()
+        presenter.loginWithGoogle()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +39,7 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
         signIn_button.setOnClickListener {
             hideErrorLayout()
             showProgressBar()
-            presenter.onClickedLogin()
+            presenter.loginWithGoogle()
         }
     }
 
@@ -76,25 +74,14 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        //Check if the result has something to to with firebase login.
+        //Check if the result has something to to with firebase loginInTimesheets.
         if (presenter.checkLoginResult(requestCode)) {
             if (resultCode == Activity.RESULT_OK) {
-                getUserAndRequestLogin()
+                presenter.firebaseLoginResponce()
             } else {
                 val response = IdpResponse.fromResultIntent(data)
                 Log.v(TAG, response.toString())
                 onLoginError(Exception(getText(R.string.error_with_firebase).toString()))
-            }
-        }
-    }
-
-    private fun getUserAndRequestLogin() {
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.getIdToken(false)?.addOnCompleteListener {
-            if (it.isSuccessful && !TextUtils.isEmpty(it.result.token)) {
-                presenter.login(it.result.token!!)
-            } else {
-                onLoginError(it.exception!!)
             }
         }
     }

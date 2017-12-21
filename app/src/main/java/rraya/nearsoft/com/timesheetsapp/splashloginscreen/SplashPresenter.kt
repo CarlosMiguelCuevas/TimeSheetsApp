@@ -1,6 +1,7 @@
 package rraya.nearsoft.com.timesheetsapp.splashloginscreen
 
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
@@ -13,10 +14,10 @@ class SplashPresenter(private var dataRepository: IDataRepository, private var s
         private val RC_SIGN_IN: Int = 1
     }
 
-    override fun login(idToken: String) {
+    override fun loginInTimesheets(idToken: String) {
         splashView?.showProgressBar()
 
-        var getTokenSubcription = dataRepository.getTimesheetsTokenFromGoogleToken(idToken)
+        val getTokenSubcription = dataRepository.getTimesheetsTokenFromGoogleToken(idToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -31,18 +32,14 @@ class SplashPresenter(private var dataRepository: IDataRepository, private var s
         subscribe(getTokenSubcription)
     }
 
-    override fun checkIfTokenAlreadySaved() {
-        if (isTokenStored()) {
-            continueToNextActivity()
-        } else {
-            splashView?.hideProgressBar()
-            launchFirebaseLogin()
-        }
+    override fun loginWithGoogle() {
+        splashView?.hideProgressBar()
+        launchFirebaseLogin()
     }
 
     private fun isTokenStored(): Boolean {
         val token = dataRepository.getTimeSheetTokenFromSharedPreferences()
-        return !token.isEmpty()
+        return token.isNotEmpty()
     }
 
     private fun launchFirebaseLogin() {
@@ -57,10 +54,6 @@ class SplashPresenter(private var dataRepository: IDataRepository, private var s
                 RC_SIGN_IN)
     }
 
-    override fun onClickedLogin() {
-        launchFirebaseLogin()
-    }
-
     private fun continueToNextActivity() {
         splashView?.onLoginSuccess()
     }
@@ -71,6 +64,20 @@ class SplashPresenter(private var dataRepository: IDataRepository, private var s
 
     override fun dropView() {
         splashView = null
+    }
+
+    override fun firebaseLoginResponce() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.getIdToken(false)?.addOnCompleteListener {
+            if (it.isSuccessful && it.result.token?.isNotEmpty() ?: false) {
+                if (!isTokenStored()) {
+                    loginInTimesheets(it.result.token!!)
+                }
+                continueToNextActivity()
+            } else {
+                splashView?.onLoginError(it.exception ?: Throwable("something happened"))
+            }
+        }
     }
 
 }
