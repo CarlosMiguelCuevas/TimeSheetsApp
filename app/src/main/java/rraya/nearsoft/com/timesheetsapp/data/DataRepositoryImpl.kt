@@ -10,11 +10,11 @@ import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
 class DataRepositoryImpl(val api: TimesheetsApi, val sharedPreferences: IUserPrefs) : IDataRepository {
 
-    override fun getGoogleTokenFromSharedPreferences(): Single<String> {
-        return Single.just(sharedPreferences.getUserToken())
+    override fun getTimeSheetTokenFromSharedPreferences(): String {
+        return sharedPreferences.getUserToken()
     }
 
-    override fun saveGoogleTokenFromIntoPreferences(token: String) {
+    override fun saveTimeSheetTokenIntoPreferences(token: String) {
         sharedPreferences.setUserToken(token)
     }
 

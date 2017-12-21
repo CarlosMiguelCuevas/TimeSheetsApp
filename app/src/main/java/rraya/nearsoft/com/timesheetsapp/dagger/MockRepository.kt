@@ -5,11 +5,11 @@ import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 
 class MockRepository : IDataRepository {
 
-    override fun getGoogleTokenFromSharedPreferences(): Single<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getTimeSheetTokenFromSharedPreferences(): String {
+        return "hello"
     }
 
-    override fun saveGoogleTokenFromIntoPreferences(token: String) {
+    override fun saveTimeSheetTokenIntoPreferences(token: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

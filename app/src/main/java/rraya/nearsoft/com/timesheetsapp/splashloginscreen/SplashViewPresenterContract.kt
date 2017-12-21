@@ -9,17 +9,23 @@ interface SplashViewPresenterContract {
     interface View : BaseViewPresenterContract.View {
 
         fun onLoginError(error: Throwable)
+
         fun onLoginSuccess()
-        fun isLoggedIn(): Boolean
+
         fun startActivityForResult(intent: Intent, requestCode: Int)
+
     }
 
     interface Presenter : BaseViewPresenterContract.Presenter {
 
         fun login(idToken: String)
+
         fun checkLoginResult(requestCode: Int): Boolean
-        fun checkIsLoggedIn()
+
+        fun checkIfTokenAlreadySaved()
+
         fun onClickedLogin()
+
         fun dropView()
 
     }

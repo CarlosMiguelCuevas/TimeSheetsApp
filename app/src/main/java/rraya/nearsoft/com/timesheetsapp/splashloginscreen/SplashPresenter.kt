@@ -7,7 +7,7 @@ import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import java.util.*
 
-class SplashPresenter(private var repository: IDataRepository, private var splashView: SplashViewPresenterContract.View?) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
+class SplashPresenter(private var dataRepository: IDataRepository, private var splashView: SplashViewPresenterContract.View?) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
 
     companion object {
         private val RC_SIGN_IN: Int = 1
@@ -16,12 +16,12 @@ class SplashPresenter(private var repository: IDataRepository, private var splas
     override fun login(idToken: String) {
         splashView?.showProgressBar()
 
-        var getTokenSubcription = repository.getTimesheetsTokenFromGoogleToken(idToken)
+        var getTokenSubcription = dataRepository.getTimesheetsTokenFromGoogleToken(idToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     splashView?.hideProgressBar()
-//                    userPrefs.setUserToken(it)
+                    dataRepository.saveTimeSheetTokenIntoPreferences(it)
                     splashView?.onLoginSuccess()
                 }, {
                     splashView?.hideProgressBar()
@@ -31,17 +31,18 @@ class SplashPresenter(private var repository: IDataRepository, private var splas
         subscribe(getTokenSubcription)
     }
 
-    override fun checkIsLoggedIn() {
-        if (splashView != null) {
-            if (!splashView!!.isLoggedIn()) {
-                launchFirebaseLogin()
-                splashView?.hideProgressBar()
-            } else {
-                continueToNextActivity()
-            }
+    override fun checkIfTokenAlreadySaved() {
+        if (isTokenStored()) {
+            continueToNextActivity()
         } else {
-            throw Exception("SplashView wasn't set")
+            splashView?.hideProgressBar()
+            launchFirebaseLogin()
         }
+    }
+
+    private fun isTokenStored(): Boolean {
+        val token = dataRepository.getTimeSheetTokenFromSharedPreferences()
+        return !token.isEmpty()
     }
 
     private fun launchFirebaseLogin() {

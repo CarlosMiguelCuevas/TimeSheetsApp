@@ -6,8 +6,8 @@ interface IDataRepository {
 
     fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<String>
 
-    fun getGoogleTokenFromSharedPreferences(): Single<String>
+    fun getTimeSheetTokenFromSharedPreferences(): String
 
-    fun saveGoogleTokenFromIntoPreferences(token: String)
+    fun saveTimeSheetTokenIntoPreferences(token: String)
 
 }

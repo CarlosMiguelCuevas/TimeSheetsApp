@@ -15,13 +15,11 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_splash_view.*
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import javax.inject.Inject
 
 class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     @Inject lateinit var presenter: SplashViewPresenterContract.Presenter
-    @Inject lateinit var userPrefs: IUserPrefs
 
     companion object {
         private val TAG = "SplashView"
@@ -29,7 +27,7 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.checkIsLoggedIn()
+        presenter.checkIfTokenAlreadySaved()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +38,7 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        signInBtn.setOnClickListener {
+        signIn_button.setOnClickListener {
             hideErrorLayout()
             showProgressBar()
             presenter.onClickedLogin()
@@ -101,20 +99,15 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
         }
     }
 
-    override fun isLoggedIn(): Boolean {
-        return !TextUtils.isEmpty(context?.let { userPrefs.getUserToken() })
-    }
-
     override fun showProgressBar() {
         progress_bar?.visibility = View.VISIBLE
-        signInBtn?.visibility = View.GONE
+        signIn_button?.visibility = View.GONE
     }
 
     override fun hideProgressBar() {
         progress_bar?.visibility = View.GONE
-        signInBtn?.visibility = View.VISIBLE
+        signIn_button?.visibility = View.VISIBLE
     }
-
 
     override fun onStop() {
         super.onStop()
