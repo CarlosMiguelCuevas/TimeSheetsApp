@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class DaysRecyclerViewAdapter(private val mValues: List<Day>, private val mListener: TimeSheetView.OnSelectedDayFragmentInteractionListener?) : RecyclerView.Adapter<DaysRecyclerViewAdapter.ViewHolder>() {
+class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListener: TimeSheetView.OnSelectedDayFragmentInteractionListener?) : RecyclerView.Adapter<DaysRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -19,9 +21,14 @@ class DaysRecyclerViewAdapter(private val mValues: List<Day>, private val mListe
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        holder.dayOfWeekText.text = mValues[position].date.toString()
-        holder.dateText.text = mValues[position].date.toString()
-        holder.hoursText.text = mValues[position].hours.toString()
+
+        val dayOfWeekFormat = SimpleDateFormat("E", Locale.getDefault())
+        holder.dayOfWeekText.text = dayOfWeekFormat.format(mValues[position].date)
+
+        val dayMonthFormat = SimpleDateFormat("MMM d", Locale.getDefault())
+        holder.dateText.text = dayMonthFormat.format(mValues[position].date)
+
+        holder.hoursText.text = "${mValues[position].hours}"
 
         holder.mView.setOnClickListener {
             mListener?.onListFragmentInteraction(holder.mItem!!)
@@ -41,5 +48,10 @@ class DaysRecyclerViewAdapter(private val mValues: List<Day>, private val mListe
         override fun toString(): String {
             return super.toString() + " '" + dateText.text + "'"
         }
+    }
+
+    fun setDays(days: List<Day>) {
+        mValues = days
+        notifyDataSetChanged()
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import io.reactivex.Single
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
@@ -31,5 +32,10 @@ class Repository(val api: TimesheetsApi) : IRepository {
     private fun createRequestBody(token: String): RequestBody {
         val json = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(TokenBody(token))
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
+    }
+
+
+    override fun getWeekDaysForWeekStarting(currentDay: String): List<Day> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
