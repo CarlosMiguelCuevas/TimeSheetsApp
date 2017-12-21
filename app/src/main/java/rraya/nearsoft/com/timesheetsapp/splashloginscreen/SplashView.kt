@@ -33,8 +33,6 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as TimeSheetsApp).getAppComponent()?.inject(this)
-        presenter.setView(this)
-        presenter.checkIsLoggedIn()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +43,8 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter.setView(this)
+        presenter.checkIsLoggedIn()
         signInBtn.setOnClickListener {
             hideErrorLayout()
             showProgressBar()
@@ -111,13 +111,13 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
     }
 
     override fun showProgressBar() {
-        progress_bar.visibility = View.VISIBLE
-        signInBtn.visibility = View.GONE
+        progress_bar?.visibility = View.VISIBLE
+        signInBtn?.visibility = View.GONE
     }
 
     override fun hideProgressBar() {
-        progress_bar.visibility = View.GONE
-        signInBtn.visibility = View.VISIBLE
+        progress_bar?.visibility = View.GONE
+        signInBtn?.visibility = View.VISIBLE
     }
 
     override fun onStop() {
