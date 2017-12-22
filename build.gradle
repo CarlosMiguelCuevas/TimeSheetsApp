@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.0-alpha05'
@@ -20,6 +21,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 
     project.ext {
@@ -39,6 +41,7 @@ allprojects {
         okHttpInterceptorLibrariesVersion = '3.8.0'
         rxJavaVersion = '2.0.8'
         rxAndroidVersion = '2.0.1'
+        gifLibraryVersion = '1.2.9'
 
         //Testing dependencies
         junitVersion = '4.12'

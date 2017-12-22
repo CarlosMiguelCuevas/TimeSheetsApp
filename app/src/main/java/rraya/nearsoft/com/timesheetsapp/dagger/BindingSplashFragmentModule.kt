@@ -7,7 +7,7 @@ import rraya.nearsoft.com.timesheetsapp.splashloginscreen.SplashView
 import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.SplashModule
 
 @Module
-abstract class BindingFragmentModule {
+abstract class BindingSplashFragmentModule {
 
     @FragmentScope
     @ContributesAndroidInjector(modules = arrayOf(SplashModule::class))

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@drawable/artifacts_background"
     tools:context=".splashloginscreen.SplashView">
 
     <android.support.constraint.ConstraintLayout
