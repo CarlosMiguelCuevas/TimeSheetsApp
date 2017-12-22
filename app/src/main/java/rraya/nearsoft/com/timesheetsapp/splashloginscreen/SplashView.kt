@@ -25,17 +25,22 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        presenter.setView(this)
         presenter.tryLoginApp()
     }
 
-    override fun onResume() {
-        super.onResume()
-//        presenter.setView(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         signIn_button.setOnClickListener {
             hideErrorLayout()
             showProgressBar()
             presenter.forceLoginWithGoogle()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.setView(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

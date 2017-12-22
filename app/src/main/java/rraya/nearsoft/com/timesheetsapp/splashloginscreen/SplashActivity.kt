@@ -10,10 +10,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        if (null == savedInstanceState) {
-        val frag = SplashView()
-        supportFragmentManager.beginTransaction().replace(R.id.container, frag).commit()
-//        }
+        if (null == savedInstanceState) {
+            val frag = SplashView()
+            supportFragmentManager.beginTransaction().replace(R.id.container, frag).commit()
+        }
 
     }
 

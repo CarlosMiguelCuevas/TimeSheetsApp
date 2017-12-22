@@ -13,13 +13,7 @@ class SplashModule {
 
     @FragmentScope
     @Provides
-    internal fun provideSplashView(view: SplashView): SplashViewPresenterContract.View {
-        return view
-    }
-
-    @FragmentScope
-    @Provides
-    internal fun provideSplashPresenter(dataRepository: IDataRepository, view: SplashViewPresenterContract.View): SplashViewPresenterContract.Presenter {
-        return SplashPresenter(dataRepository, view)
+    internal fun provideSplashPresenter(dataRepository: IDataRepository): SplashViewPresenterContract.Presenter {
+        return SplashPresenter(dataRepository)
     }
 }
