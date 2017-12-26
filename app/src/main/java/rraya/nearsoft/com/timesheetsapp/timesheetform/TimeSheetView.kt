@@ -100,13 +100,13 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         send_timesheet_container.visibility = View.GONE
     }
 
-    override fun showDaysOfWeek(days: List<Day>) {
+    override fun showDaysOfWeek(days: List<Day>?) {
         adapter.setDays(days)
         showWeekRange(days)
     }
 
-    private fun showWeekRange(days: List<Day>) {
-        if(days.isNotEmpty()) {
+    private fun showWeekRange(days: List<Day>?) {
+        if(days != null && days.isNotEmpty()) {
             val sdf = SimpleDateFormat("MMM dd yyyy", Locale.getDefault())
             val firstDay = sdf.format(days.first().date)
             val lastDay = sdf.format(days.last().date)

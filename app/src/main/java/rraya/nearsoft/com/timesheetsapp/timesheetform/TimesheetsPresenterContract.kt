@@ -3,7 +3,6 @@ package rraya.nearsoft.com.timesheetsapp.timesheetform
 import rraya.nearsoft.com.timesheetsapp.common.BaseViewPresenterContract
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 
-//TODO: modify this contract as needed
 interface TimesheetsPresenterContract {
 
     interface View : BaseViewPresenterContract.View {
@@ -18,7 +17,7 @@ interface TimesheetsPresenterContract {
 
         fun hideSendTimesheetButton()
 
-        fun showDaysOfWeek(days: List<Day>)
+        fun showDaysOfWeek(days: List<Day>?)
 
     }
 

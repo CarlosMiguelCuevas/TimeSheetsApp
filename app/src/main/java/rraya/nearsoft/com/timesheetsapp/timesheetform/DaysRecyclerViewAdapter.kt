@@ -50,8 +50,10 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
         }
     }
 
-    fun setDays(days: List<Day>) {
-        mValues = days
-        notifyDataSetChanged()
+    fun setDays(days: List<Day>?) {
+        days?.let {
+            mValues = days
+            notifyDataSetChanged()
+        }
     }
 }
