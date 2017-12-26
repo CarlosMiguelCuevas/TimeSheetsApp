@@ -1,5 +1,6 @@
 package rraya.nearsoft.com.timesheetsapp.data
 
+import android.util.Log
 import io.reactivex.Single
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import java.text.SimpleDateFormat
@@ -34,5 +35,10 @@ class MockRepository : IDataRepository {
             calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
         return dayDummies
+    }
+
+    override fun submitTimeSheet(days: List<Day>?): Single<Boolean> {
+        Log.v("MockRepository", "Timesheets sent!!")
+        return Single.just(true)
     }
 }

@@ -11,6 +11,7 @@ import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
 class DataRepositoryImpl(val api: TimesheetsApi, private val sharedPreferences: IUserPrefs) : IDataRepository {
 
+
     override fun getTimeSheetTokenFromSharedPreferences(): String {
         return sharedPreferences.getUserToken()
     }
@@ -41,6 +42,10 @@ class DataRepositoryImpl(val api: TimesheetsApi, private val sharedPreferences: 
 
 
     override fun getWeekDaysForWeekStarting(currentDay: String): List<Day> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun submitTimeSheet(days: List<Day>?): Single<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

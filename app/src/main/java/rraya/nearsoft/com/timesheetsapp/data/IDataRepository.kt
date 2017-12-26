@@ -12,4 +12,6 @@ interface IDataRepository {
     fun saveTimeSheetTokenIntoPreferences(token: String)
 
     fun getWeekDaysForWeekStarting(startingDateString: String): List<Day>
+
+    fun submitTimeSheet(days: List<Day>?): Single<Boolean>
 }
