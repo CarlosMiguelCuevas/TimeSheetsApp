@@ -127,6 +127,7 @@
         android:padding="20dp">
 
         <Button
+            android:id="@+id/send_timesheet_button"
             android:layout_width="230dp"
             android:layout_height="48dp"
             android:text="@string/send_timesheet"
@@ -138,5 +139,23 @@
             android:textAllCaps="true"/>
 
     </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/white_transparency">
+
+        <ProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+    </FrameLayout>
+
 
 </FrameLayout>

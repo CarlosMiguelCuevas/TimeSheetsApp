@@ -1,24 +1,23 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_time_sheet.*
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
-import javax.inject.Inject
-import kotlin.collections.ArrayList
-import android.content.Intent
-import android.net.Uri
-import dagger.android.support.DaggerFragment
-import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
@@ -51,14 +50,18 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
 
         editHoursBtn.setOnClickListener(editAction)
         edit_bottom_btn.setOnClickListener(editAction)
+
+        send_timesheet_button.setOnClickListener {
+            presenter.submitTimeSheet()
+        }
     }
 
     override fun showProgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        loading_container.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        loading_container.visibility = View.GONE
     }
 
     override fun onErrorSubmit(error: Throwable) {
@@ -70,7 +73,9 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
     }
 
     override fun onSuccessSubmit() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        startActivity(Intent(activity, ConfirmationActivity::class.java).apply {
+            putExtra(ConfirmationActivity.DID_SUBMIT_ON_TIME, presenter.isRightNowOnTime())
+        })
     }
 
 //

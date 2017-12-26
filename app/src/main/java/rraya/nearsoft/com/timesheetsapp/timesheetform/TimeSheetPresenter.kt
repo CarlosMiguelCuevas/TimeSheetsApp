@@ -1,7 +1,10 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -9,36 +12,51 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
 
 
     private var timesheetsView: TimesheetsPresenterContract.View? = null
+    private var days: List<Day>? = null
 
     override fun setView(view: TimesheetsPresenterContract.View) {
         timesheetsView = view
     }
 
+
     override fun loadTimeSheet() {
         var currentDay = calculateWeekStart()
-        var days = repo.getWeekDaysForWeekStarting(currentDay)
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        days = repo.getWeekDaysForWeekStarting(simpleDateFormat.format(currentDay))
         timesheetsView?.showDaysOfWeek(days)
     }
 
-    private fun calculateWeekStart(): String {
-        var weekStart: Date
+    private fun calculateWeekStart(): Date {
         val calendar = Calendar.getInstance()
         val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
-        if(weekDay > Calendar.MONDAY){
+        return if(weekDay > Calendar.MONDAY){
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            weekStart = calendar.time
+            calendar.time
         }else{
             calendar.add(Calendar.DAY_OF_MONTH, -7)
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            weekStart = calendar.time
+            calendar.time
         }
+    }
 
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return simpleDateFormat.format(weekStart)
+    override fun isRightNowOnTime(): Boolean {
+        //TODO correctly set if it was on time
+        return true
     }
 
     override fun submitTimeSheet() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        timesheetsView?.showProgressBar()
+        var subscription = repo.submitTimeSheet(days)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    timesheetsView?.hideProgressBar()
+                    timesheetsView?.onSuccessSubmit()
+                },{
+                    timesheetsView?.hideProgressBar()
+                    timesheetsView?.onErrorSubmit(it)
+                })
+        subscribe(subscription)
     }
 
     override fun getUrlForTimesheetEditing(): String {
