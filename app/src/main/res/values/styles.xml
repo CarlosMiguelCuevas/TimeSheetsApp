@@ -55,4 +55,19 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="TimesheetsDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="NegativeButtonStyle">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
 </resources>

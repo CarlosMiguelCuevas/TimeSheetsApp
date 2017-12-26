@@ -107,11 +107,11 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
     }
 
     private fun showLeavingAppDialog(){
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(context, R.style.TimesheetsDialog)
         builder.setTitle(getText(R.string.edit_timesheet_in_browser))
                 .setMessage(getText(R.string.cant_edit_yet))
-                .setPositiveButton(getText(R.string.ok_edit_browser).toString()) { dialog, id -> sendUserToEditInWeb() }
-                .setNegativeButton(getText(R.string.cancel)) { dialog, id -> dialog.cancel() }
+                .setPositiveButton(getText(R.string.ok_edit_browser).toString()) { _, _ -> sendUserToEditInWeb() }
+                .setNegativeButton(getText(R.string.cancel)) { dialog, _ -> dialog.cancel() }
         builder.create().show()
     }
 
