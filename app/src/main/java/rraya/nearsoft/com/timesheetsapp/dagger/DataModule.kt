@@ -6,6 +6,7 @@ import dagger.Provides
 import rraya.nearsoft.com.timesheetsapp.BuildConfig
 import rraya.nearsoft.com.timesheetsapp.data.DataRepositoryImpl
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import rraya.nearsoft.com.timesheetsapp.data.MockRepository
 import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.data.local.UserPrefs
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
