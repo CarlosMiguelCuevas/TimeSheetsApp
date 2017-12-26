@@ -1,9 +1,11 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
-import rraya.nearsoft.com.timesheetsapp.data.IRepository
-s
-class TimeSheetPresenter(private val repo: IRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
+import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import java.text.SimpleDateFormat
+import java.util.*
+
+class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
 
 
     private var timesheetsView: TimesheetsPresenterContract.View? = null
@@ -19,8 +21,20 @@ class TimeSheetPresenter(private val repo: IRepository) : RxBasePresenter(), Tim
     }
 
     private fun calculateWeekStart(): String {
-        return ""
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var weekStart: Date
+        val calendar = Calendar.getInstance()
+        val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
+        if(weekDay > Calendar.MONDAY){
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+            weekStart = calendar.time
+        }else{
+            calendar.add(Calendar.DAY_OF_MONTH, -7)
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+            weekStart = calendar.time
+        }
+
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return simpleDateFormat.format(weekStart)
     }
 
     override fun submitTimeSheet() {
@@ -28,7 +42,7 @@ class TimeSheetPresenter(private val repo: IRepository) : RxBasePresenter(), Tim
     }
 
     override fun getUrlForTimesheetEditing(): String {
-        TODO("Missing where to get if from") //Perhaps build it correctly using a builder?
+        //TODO Perhaps build it correctly using a builder?
         return "http://google.com"
     }
 

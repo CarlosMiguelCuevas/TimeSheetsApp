@@ -15,21 +15,18 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 import android.content.Intent
 import android.net.Uri
+import dagger.android.support.DaggerFragment
 import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
+class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
 
     private var mListener: OnSelectedDayFragmentInteractionListener? = null
     @Inject lateinit var presenter: TimesheetsPresenterContract.Presenter
 
     private lateinit var adapter: DaysRecyclerViewAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity?.application as TimeSheetsApp).getAppComponent()?.inject(this)
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,6 +42,7 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter.setView(this)
         presenter.loadTimeSheet()
 
         val editAction = View.OnClickListener{
@@ -104,6 +102,17 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
 
     override fun showDaysOfWeek(days: List<Day>) {
         adapter.setDays(days)
+        showWeekRange(days)
+    }
+
+    private fun showWeekRange(days: List<Day>) {
+        if(days.isNotEmpty()) {
+            val sdf = SimpleDateFormat("MMM dd yyyy", Locale.getDefault())
+            val firstDay = sdf.format(days.first().date)
+            val lastDay = sdf.format(days.last().date)
+            val weekRange = "$firstDay - $lastDay"
+            week_days_range.text = weekRange
+        }
     }
 
     private fun showLeavingAppDialog(){

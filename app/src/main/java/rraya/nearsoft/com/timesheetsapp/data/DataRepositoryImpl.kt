@@ -9,7 +9,7 @@ import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
-class DataRepositoryImpl(val api: TimesheetsApi, val sharedPreferences: IUserPrefs) : IDataRepository {
+class DataRepositoryImpl(val api: TimesheetsApi, private val sharedPreferences: IUserPrefs) : IDataRepository {
 
     override fun getTimeSheetTokenFromSharedPreferences(): String {
         return sharedPreferences.getUserToken()
