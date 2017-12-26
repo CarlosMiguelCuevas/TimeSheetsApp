@@ -14,19 +14,25 @@ import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import javax.inject.Named
 import javax.inject.Singleton
 
-
-/**
- * Created by oaguilar on 12/5/17.
- */
-
 @Module
 class NetworkModule {
 
+    companion object {
+        private const val NAME_BASE_URL = "NAME_BASE_URL"
+        private const val GIPHY_BASE_URL = "GIPHY_BASE_URL"
+        private const val GIPHY_API_KEY = "GIPHY_API_KEY"
+        private const val GIPHY_RETROFIT = "GIPHY_RETROFIT"
+        private const val GIPHY_HTTP_CLIENT = "GIPHY_HTTP_CLIENT"
+        private const val GIPHY_INTERCEPTOR = "GIPHY_INTERCEPTOR"
+    }
+
     @Provides
+    @Singleton
     @Named(NAME_BASE_URL)
     internal fun provideBaseUrlString(): String {
         return BuildConfig.HOST
     }
+
     @Provides
     @Named(GIPHY_BASE_URL)
     internal fun provideGiphyUrlString(): String {
@@ -75,7 +81,6 @@ class NetworkModule {
     }
 
 
-
     @Provides
     @Singleton
     @Named(GIPHY_HTTP_CLIENT)
@@ -84,7 +89,7 @@ class NetworkModule {
         httpClientBuilder.addInterceptor(logging)
         httpClientBuilder.addInterceptor {
             val original = it.request()
-            val originalHttpUrl = it.request().url()
+            val originalHttpUrl = original.url()
             val url = originalHttpUrl.newBuilder()
                     .addQueryParameter("api_key", apiKey)
                     .build()
@@ -117,14 +122,4 @@ class NetworkModule {
         return retrofit.create(TimesheetsApi::class.java)
     }
 
-
-    companion object {
-
-        private const val NAME_BASE_URL = "NAME_BASE_URL"
-        private const val GIPHY_BASE_URL = "GIPHY_BASE_URL"
-        private const val GIPHY_API_KEY = "GIPHY_API_KEY"
-        private const val GIPHY_RETROFIT = "GIPHY_RETROFIT"
-        private const val GIPHY_HTTP_CLIENT = "GIPHY_HTTP_CLIENT"
-        private const val GIPHY_INTERCEPTOR = "GIPHY_INTERCEPTOR"
-    }
 }

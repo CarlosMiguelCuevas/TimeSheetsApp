@@ -1,19 +1,20 @@
 package rraya.nearsoft.com.timesheetsapp.confirmation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import dagger.android.DaggerActivity
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_confirmation.*
 import pl.droidsonroids.gif.GifDrawable
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import rraya.nearsoft.com.timesheetsapp.data.IGifsRepository
 import javax.inject.Inject
 
 
-class ConfirmationActivity : AppCompatActivity() {
+class ConfirmationActivity : DaggerActivity() {
 
     private var submittedOnTime: Boolean = false
     @Inject lateinit var gifRepo: IGifsRepository
@@ -24,34 +25,35 @@ class ConfirmationActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirmation)
 
-        (application as TimeSheetsApp).getAppComponent()?.inject(this)
-
         submittedOnTime = savedInstanceState?.getBoolean(DID_SUBMIT_ON_TIME) ?: intent.getBooleanExtra(DID_SUBMIT_ON_TIME, false)
 
-        if(submittedOnTime){
+        defineTypeOfGif(submittedOnTime)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val gifDrawable = GifDrawable(it)
+                    gifView.setImageDrawable(gifDrawable)
+                }, {
+                    Log.e(TAG, "Error loading gif", it)
+                    //TODO: sorry not sorry, add the image or something default
+                })
+    }
+
+    private fun defineTypeOfGif(submittedOnTime: Boolean): Single<ByteArray> {
+        if (submittedOnTime) {
             thank.text = getText(R.string.thank_you)
             doing_great.text = getText(R.string.doing_great)
-            gifRepo.wellDoneGif.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
-                val gifDrawable = GifDrawable(it)
-                gifView.setImageDrawable(gifDrawable)
-            }, {
-                Log.e(TAG, "Error loading gif", it)
-                //TODO: sorry not sorry, add the image or something default
-            })
-        }else{
+            return gifRepo.getWellDoneGif()
+
+        } else {
             thank.text = getText(R.string.thank_you_but)
             doing_great.text = getText(R.string.next_time)
-            gifRepo.notGoodGif.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
-                val gifDrawable = GifDrawable(it)
-                gifView.setImageDrawable(gifDrawable)
-            }, {
-                Log.e(TAG, "Error loading gif", it)
-                //TODO: sorry not sorry, add the image or something default
-            })
+            return gifRepo.getNotGoodGif()
         }
     }
 

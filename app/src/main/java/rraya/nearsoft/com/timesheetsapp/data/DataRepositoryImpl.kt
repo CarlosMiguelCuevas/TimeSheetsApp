@@ -5,27 +5,32 @@ import io.reactivex.Single
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
-/**
- * Created by oaguilar on 12/19/17.
- */
+class DataRepositoryImpl(val api: TimesheetsApi, val sharedPreferences: IUserPrefs) : IDataRepository {
 
-class Repository(val api: TimesheetsApi) : IRepository {
+    override fun getTimeSheetTokenFromSharedPreferences(): String {
+        return sharedPreferences.getUserToken()
+    }
+
+    override fun saveTimeSheetTokenIntoPreferences(token: String) {
+        sharedPreferences.setUserToken(token)
+    }
 
     @Throws(Throwable::class)
     override fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<String> {
         return api.getTSTokenFromGoogleToken(createRequestBody(googleToken))
                 .map({
-                    if(it.isSuccessful && it.body()!= null){
+                    if (it.isSuccessful && it.body() != null) {
                         it.body()!!.token
-                    }else{
+                    } else {
                         throw RuntimeException("Error del servidor.")
                     }
                 }).doOnError({
-                    throw RuntimeException("Error de conexión.")
-                })
+            throw RuntimeException("Error de conexión.")
+        })
     }
 
 

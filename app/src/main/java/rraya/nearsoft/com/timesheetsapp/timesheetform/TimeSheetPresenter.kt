@@ -2,10 +2,7 @@ package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IRepository
-
-/**
- * Created by ccuevas on 12/1/17.
- */
+s
 class TimeSheetPresenter(private val repo: IRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
 
 
