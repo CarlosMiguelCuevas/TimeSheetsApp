@@ -76,7 +76,7 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
     }
 
     override fun onLoginSuccess() {
-        Toast.makeText(context, "Login success!!", Toast.LENGTH_LONG).show()
+        Log.v(TAG, "Login success!!")
         startActivity(Intent(activity, TimeSheetActivity::class.java))
     }
 

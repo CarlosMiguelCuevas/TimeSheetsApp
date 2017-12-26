@@ -135,6 +135,8 @@
             android:layout_marginTop="@dimen/top_margin"
             android:text="Sign in with Google"
             android:visibility="gone"
+            android:textColor="@color/white"
+            android:background="@drawable/orange_btn_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
