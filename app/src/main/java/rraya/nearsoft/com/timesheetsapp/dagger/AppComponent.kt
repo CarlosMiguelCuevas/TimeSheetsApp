@@ -1,23 +1,35 @@
 package rraya.nearsoft.com.timesheetsapp.dagger
 
+import android.app.Application
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
+import dagger.android.support.DaggerApplication
+import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import javax.inject.Singleton
 
-import dagger.Component
-import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
-import rraya.nearsoft.com.timesheetsapp.data.GifsRepository
-import rraya.nearsoft.com.timesheetsapp.data.Repository
-import rraya.nearsoft.com.timesheetsapp.splashloginscreen.SplashView
-
-/**
- * Created by oaguilar on 12/5/17.
- */
-
 @Singleton
-@Component(modules = [AppModule::class, PresenterModule::class, NetworkModule::class, UserPrefsModule::class, RepositoryModule::class, GiphyRepositoryModule::class])
-interface AppComponent {
+@Component(modules = [
+    AndroidSupportInjectionModule::class,
+    AppModule::class,
+    NetworkModule::class,
+    DataModule::class,
+    BindingActivityModule::class,
+    BindingSplashFragmentModule::class
+])
+interface AppComponent : AndroidInjector<DaggerApplication> {
 
-    fun inject(target: SplashView)
-    fun inject(target: Repository)
-    fun inject(target: GifsRepository)
-    fun inject(target: ConfirmationActivity)
+    fun inject(target: TimeSheetsApp)
+
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun application(application: Application): AppComponent.Builder
+
+        fun build(): AppComponent
+
+    }
+
 }

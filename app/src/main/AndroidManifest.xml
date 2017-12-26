@@ -22,7 +22,7 @@
             android:name=".confirmation.ConfirmationActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
-        <activity android:name=".timesheetform.TimeSheetActivity"></activity>
+        <activity android:name=".timesheetform.TimeSheetActivity" />
     </application>
 
 </manifest>

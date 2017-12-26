@@ -2,9 +2,6 @@ package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 
-/**
- * Created by ccuevas on 12/1/17.
- */
 class TimeSheetPresenter : RxBasePresenter(), ViewPresenterContract.Presenter {
 
     override fun loadTimeSheet() {

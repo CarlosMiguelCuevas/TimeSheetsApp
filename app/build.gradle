@@ -31,43 +31,42 @@ dependencies {
     //app
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:support-v4:$supportLibraryVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    implementation "com.android.support:design:$supportLibraryVersion"
 
     //firebase
-    implementation "com.google.firebase:firebase-core:$rootProject.ext.firebaseLibrariesVersion"
-    implementation "com.google.firebase:firebase-auth:$rootProject.ext.firebaseLibrariesVersion"
-    implementation 'com.firebaseui:firebase-ui-auth:3.1.1'
+    implementation "com.google.firebase:firebase-core:$firebaseLibrariesVersion"
+    implementation "com.google.firebase:firebase-auth:$firebaseLibrariesVersion"
+    implementation "com.firebaseui:firebase-ui-auth:$firebaseUiLibrariesVersion"
 
     //Dagger2
-    implementation "com.google.dagger:dagger:$rootProject.ext.daggerLibrariesVersion"
-    implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerLibrariesVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerLibrariesVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerLibrariesVersion"
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerLibrariesVersion"
+    implementation "com.google.dagger:dagger:$daggerLibrariesVersion"
+    implementation "com.google.dagger:dagger-android:$daggerLibrariesVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerLibrariesVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerLibrariesVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerLibrariesVersion"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitLibrariesVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitLibrariesVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitLibrariesVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitLibrariesVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitLibrariesVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitLibrariesVersion"
 
     //Okhttp
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpInterceptorLibrariesVersion"
 
     //testing
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:support-v4:27.0.2'
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 
     //RxJava
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
     //Gifs
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.9'
+    implementation "pl.droidsonroids.gif:android-gif-drawable:$gifLibraryVersion"
 }
 
 apply plugin: 'com.google.gms.google-services'

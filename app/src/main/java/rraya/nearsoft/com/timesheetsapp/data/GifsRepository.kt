@@ -13,25 +13,21 @@ class GifsRepository(val api: GiphyApi) : IGifsRepository {
 
 
     override fun getWellDoneGif(): Single<ByteArray> {
-        return api.getGiphyGoodGifs().map {
-            getRandomGifFromResponse(it)
-        }.map {
-            getImageFromUrl(it)
-        }
+        return api.getGiphyGoodGifs()
+                .map { getRandomGifFromResponse(it) }
+                .map { getImageFromUrl(it) }
     }
 
     override fun getNotGoodGif(): Single<ByteArray> {
-        return api.getGiphyNotGoodGifs().map {
-            getRandomGifFromResponse(it)
-        }.map {
-            getImageFromUrl(it)
-        }
+        return api.getGiphyNotGoodGifs()
+                .map { getRandomGifFromResponse(it) }
+                .map { getImageFromUrl(it) }
     }
 
-    private fun getRandomGifFromResponse(it: GiphyResponse): String {
-        val arrLength = it.imageDatas.size
+    private fun getRandomGifFromResponse(giphyResponse: GiphyResponse): String {
+        val arrLength = giphyResponse.imageDatas.size
         val randomNumber = Random().nextInt(arrLength)
-        return it.imageDatas[randomNumber].images.original.url
+        return giphyResponse.imageDatas[randomNumber].images.original.url
     }
 
     private fun getImageFromUrl(imageUrl: String): ByteArray {
