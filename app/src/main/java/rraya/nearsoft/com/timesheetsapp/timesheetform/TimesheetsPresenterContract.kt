@@ -1,9 +1,9 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import rraya.nearsoft.com.timesheetsapp.common.BaseViewPresenterContract
+import rraya.nearsoft.com.timesheetsapp.data.models.Day
 
-//TODO: modify this contract as needed
-interface ViewPresenterContract {
+interface TimesheetsPresenterContract {
 
     interface View : BaseViewPresenterContract.View {
 
@@ -13,6 +13,12 @@ interface ViewPresenterContract {
 
         fun onSuccessSubmit()
 
+        fun showSendTimesheetButton()
+
+        fun hideSendTimesheetButton()
+
+        fun showDaysOfWeek(days: List<Day>?)
+
     }
 
     interface Presenter : BaseViewPresenterContract.Presenter {
@@ -21,6 +27,11 @@ interface ViewPresenterContract {
 
         fun submitTimeSheet()
 
+        fun setView(view: View)
+
+        fun getUrlForTimesheetEditing(): String
+
+        fun isRightNowOnTime(): Boolean
     }
 
 }

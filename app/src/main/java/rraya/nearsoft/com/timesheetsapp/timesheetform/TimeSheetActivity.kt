@@ -9,5 +9,7 @@ class TimeSheetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time_sheet)
+
+        supportFragmentManager.beginTransaction().replace(R.id.container, TimeSheetView()).commit()
     }
 }

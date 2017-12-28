@@ -13,6 +13,7 @@ import com.firebase.ui.auth.IdpResponse
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_splash_view.*
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 import javax.inject.Inject
 
 class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
@@ -75,7 +76,8 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
     }
 
     override fun onLoginSuccess() {
-        Toast.makeText(context, "Login success!!", Toast.LENGTH_LONG).show()
+        Log.v(TAG, "Login success!!")
+        startActivity(Intent(activity, TimeSheetActivity::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

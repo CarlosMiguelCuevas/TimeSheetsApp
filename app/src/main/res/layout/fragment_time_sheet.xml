@@ -1,14 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".timesheetform.TimeSheetFragment">
+    tools:context=".timesheetform.TimeSheetView">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="88dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:id="@+id/clienteName"
+                    style="@style/Switchfly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.30"
+                    android:text="Client Name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/icon_calendar_orange"
+                    app:layout_constraintStart_toStartOf="@+id/clienteName"
+                    app:layout_constraintTop_toBottomOf="@+id/clienteName" />
+
+                <TextView
+                    android:id="@+id/week_days_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Week date to date"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="@+id/hoursTextView"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+                <ImageButton
+                    android:id="@+id/editHoursBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/icon_edit_grey"
+                    app:layout_constraintEnd_toEndOf="@+id/clienteName"
+                    app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+                <TextView
+                    android:id="@+id/hoursTextView"
+                    style="@style/HoursIndicatorStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/fortyhours"
+                    app:layout_constraintEnd_toStartOf="@+id/editHoursBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/clienteName" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/days_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <LinearLayout
+                android:id="@+id/already_sent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TimesheetSentText"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/timesheet_already_sent"/>
+
+                <Button
+                    android:id="@+id/edit_bottom_btn"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="@string/edit"
+                    android:textColor="@color/colorAccent"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/thin_border_round_btn_bg"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/send_timesheet_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        android:background="@drawable/white_gradient_bg"
+        android:padding="20dp">
+
+        <Button
+            android:id="@+id/send_timesheet_button"
+            android:layout_width="230dp"
+            android:layout_height="48dp"
+            android:text="@string/send_timesheet"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/orange_btn_bg"
+            android:textAllCaps="true"/>
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:visibility="gone"
+        android:background="@color/white_transparency">
+
+        <ProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+    </FrameLayout>
+
 
 </FrameLayout>

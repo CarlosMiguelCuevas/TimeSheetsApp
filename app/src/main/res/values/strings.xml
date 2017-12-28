@@ -14,4 +14,12 @@
     <string name="doing_great">You’re doing great</string>
     <string name="thank_you_but">Thank you but...</string>
     <string name="next_time">Next time you could do better</string>
+    <string name="send_timesheet">Send timesheet</string>
+    <string name="fortyhours">40 hrs</string>
+    <string name="timesheet_already_sent">Timesheet already sent</string>
+    <string name="edit">Edit</string>
+    <string name="edit_timesheet_in_browser">Edit timesheet in browser</string>
+    <string name="ok_edit_browser">Ok, edit in browser</string>
+    <string name="cancel">Cancel</string>
+    <string name="cant_edit_yet">You are leaving the Timesheets App.\n\nYou can’t edit it within the app yet. We’re working to make it happen :)</string>
 </resources>
