@@ -21,13 +21,7 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.mItem = mValues[position]
-        holder.dayOfWeekText.text = mValues[position].date.dayOfTheWeekFormat()
-        holder.dateText.text = mValues[position].date.dayMonthFormat()
-        holder.hoursText.text = mValues[position].hours.toString()
-        holder.mView.setOnClickListener {
-            mListener?.onListFragmentInteraction(holder.mItem!!)
-        }
+        holder.bindViews(mValues[position],mListener)
     }
 
     override fun getItemCount(): Int {
@@ -41,14 +35,23 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
         }
     }
 
-    class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val dayOfWeekText: TextView = mView.day_of_week
-        val dateText: TextView = mView.date
-        val hoursText: TextView = mView.hours
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val dayOfWeekText: TextView = itemView.day_of_week
+        val dateText: TextView = itemView.date
+        val hoursText: TextView = itemView.hours
         var mItem: Day? = null
 
         override fun toString(): String {
             return super.toString() + " '" + dateText.text + "'"
+        }
+
+        fun bindViews(day: Day, mListener: TimeSheetView.OnSelectedDayFragmentInteractionListener?) {
+            dayOfWeekText.text = day.date.dayOfTheWeekFormat()
+            dateText.text = day.date.dayMonthFormat()
+            hoursText.text = day.hours.toString()
+            itemView.setOnClickListener {
+                mListener?.onListFragmentInteraction(day)
+            }
         }
     }
 }
