@@ -9,15 +9,15 @@ interface TimesheetsPresenterContract {
 
         fun onErrorSubmit(error: Throwable)
 
+        fun onSuccessSubmit()
+
         fun onErrorLoading(error: Throwable)
 
-        fun onSuccessSubmit()
+        fun showDaysOfWeek(days: List<Day>?)
 
         fun showSendTimesheetButton()
 
         fun hideSendTimesheetButton()
-
-        fun showDaysOfWeek(days: List<Day>?)
 
     }
 

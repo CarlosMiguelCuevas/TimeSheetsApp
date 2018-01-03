@@ -1,15 +1,16 @@
-package rraya.nearsoft.com.timesheetsapp.timesheetform
+package rraya.nearsoft.com.timesheetsapp.timesheetform.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.android.synthetic.main.day_item.view.*
 import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetView
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListener: TimeSheetView.OnSelectedDayFragmentInteractionListener?) : RecyclerView.Adapter<DaysRecyclerViewAdapter.ViewHolder>() {
 
@@ -39,21 +40,21 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
         return mValues.size
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val dayOfWeekText: TextView = mView.findViewById(R.id.day_of_week) as TextView
-        val dateText: TextView = mView.findViewById(R.id.date) as TextView
-        val hoursText: TextView = mView.findViewById(R.id.hours) as TextView
-        var mItem: Day? = null
-
-        override fun toString(): String {
-            return super.toString() + " '" + dateText.text + "'"
-        }
-    }
-
     fun setDays(days: List<Day>?) {
         days?.let {
             mValues = days
             notifyDataSetChanged()
+        }
+    }
+
+    class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        val dayOfWeekText: TextView = mView.day_of_week
+        val dateText: TextView = mView.date
+        val hoursText: TextView = mView.hours
+        var mItem: Day? = null
+
+        override fun toString(): String {
+            return super.toString() + " '" + dateText.text + "'"
         }
     }
 }

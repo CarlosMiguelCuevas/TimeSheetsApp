@@ -8,7 +8,7 @@ import java.util.*
 
 class MockRepository : IDataRepository {
 
-    private var mockedToken : String = "67v8f9ds6v7fd6svfds" //lets log the user
+    private var mockedToken: String = "67v8f9ds6v7fd6svfds" //lets log the user
 
     override fun getTimeSheetTokenFromSharedPreferences(): String {
         return mockedToken
@@ -25,11 +25,11 @@ class MockRepository : IDataRepository {
     override fun getWeekDaysForWeekStarting(startingDateString: String): List<Day> {
 
         val dayDummies: ArrayList<Day> = ArrayList()
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = sdf.parse(startingDateString)
+        val simpleDataformat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = simpleDataformat.parse(startingDateString)
         val calendar = Calendar.getInstance()
         calendar.time = currentDate
-        (0 until 7).forEach{
+        (0 until 7).forEach {
             val dayDate = calendar.time
             dayDummies.add(Day(dayDate, 8))
             calendar.add(Calendar.DAY_OF_YEAR, 1)
