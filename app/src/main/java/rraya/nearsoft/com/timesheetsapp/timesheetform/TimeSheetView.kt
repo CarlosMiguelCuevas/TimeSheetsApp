@@ -16,10 +16,7 @@ import rraya.nearsoft.com.timesheetsapp.common.extencions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 
 class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
@@ -136,4 +133,9 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         startActivity(browserIntent)
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.unSubscribe()
+        presenter.dropView()
+    }
 }

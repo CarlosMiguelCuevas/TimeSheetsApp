@@ -61,4 +61,8 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
         return "http://google.com"
     }
 
+    override fun dropView() {
+        timesheetsView = null
+    }
+
 }

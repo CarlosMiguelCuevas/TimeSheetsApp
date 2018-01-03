@@ -29,6 +29,8 @@ interface TimesheetsPresenterContract {
 
         fun setView(view: View)
 
+        fun dropView()
+
         fun getUrlForTimesheetEditing(): String
 
         fun isRightNowOnTime(): Boolean
