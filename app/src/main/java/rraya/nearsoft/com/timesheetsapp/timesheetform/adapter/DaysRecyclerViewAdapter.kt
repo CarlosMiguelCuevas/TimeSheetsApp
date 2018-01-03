@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.day_item.view.*
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.common.extencions.dayMonthFormat
+import rraya.nearsoft.com.timesheetsapp.common.extencions.dayOfTheWeekFormat
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetView
-import java.text.SimpleDateFormat
-import java.util.*
 
 class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListener: TimeSheetView.OnSelectedDayFragmentInteractionListener?) : RecyclerView.Adapter<DaysRecyclerViewAdapter.ViewHolder>() {
 
@@ -22,15 +22,9 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-
-        val dayOfWeekFormat = SimpleDateFormat("E", Locale.getDefault())
-        holder.dayOfWeekText.text = dayOfWeekFormat.format(mValues[position].date)
-
-        val dayMonthFormat = SimpleDateFormat("MMM d", Locale.getDefault())
-        holder.dateText.text = dayMonthFormat.format(mValues[position].date)
-
-        holder.hoursText.text = "${mValues[position].hours}"
-
+        holder.dayOfWeekText.text = mValues[position].date.dayOfTheWeekFormat()
+        holder.dateText.text = mValues[position].date.dayMonthFormat()
+        holder.hoursText.text = mValues[position].hours.toString()
         holder.mView.setOnClickListener {
             mListener?.onListFragmentInteraction(holder.mItem!!)
         }

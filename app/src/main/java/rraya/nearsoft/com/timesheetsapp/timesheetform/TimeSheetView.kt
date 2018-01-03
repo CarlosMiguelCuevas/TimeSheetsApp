@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_time_sheet.*
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.common.extencions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
@@ -113,9 +114,8 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
 
     private fun showWeekRange(days: List<Day>?) {
         if (days != null && days.isNotEmpty()) {
-            val simpleDateFormat = SimpleDateFormat("MMM dd yyyy", Locale.getDefault())
-            val firstDay = simpleDateFormat.format(days.first().date)
-            val lastDay = simpleDateFormat.format(days.last().date)
+            val firstDay = days.first().date.monthDayYearFormat()
+            val lastDay = days.last().date.monthDayYearFormat()
             val weekRange = "$firstDay - $lastDay"
             week_days_range.text = weekRange
         }
