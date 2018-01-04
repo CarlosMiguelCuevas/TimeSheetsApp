@@ -17,14 +17,14 @@ class GifsRepository(val api: GiphyApi) : IGifsRepository {
     }
 
     override fun getWellDoneGif(): Single<ByteArray> {
-        return handleApiResponce(good)
+        return handleApiResponse(good)
     }
 
     override fun getNotGoodGif(): Single<ByteArray> {
-        return handleApiResponce(notGood)
+        return handleApiResponse(notGood)
     }
 
-    private fun handleApiResponce(queryParameter: String): Single<ByteArray> {
+    private fun handleApiResponse(queryParameter: String): Single<ByteArray> {
         return api.getGiphyGifs(queryParameter)
                 .map { getRandomGifFromResponse(it) }
                 .map { getImageFromUrl(it) }

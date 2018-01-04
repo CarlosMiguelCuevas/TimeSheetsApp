@@ -81,7 +81,7 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
         //Check if the result has something to do with firebase login.
         if (presenter.checkLoginResult(requestCode)) {
             if (resultCode == Activity.RESULT_OK) {
-                presenter.firebaseLoginResponce()
+                presenter.firebaseLoginResponse()
             } else {
                 val response = IdpResponse.fromResultIntent(data)
                 Log.v(TAG, response.toString())

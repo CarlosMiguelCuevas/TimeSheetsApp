@@ -82,7 +82,7 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
         splashView = null
     }
 
-    override fun firebaseLoginResponce() {
+    override fun firebaseLoginResponse() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.getIdToken(false)?.addOnCompleteListener {
             if (it.isSuccessful && it.result.token?.isNotEmpty() ?: false) {

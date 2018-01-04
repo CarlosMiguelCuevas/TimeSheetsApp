@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_time_sheet.*
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.common.extencions.monthDayYearFormat
+import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter

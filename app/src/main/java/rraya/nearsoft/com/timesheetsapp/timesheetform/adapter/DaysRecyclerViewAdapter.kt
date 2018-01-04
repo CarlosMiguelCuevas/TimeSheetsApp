@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.day_item.view.*
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.common.extencions.dayMonthFormat
-import rraya.nearsoft.com.timesheetsapp.common.extencions.dayOfTheWeekFormat
+import rraya.nearsoft.com.timesheetsapp.common.extensions.dayMonthFormat
+import rraya.nearsoft.com.timesheetsapp.common.extensions.dayOfTheWeekFormat
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetView
 
@@ -21,7 +21,7 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindViews(mValues[position],mListener)
+        holder.bindViews(mValues[position], mListener)
     }
 
     override fun getItemCount(): Int {

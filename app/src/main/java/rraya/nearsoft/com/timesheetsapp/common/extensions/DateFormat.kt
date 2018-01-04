@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp.common.extencions
+package rraya.nearsoft.com.timesheetsapp.common.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*
