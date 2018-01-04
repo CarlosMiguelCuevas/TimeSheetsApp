@@ -80,9 +80,6 @@ class ConfirmationActivity : DaggerActivity() {
     }
 
     private fun unSubscribe() {
-        if (!subscriptions.isDisposed) {
-            subscriptions.dispose()
-        }
         subscriptions.clear()
     }
 }

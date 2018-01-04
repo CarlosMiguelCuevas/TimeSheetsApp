@@ -38,8 +38,8 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         presenter.setView(this)
         presenter.loadTimeSheet()
 
