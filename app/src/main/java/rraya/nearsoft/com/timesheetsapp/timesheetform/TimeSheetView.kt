@@ -12,12 +12,11 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_time_sheet.*
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
-import java.text.SimpleDateFormat
-import java.util.*
+import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 
 class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
@@ -30,7 +29,7 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val view =  inflater.inflate(R.layout.fragment_time_sheet, container, false)
+        val view = inflater.inflate(R.layout.fragment_time_sheet, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.days_list)
         adapter = DaysRecyclerViewAdapter(ArrayList(), null)
 
@@ -39,12 +38,12 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         presenter.setView(this)
         presenter.loadTimeSheet()
 
-        val editAction = View.OnClickListener{
+        val editAction = View.OnClickListener {
             showLeavingAppDialog()
         }
 
@@ -111,16 +110,15 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
     }
 
     private fun showWeekRange(days: List<Day>?) {
-        if(days != null && days.isNotEmpty()) {
-            val sdf = SimpleDateFormat("MMM dd yyyy", Locale.getDefault())
-            val firstDay = sdf.format(days.first().date)
-            val lastDay = sdf.format(days.last().date)
+        if (days != null && days.isNotEmpty()) {
+            val firstDay = days.first().date.monthDayYearFormat()
+            val lastDay = days.last().date.monthDayYearFormat()
             val weekRange = "$firstDay - $lastDay"
             week_days_range.text = weekRange
         }
     }
 
-    private fun showLeavingAppDialog(){
+    private fun showLeavingAppDialog() {
         val builder = AlertDialog.Builder(context, R.style.TimesheetsDialog)
         builder.setTitle(getText(R.string.edit_timesheet_in_browser))
                 .setMessage(getText(R.string.cant_edit_yet))
@@ -133,5 +131,11 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         val url = presenter.getUrlForTimesheetEditing()
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(browserIntent)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.unSubscribe()
+        presenter.dropView()
     }
 }

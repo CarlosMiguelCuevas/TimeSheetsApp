@@ -26,7 +26,7 @@ interface SplashViewPresenterContract {
 
         fun forceLoginWithGoogle()
 
-        fun firebaseLoginResponce()
+        fun firebaseLoginResponse()
 
         fun setView(view: SplashViewPresenterContract.View)
 

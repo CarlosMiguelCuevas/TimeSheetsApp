@@ -6,6 +6,8 @@ import android.util.Log
 import dagger.android.DaggerActivity
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_confirmation.*
 import pl.droidsonroids.gif.GifDrawable
@@ -18,6 +20,8 @@ class ConfirmationActivity : DaggerActivity() {
 
     private var submittedOnTime: Boolean = false
     @Inject lateinit var gifRepo: IGifsRepository
+    private var subscriptions = CompositeDisposable()
+
 
     companion object {
         const val TAG = "ConfirmationActivity"
@@ -29,10 +33,12 @@ class ConfirmationActivity : DaggerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirmation)
-
         submittedOnTime = savedInstanceState?.getBoolean(DID_SUBMIT_ON_TIME) ?: intent.getBooleanExtra(DID_SUBMIT_ON_TIME, false)
+        loadGif()
+    }
 
-        defineTypeOfGif(submittedOnTime)
+    private fun loadGif() {
+        val subscription: Disposable = defineTypeOfGif(submittedOnTime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -42,6 +48,8 @@ class ConfirmationActivity : DaggerActivity() {
                     Log.e(TAG, "Error loading gif", it)
                     //TODO: sorry not sorry, add the image or something default
                 })
+
+        subscribe(subscription)
     }
 
     private fun defineTypeOfGif(submittedOnTime: Boolean): Single<ByteArray> {
@@ -60,5 +68,18 @@ class ConfirmationActivity : DaggerActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putBoolean(DID_SUBMIT_ON_TIME, submittedOnTime)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unSubscribe()
+    }
+
+    private fun subscribe(subscription: Disposable) {
+        subscriptions.add(subscription)
+    }
+
+    private fun unSubscribe() {
+        subscriptions.clear()
     }
 }

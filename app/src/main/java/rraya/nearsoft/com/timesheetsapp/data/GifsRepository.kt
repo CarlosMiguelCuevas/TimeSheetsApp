@@ -11,15 +11,21 @@ import java.util.*
 
 class GifsRepository(val api: GiphyApi) : IGifsRepository {
 
+    companion object {
+        private val good = "well done"
+        private val notGood = "not good"
+    }
 
     override fun getWellDoneGif(): Single<ByteArray> {
-        return api.getGiphyGoodGifs()
-                .map { getRandomGifFromResponse(it) }
-                .map { getImageFromUrl(it) }
+        return handleApiResponse(good)
     }
 
     override fun getNotGoodGif(): Single<ByteArray> {
-        return api.getGiphyNotGoodGifs()
+        return handleApiResponse(notGood)
+    }
+
+    private fun handleApiResponse(queryParameter: String): Single<ByteArray> {
+        return api.getGiphyGifs(queryParameter)
                 .map { getRandomGifFromResponse(it) }
                 .map { getImageFromUrl(it) }
     }

@@ -12,9 +12,6 @@ abstract class RxBasePresenter : BaseViewPresenterContract.Presenter {
     }
 
     override fun unSubscribe() {
-        if (!subscriptions.isDisposed) {
-            subscriptions.dispose()
-        }
         subscriptions.clear()
     }
 }

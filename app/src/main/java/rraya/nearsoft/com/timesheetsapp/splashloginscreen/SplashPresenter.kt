@@ -71,7 +71,6 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
 
     private fun continueToNextActivity() {
         splashView?.onLoginSuccess()
-        //TODO: here we will call the next activity
     }
 
     override fun checkLoginResult(requestCode: Int): Boolean {
@@ -79,10 +78,11 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
     }
 
     override fun dropView() {
+
         splashView = null
     }
 
-    override fun firebaseLoginResponce() {
+    override fun firebaseLoginResponse() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.getIdToken(false)?.addOnCompleteListener {
             if (it.isSuccessful && it.result.token?.isNotEmpty() ?: false) {
