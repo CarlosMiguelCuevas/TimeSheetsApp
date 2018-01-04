@@ -71,7 +71,6 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
 
     private fun continueToNextActivity() {
         splashView?.onLoginSuccess()
-        //TODO: here we will call the next activity
     }
 
     override fun checkLoginResult(requestCode: Int): Boolean {
@@ -79,6 +78,7 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
     }
 
     override fun dropView() {
+
         splashView = null
     }
 

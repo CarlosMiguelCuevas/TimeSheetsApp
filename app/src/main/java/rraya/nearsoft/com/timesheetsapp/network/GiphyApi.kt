@@ -3,18 +3,14 @@ package rraya.nearsoft.com.timesheetsapp.network
 import com.google.gson.annotations.SerializedName
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 interface GiphyApi {
-
-    @GET("/v1/gifs/search?q=not+good")
-    fun getGiphyNotGoodGifs(): Single<GiphyResponse>
-
-    @GET("/v1/gifs/search?q=well+done")
-    fun getGiphyGoodGifs(): Single<GiphyResponse>
+    @GET("/v1/gifs/search")
+    fun getGiphyGifs(@Query("q") query: String): Single<GiphyResponse>
 
 }
-
 
 data class GiphyResponse(
         @SerializedName("data") val imageDatas: List<ImageDatas>

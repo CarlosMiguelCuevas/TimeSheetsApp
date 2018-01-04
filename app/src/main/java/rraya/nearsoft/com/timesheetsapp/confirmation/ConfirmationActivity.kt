@@ -33,9 +33,11 @@ class ConfirmationActivity : DaggerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirmation)
-
         submittedOnTime = savedInstanceState?.getBoolean(DID_SUBMIT_ON_TIME) ?: intent.getBooleanExtra(DID_SUBMIT_ON_TIME, false)
+        loadGif()
+    }
 
+    private fun loadGif() {
         val subscription: Disposable = defineTypeOfGif(submittedOnTime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

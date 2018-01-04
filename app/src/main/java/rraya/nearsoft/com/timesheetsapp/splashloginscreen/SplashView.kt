@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.firebase.ui.auth.IdpResponse
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_splash_view.*
@@ -24,12 +23,6 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
         private val TAG = "SplashView"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.setView(this)
-        presenter.tryLoginApp()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         signIn_button.setOnClickListener {
@@ -42,6 +35,8 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
     override fun onResume() {
         super.onResume()
         presenter.setView(this)
+        presenter.tryLoginApp()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
