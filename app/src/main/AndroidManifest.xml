@@ -23,6 +23,8 @@
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
         <activity android:name=".timesheetform.TimeSheetActivity" />
+        <receiver android:name=".notifications.AlarmReceiver"/>
+
     </application>
 
 </manifest>
