@@ -12,28 +12,29 @@ import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+
+        val intentEditTimesheet = Intent(context, TimeSheetActivity::class.java)
+        intentEditTimesheet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
         val notificationHelper = NotificationHelper()
-        val intentToRepeat = Intent(context, TimeSheetActivity::class.java)
 
-        intentToRepeat.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntentEditTimesheet = PendingIntent.getActivity(context, notificationHelper.ALARM_TYPE_RTC, intentEditTimesheet, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val pendingIntent = PendingIntent.getActivity(context, notificationHelper.ALARM_TYPE_RTC, intentToRepeat, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val repeatedNotification = buildLocalNotification(context, pendingIntent).build()
+        val repeatedNotification = buildLocalNotification(context, pendingIntentEditTimesheet).build()
         notificationHelper.getNotificationManager(context).notify(notificationHelper.ALARM_TYPE_RTC, repeatedNotification)
     }
 
-    fun buildLocalNotification(context: Context, pendingIntent: PendingIntent): Notification.Builder {
+    fun buildLocalNotification(context: Context, pendingIntentEditTimesheet: PendingIntent?): Notification.Builder {
 
         //TODO Add action to send timesheet as is.
         val sendAsIsIntent = null
         val sendAsIsAction = Notification.Action(R.drawable.send_timesheet_icon, "Send", sendAsIsIntent)
-        val editAction = Notification.Action(R.drawable.edit_timesheet, "Edit", pendingIntent)
+        val editAction = Notification.Action(R.drawable.edit_timesheet, "Edit", pendingIntentEditTimesheet)
 
         var clientName = "Cliente"
         var hours = "40 hrs"
         return Notification.Builder(context)
-                .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntentEditTimesheet)
                 .setContentTitle(clientName)
                 .setContentText(hours)
                 .setSmallIcon(R.drawable.timesheet_notif_icon)
