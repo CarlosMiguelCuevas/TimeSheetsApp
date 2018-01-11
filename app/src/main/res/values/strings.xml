@@ -22,4 +22,6 @@
     <string name="ok_edit_browser">Ok, edit in browser</string>
     <string name="cancel">Cancel</string>
     <string name="cant_edit_yet">You are leaving the Timesheets App.\n\nYou can’t edit it within the app yet. We’re working to make it happen :)</string>
+    <string name="notification_channel_name_default">Reminder timesheet channel</string>
+    <string name="notification_channel_description">channel used to send timesheet reminders</string>
 </resources>

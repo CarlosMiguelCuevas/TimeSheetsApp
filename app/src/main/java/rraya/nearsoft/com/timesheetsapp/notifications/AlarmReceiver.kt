@@ -1,45 +1,31 @@
 package rraya.nearsoft.com.timesheetsapp.notifications
 
-import android.app.Notification
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import rraya.nearsoft.com.timesheetsapp.R
+import dagger.android.DaggerBroadcastReceiver
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
+import javax.inject.Inject
 
 
-class AlarmReceiver : BroadcastReceiver() {
+class AlarmReceiver : DaggerBroadcastReceiver() {
+
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
 
     override fun onReceive(context: Context, intent: Intent) {
-        val notificationHelper = NotificationHelper()
-        val intentToRepeat = Intent(context, TimeSheetActivity::class.java)
+        super.onReceive(context, intent)
 
-        intentToRepeat.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val intentEditTimesheet = Intent(context, TimeSheetActivity::class.java)
+        intentEditTimesheet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntentEditTimesheet = PendingIntent.getActivity(context, NotificationHelper.EDIT_PENDING_INTENT_ID, intentEditTimesheet, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val pendingIntent = PendingIntent.getActivity(context, notificationHelper.ALARM_TYPE_RTC, intentToRepeat, PendingIntent.FLAG_UPDATE_CURRENT)
+        val client = "generic client" //we have to get this information usig a job or an async
 
-        val repeatedNotification = buildLocalNotification(context, pendingIntent).build()
-        notificationHelper.getNotificationManager(context).notify(notificationHelper.ALARM_TYPE_RTC, repeatedNotification)
+        //TODO: we might have to move this to a job/service because we would need to retrieve the client name form an endpoint, that and the reciever can't be active mor ethan 5 seconds, the cal might take longer
+        val reminderNotification = notificationHelper.buildEditSendTimeSheetNotification(context, pendingIntentEditTimesheet, null, client).build()
+
+        notificationHelper.notify(context, NotificationHelper.REPEATED_NOTIFICATION_ID, reminderNotification)
     }
 
-    fun buildLocalNotification(context: Context, pendingIntent: PendingIntent): Notification.Builder {
-
-        //TODO Add action to send timesheet as is.
-        val sendAsIsIntent = null
-        val sendAsIsAction = Notification.Action(R.drawable.send_timesheet_icon, "Send", sendAsIsIntent)
-        val editAction = Notification.Action(R.drawable.edit_timesheet, "Edit", pendingIntent)
-
-        var clientName = "Cliente"
-        var hours = "40 hrs"
-        return Notification.Builder(context)
-                .setContentIntent(pendingIntent)
-                .setContentTitle(clientName)
-                .setContentText(hours)
-                .setSmallIcon(R.drawable.timesheet_notif_icon)
-                .setColor(context.resources.getColor(R.color.colorPrimary))
-                .addAction(editAction)
-                .addAction(sendAsIsAction)
-                .setAutoCancel(true) as Notification.Builder
-    }
 }

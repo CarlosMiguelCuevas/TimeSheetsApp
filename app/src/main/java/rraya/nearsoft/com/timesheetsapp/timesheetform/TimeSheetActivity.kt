@@ -11,7 +11,7 @@ class TimeSheetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time_sheet)
         val notificationHelper = NotificationHelper()
-        notificationHelper.scheduleRepeatingRTCNotification(this)
+        notificationHelper.scheduleTimesheetReminderNotification(this)
 
 
         if (null == savedInstanceState) {

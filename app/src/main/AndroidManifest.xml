@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="rraya.nearsoft.com.timesheetsapp">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".TimeSheetsApp"
         android:allowBackup="true"
@@ -10,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".splashloginscreen.SplashActivity"
+        <activity
+            android:name=".splashloginscreen.SplashActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +23,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".timesheetform.TimeSheetActivity"
+            android:parentActivityName=".splashloginscreen.SplashActivity" />
+        <activity
             android:name=".confirmation.ConfirmationActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
-        </activity>
-        <activity android:name=".timesheetform.TimeSheetActivity" />
-        <receiver android:name=".notifications.AlarmReceiver"/>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+
+        <receiver android:name=".notifications.AlarmReceiver" />
+        <receiver android:name=".notifications.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
