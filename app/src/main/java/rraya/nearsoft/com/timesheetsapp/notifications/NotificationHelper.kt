@@ -1,11 +1,11 @@
 package rraya.nearsoft.com.timesheetsapp.notifications
 
-import android.app.AlarmManager
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.annotation.SuppressLint
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.support.v4.app.NotificationCompat
 import rraya.nearsoft.com.timesheetsapp.R
 import java.util.*
 
@@ -15,12 +15,13 @@ class NotificationHelper {
     private var alarmReceiverPedingIntent: PendingIntent? = null
 
     companion object {
-        var ALARM_PENDING_INTENT_ID = 100
-        var REPEATED_NOTIFICATION_ID = 101
-        var EDIT_PENDING_INTENT_ID = 102
+        val ALARM_PENDING_INTENT_ID = 100
+        val REPEATED_NOTIFICATION_ID = 101
+        val EDIT_PENDING_INTENT_ID = 102
+        private val NOTIFICATION_CHANNEL = "200"
     }
 
-    fun scheduleRepeatingTimesheetNotification(context: Context) {
+    fun scheduleTimesheetReminderNotification(context: Context) {
         val calendar = Calendar.getInstance()
         calendar.setTimeInMillis(System.currentTimeMillis())
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
@@ -47,14 +48,19 @@ class NotificationHelper {
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(id, notification)
     }
 
-    fun buildEditSendTimeSheetNotification(context: Context, pendingIntentEdit: PendingIntent?, pendingIntentSend: PendingIntent?, clientName: String, hours: String = "40"): Notification.Builder {
+    fun buildEditSendTimeSheetNotification(context: Context, pendingIntentEdit: PendingIntent?, pendingIntentSend: PendingIntent?, clientName: String, hours: String = "40"): NotificationCompat.Builder {
 
         //TODO Add action to send timesheet as is.
         val sendAsIsIntent = null
-        val sendAsIsAction = Notification.Action(R.drawable.send_timesheet_icon, "Send", sendAsIsIntent)
-        val editAction = Notification.Action(R.drawable.edit_timesheet, "Edit", pendingIntentEdit)
+        val sendAsIsAction = NotificationCompat.Action(R.drawable.send_timesheet_icon, "Send", sendAsIsIntent)
+        val editAction = NotificationCompat.Action(R.drawable.edit_timesheet, "Edit", pendingIntentEdit)
 
-        return Notification.Builder(context)
+        //channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel(context)
+        }
+
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
                 .setContentIntent(pendingIntentEdit)
                 .setContentTitle(clientName)
                 .setContentText(hours)
@@ -63,5 +69,13 @@ class NotificationHelper {
                 .addAction(editAction)
                 .addAction(sendAsIsAction)
                 .setAutoCancel(true)
+    }
+
+    @SuppressLint("NewApi")
+    private fun createChannel(context: Context) {
+        val defaultChannel = NotificationChannel(NOTIFICATION_CHANNEL, context.getString(R.string.notification_channel_name_default), NotificationManager.IMPORTANCE_DEFAULT)
+        defaultChannel.description = context.getString(R.string.notification_channel_description)
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(defaultChannel)
     }
 }

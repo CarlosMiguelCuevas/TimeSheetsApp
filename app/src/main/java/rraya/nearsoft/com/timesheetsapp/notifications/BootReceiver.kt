@@ -14,7 +14,7 @@ class BootReceiver : DaggerBroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action.equals("android.intent.action.BOOT_COMPLETED")) {
-            notificationHelper.scheduleRepeatingTimesheetNotification(context)
+            notificationHelper.scheduleTimesheetReminderNotification(context)
         }
     }
 
