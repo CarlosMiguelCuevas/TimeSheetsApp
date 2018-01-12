@@ -3,8 +3,6 @@ package rraya.nearsoft.com.timesheetsapp.dagger
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import rraya.nearsoft.com.timesheetsapp.BuildConfig
-import rraya.nearsoft.com.timesheetsapp.data.DataRepositoryImpl
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import rraya.nearsoft.com.timesheetsapp.data.MockRepository
 import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
@@ -18,12 +16,7 @@ class DataModule {
     @Provides
     @Singleton
     internal fun providesDataRepository(api: TimesheetsApi, sharedPreferences: IUserPrefs): IDataRepository {
-        //TODO: Remove this when we get the actual API
-        return if (BuildConfig.DEBUG) {
-            MockRepository()
-        } else {
-            DataRepositoryImpl(api, sharedPreferences)
-        }
+        return MockRepository()
     }
 
     @Provides
