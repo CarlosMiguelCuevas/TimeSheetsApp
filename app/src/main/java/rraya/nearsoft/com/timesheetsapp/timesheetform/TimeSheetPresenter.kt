@@ -1,11 +1,13 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.common.extensions.yearMonthDayFormat
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import java.util.*
 
 class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
@@ -18,9 +20,12 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
     }
 
     override fun loadTimeSheet() {
-        val currentDay = calculateWeekStart()
-        days = repo.getWeekDaysForWeekStarting(currentDay.yearMonthDayFormat())
-        timesheetsView?.showDaysOfWeek(days)
+        val subscription = repo.getWeekDaysForWeekStarting(calculateWeekStart().yearMonthDayFormat())
+                .zipWith(repo.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, clientName) })
+                .subscribe({ timesheet -> timesheetsView?.showTimeSheetForm(timesheet) })
+
+        subscribe(subscription)
+
     }
 
     private fun calculateWeekStart(): Date {

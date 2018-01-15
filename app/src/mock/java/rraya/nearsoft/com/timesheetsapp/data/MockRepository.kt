@@ -22,11 +22,11 @@ class MockRepository : IDataRepository {
         return Single.just("6gf7d8s96gfds77896fdsklnjvdfs")
     }
 
-    override fun getWeekDaysForWeekStarting(startingDateString: String): List<Day> {
+    override fun getWeekDaysForWeekStarting(startingDateString: String): Single<List<Day>> {
 
         val dayDummies: ArrayList<Day> = ArrayList()
-        val simpleDataformat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = simpleDataformat.parse(startingDateString)
+        val simpleDataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = simpleDataFormat.parse(startingDateString)
         val calendar = Calendar.getInstance()
         calendar.time = currentDate
         (0 until 7).forEach {
@@ -34,7 +34,17 @@ class MockRepository : IDataRepository {
             dayDummies.add(Day(dayDate, 8))
             calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
-        return dayDummies
+        return Single.just(dayDummies)
+    }
+
+    override fun getClientName(): Single<String> {
+        Thread.sleep(5000)
+        return Single.just("Umbrella corp")
+    }
+
+    override fun isCurrentWeekSubmitted(): Single<Boolean> {
+        Thread.sleep(5000)
+        return Single.just(false)
     }
 
     override fun submitTimeSheet(days: List<Day>?): Single<Boolean> {

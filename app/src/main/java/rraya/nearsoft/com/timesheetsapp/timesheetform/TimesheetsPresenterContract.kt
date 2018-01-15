@@ -1,7 +1,7 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import rraya.nearsoft.com.timesheetsapp.common.BaseViewPresenterContract
-import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 
 interface TimesheetsPresenterContract {
 
@@ -13,7 +13,7 @@ interface TimesheetsPresenterContract {
 
         fun onErrorLoading(error: Throwable)
 
-        fun showDaysOfWeek(days: List<Day>?)
+        fun showTimeSheetForm(timesheet: TimeSheet)
 
         fun showSendTimesheetButton()
 

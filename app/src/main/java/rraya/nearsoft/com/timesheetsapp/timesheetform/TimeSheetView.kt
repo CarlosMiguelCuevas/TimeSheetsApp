@@ -15,6 +15,7 @@ import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
 import javax.inject.Inject
 
@@ -104,9 +105,11 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         send_timesheet_container.visibility = View.GONE
     }
 
-    override fun showDaysOfWeek(days: List<Day>?) {
-        adapter.setDays(days)
-        showWeekRange(days)
+    override fun showTimeSheetForm(timesheet: TimeSheet) {
+        adapter.setDays(timesheet.dayList)
+        //TODO: change to implement the two client scenario
+        clientName.text = timesheet.getClientName()
+        showWeekRange(timesheet.dayList)
     }
 
     private fun showWeekRange(days: List<Day>?) {
