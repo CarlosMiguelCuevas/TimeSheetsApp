@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".timesheetform.TimeSheetView">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true">
@@ -30,9 +30,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lineSpacingMultiplier="1.30"
-                    android:text="Client Name"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Client Name" />
 
 
                 <ImageView
@@ -50,11 +50,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="Week date to date"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/hoursTextView"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
-                    app:layout_constraintTop_toTopOf="@+id/imageView2" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView2"
+                    tools:text="Week date to date" />
 
                 <ImageButton
                     android:id="@+id/editHoursBtn"
@@ -84,39 +84,12 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp" />
 
-            <LinearLayout
-                android:id="@+id/already_sent_layout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    style="@style/TimesheetSentText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="@string/timesheet_already_sent" />
-
-                <Button
-                    android:id="@+id/edit_bottom_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/thin_border_round_btn_bg"
-                    android:text="@string/edit"
-                    android:textColor="@color/colorAccent" />
-
-            </LinearLayout>
-
         </LinearLayout>
+    </ScrollView>
 
-
-    </android.support.v4.widget.NestedScrollView>
-
+    <!--ButtonSection-->
+    <!--TODO:Right now when already sent it shows only the edit button,
+        TODO: which takes you to the web site, later we will show the send button when editing in the app -->
     <FrameLayout
         android:id="@+id/send_timesheet_container"
         android:layout_width="match_parent"
@@ -138,9 +111,37 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <LinearLayout
+            android:id="@+id/already_sent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/TimesheetSentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/timesheet_already_sent" />
+
+            <Button
+                android:id="@+id/edit_bottom_btn"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/thin_border_round_btn_bg"
+                android:text="@string/edit"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+
     </FrameLayout>
 
-
+    <!--progress bar -->
     <FrameLayout
         android:id="@+id/loading_container"
         android:layout_width="match_parent"
@@ -155,6 +156,5 @@
             android:indeterminate="true" />
 
     </FrameLayout>
-
 
 </FrameLayout>
