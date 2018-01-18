@@ -3,7 +3,7 @@ package rraya.nearsoft.com.timesheetsapp.data.models
 import java.util.*
 
 data class Day(val date: Date,
-               val totalHours: Int = 0,
+               val totalHours: Int = 8,
                val other: String = "",
                val otherHours: Int = 0,
                val hasHoliday: Boolean = false,

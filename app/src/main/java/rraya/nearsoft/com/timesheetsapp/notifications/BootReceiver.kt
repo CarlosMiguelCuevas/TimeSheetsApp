@@ -14,7 +14,8 @@ class BootReceiver : DaggerBroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action.equals("android.intent.action.BOOT_COMPLETED")) {
-            notificationHelper.scheduleTimesheetReminderNotification(context)
+            //TODO: change this, this should be in a job because we need to retrive the client name
+            notificationHelper.scheduleTimesheetReminderNotification(context, "name provided for boot receiver")
         }
     }
 

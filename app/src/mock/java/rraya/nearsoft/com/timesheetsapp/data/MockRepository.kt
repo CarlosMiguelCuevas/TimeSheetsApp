@@ -3,6 +3,7 @@ package rraya.nearsoft.com.timesheetsapp.data
 import android.util.Log
 import io.reactivex.Single
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,7 +48,7 @@ class MockRepository : IDataRepository {
         return Single.just(false)
     }
 
-    override fun submitTimeSheet(days: List<Day>?): Single<Boolean> {
+    override fun submitTimeSheet(timesheet: TimeSheet?): Single<Boolean> {
         Log.v("MockRepository", "Timesheets sent!!")
         return Single.just(true)
     }

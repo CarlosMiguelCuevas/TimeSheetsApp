@@ -12,17 +12,18 @@ import java.util.*
 
 class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
 
-    private var timesheetsView: TimesheetsPresenterContract.View? = null
-    private var days: List<Day>? = null
+    private var mTimesheetsView: TimesheetsPresenterContract.View? = null
+    private var mTimesheet: TimeSheet? = null
 
     override fun setView(view: TimesheetsPresenterContract.View) {
-        timesheetsView = view
+        mTimesheetsView = view
     }
 
     override fun loadTimeSheet() {
         val subscription = repo.getWeekDaysForWeekStarting(calculateWeekStart().yearMonthDayFormat())
                 .zipWith(repo.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, clientName) })
-                .subscribe({ timesheet -> timesheetsView?.showTimeSheetForm(timesheet) })
+                .doOnSuccess { timesheet -> mTimesheet = timesheet }
+                .subscribe({ timesheet -> mTimesheetsView?.showTimeSheetForm(timesheet) })
 
         subscribe(subscription)
 
@@ -47,16 +48,16 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
     }
 
     override fun submitTimeSheet() {
-        timesheetsView?.showProgressBar()
-        var subscription = repo.submitTimeSheet(days)
+        mTimesheetsView?.showProgressBar()
+        var subscription = repo.submitTimeSheet(mTimesheet)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    timesheetsView?.hideProgressBar()
-                    timesheetsView?.onSuccessSubmit()
+                    mTimesheetsView?.hideProgressBar()
+                    mTimesheetsView?.onSuccessSubmit()
                 }, {
-                    timesheetsView?.hideProgressBar()
-                    timesheetsView?.onErrorSubmit(it)
+                    mTimesheetsView?.hideProgressBar()
+                    mTimesheetsView?.onErrorSubmit(it)
                 })
         subscribe(subscription)
     }
@@ -67,7 +68,16 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
     }
 
     override fun dropView() {
-        timesheetsView = null
+        mTimesheetsView = null
+    }
+
+    override fun initTimeAlarm() {
+        var subscription = repo.getClientName()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ clientName -> mTimesheetsView?.setTimeAlarm(clientName) })
+        subscribe(subscription)
+
     }
 
 }

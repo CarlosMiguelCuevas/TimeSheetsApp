@@ -16,6 +16,7 @@ import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
+import rraya.nearsoft.com.timesheetsapp.notifications.NotificationHelper
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
 
     private var mListener: OnSelectedDayFragmentInteractionListener? = null
     @Inject lateinit var presenter: TimesheetsPresenterContract.Presenter
+    @Inject lateinit var notificationHelper: NotificationHelper
 
     private lateinit var adapter: DaysRecyclerViewAdapter
 
@@ -42,6 +44,7 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
     override fun onResume() {
         super.onResume()
         presenter.setView(this)
+        presenter.initTimeAlarm()
         presenter.loadTimeSheet()
 
         val editAction = View.OnClickListener {
@@ -140,5 +143,9 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         super.onStop()
         presenter.unSubscribe()
         presenter.dropView()
+    }
+
+    override fun setTimeAlarm(clientName: String) {
+        notificationHelper.scheduleTimesheetReminderNotification(context!!, clientName)
     }
 }

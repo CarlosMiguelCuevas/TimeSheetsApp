@@ -1,14 +1,14 @@
-package rraya.nearsoft.com.timesheetsapp.notifications.dagger
+package rraya.nearsoft.com.timesheetsapp.dagger
 
 import dagger.Module
 import dagger.Provides
-import rraya.nearsoft.com.timesheetsapp.dagger.scopes.BroadcastReceiverScope
 import rraya.nearsoft.com.timesheetsapp.notifications.NotificationHelper
+import javax.inject.Singleton
 
 @Module
 class NotificationModule {
 
-    @BroadcastReceiverScope
+    @Singleton
     @Provides
     internal fun providesNotificationHelper(): NotificationHelper {
         return NotificationHelper()

@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import dagger.android.DaggerBroadcastReceiver
+import rraya.nearsoft.com.timesheetsapp.services.SubmitTimesheetService
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 import javax.inject.Inject
 
@@ -20,10 +21,12 @@ class AlarmReceiver : DaggerBroadcastReceiver() {
         intentEditTimesheet.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntentEditTimesheet = PendingIntent.getActivity(context, NotificationHelper.EDIT_PENDING_INTENT_ID, intentEditTimesheet, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val client = "generic client" //we have to get this information usig a job or an async
+        val intentSubmitTimeSheet40Hours = Intent(context, SubmitTimesheetService::class.java)
+        val pendingIntentSubmitTimsheet = PendingIntent.getService(context, NotificationHelper.SUBMIT_PENDING_INTENT_ID, intentSubmitTimeSheet40Hours, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        //TODO: we might have to move this to a job/service because we would need to retrieve the client name form an endpoint, that and the reciever can't be active mor ethan 5 seconds, the cal might take longer
-        val reminderNotification = notificationHelper.buildEditSendTimeSheetNotification(context, pendingIntentEditTimesheet, null, client).build()
+        val client = intent.getStringExtra(NotificationHelper.EXTRA_CLIENT_NAME)
+
+        val reminderNotification = notificationHelper.buildEditSendTimeSheetNotification(context, pendingIntentEditTimesheet, pendingIntentSubmitTimsheet, client).build()
 
         notificationHelper.notify(context, NotificationHelper.REPEATED_NOTIFICATION_ID, reminderNotification)
     }
