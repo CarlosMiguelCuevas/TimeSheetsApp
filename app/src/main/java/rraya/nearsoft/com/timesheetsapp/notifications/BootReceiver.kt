@@ -9,13 +9,13 @@ import javax.inject.Inject
 class BootReceiver : DaggerBroadcastReceiver() {
 
     @Inject
-    lateinit var notificationHelper: NotificationHelper
+    lateinit var alarmHelper: AlarmManagerHelper
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action.equals("android.intent.action.BOOT_COMPLETED")) {
             //TODO: change this, this should be in a job because we need to retrive the client name
-            notificationHelper.scheduleTimesheetReminderNotification(context, "name provided for boot receiver")
+            alarmHelper.scheduleTimesheetReminder(context, "name provided for boot receiver")
         }
     }
 

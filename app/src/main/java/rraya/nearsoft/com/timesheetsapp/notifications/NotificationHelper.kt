@@ -1,58 +1,29 @@
 package rraya.nearsoft.com.timesheetsapp.notifications
 
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
-import android.util.Log
 import rraya.nearsoft.com.timesheetsapp.R
-import java.util.*
 
 class NotificationHelper {
 
-    private var alarmManager: AlarmManager? = null
-    private var alarmReceiverPedingIntent: PendingIntent? = null
-
     companion object {
-        val ALARM_PENDING_INTENT_ID = 100
-        val REPEATED_NOTIFICATION_ID = 101
-        val EDIT_PENDING_INTENT_ID = 102
-        val SUBMIT_PENDING_INTENT_ID = 103
-        private val NOTIFICATION_CHANNEL = "200"
-        val EXTRA_CLIENT_NAME = "EXTRACLIENTNAME"
+        val REPEATED_NOTIFICATION_ID = 201
+        val EDIT_PENDING_INTENT_ID = 202
+        val SUBMIT_PENDING_INTENT_ID = 203
+        private val NOTIFICATION_CHANNEL = "300"
     }
 
-    fun scheduleTimesheetReminderNotification(context: Context, clientName: String) {
-        val calendar = Calendar.getInstance()
-        calendar.setTimeInMillis(System.currentTimeMillis())
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
-        calendar.set(Calendar.HOUR_OF_DAY, 12)
-
-        val alarmReceiverIntent = Intent(context, AlarmReceiver::class.java)
-        alarmReceiverIntent.putExtra(EXTRA_CLIENT_NAME, clientName)
-        alarmReceiverPedingIntent = PendingIntent.getBroadcast(context, ALARM_PENDING_INTENT_ID, alarmReceiverIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        //I used setRepeateing instead of inexact because according to documentation `With setInexactRepeating(), you can't specify a custom interval the way you can with setRepeating()`
-        //https://developer.android.com/training/scheduling/alarms.html
-        alarmManager!!.setRepeating(AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, alarmReceiverPedingIntent)
-    }
-
-    fun cancelAlarmRTC() {
-        if (alarmManager != null) {
-            alarmManager!!.cancel(alarmReceiverPedingIntent)
-        }
-    }
-
-    fun notify(context: Context, id: Int, notification: Notification) {
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(id, notification)
-    }
+    var mClientName: String? = null
 
     fun buildEditSendTimeSheetNotification(context: Context, pendingIntentEdit: PendingIntent?, pendingIntentSubmit: PendingIntent?, clientName: String, hours: String = "40"): NotificationCompat.Builder {
+
+        mClientName = clientName
 
         val sendAsIsAction = NotificationCompat.Action(R.drawable.send_timesheet_icon, "Send", pendingIntentSubmit)
         val editAction = NotificationCompat.Action(R.drawable.edit_timesheet, "Edit", pendingIntentEdit)
@@ -73,6 +44,60 @@ class NotificationHelper {
                 .setAutoCancel(true)
     }
 
+    fun buildProgressNotification(context: Context, description: String = "Submitting Timesheet"): NotificationCompat.Builder {
+
+        //channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel(context)
+        }
+
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+                .setContentTitle(mClientName)
+                .setContentText(description)
+                .setSmallIcon(R.drawable.upload_timesheet_notification_icon)
+                .setColor(context.resources.getColor(R.color.colorPrimary))
+                .setProgress(0, 0, true)
+                .setAutoCancel(false)
+    }
+
+    fun buildErrorNotification(context: Context, description: String = "Error submitting notification"): NotificationCompat.Builder {
+        //channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel(context)
+        }
+
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+                .setContentTitle(mClientName)
+                .setContentText(description)
+                .setSmallIcon(R.drawable.timesheet_notif_icon)
+                .setColor(context.resources.getColor(R.color.colorPrimary))
+                .setProgress(0, 0, false)
+                .setAutoCancel(false)
+    }
+
+    fun buildSuccessNotification(context: Context, description: String = "Notification submitted"): NotificationCompat.Builder {
+        //channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel(context)
+        }
+
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+                .setContentTitle(mClientName)
+                .setContentText(description)
+                .setSmallIcon(R.drawable.timesheet_notif_icon)
+                .setColor(context.resources.getColor(R.color.colorPrimary))
+                .setProgress(0, 0, false)
+                .setAutoCancel(false)
+    }
+
+    fun notify(context: Context, id: Int, notification: Notification) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(id, notification)
+    }
+
+    fun dismissNotification(context: Context, id: Int) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(id)
+    }
+
     @SuppressLint("NewApi")
     private fun createChannel(context: Context) {
         val defaultChannel = NotificationChannel(NOTIFICATION_CHANNEL, context.getString(R.string.notification_channel_name_default), NotificationManager.IMPORTANCE_DEFAULT)
@@ -81,13 +106,4 @@ class NotificationHelper {
         notificationManager.createNotificationChannel(defaultChannel)
     }
 
-    fun buildErrorNotification() {
-        //TODO:create the notification and notify it
-        Log.d("NOTIFICATION", "error")
-    }
-
-    fun buildSuccesNotification() {
-        //TODO:create the notification and notify it
-        Log.d("NOTIFICATION", "success")
-    }
 }
