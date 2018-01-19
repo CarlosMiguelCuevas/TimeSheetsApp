@@ -44,7 +44,7 @@ class NotificationHelper {
                 .setAutoCancel(true)
     }
 
-    fun buildProgressNotification(context: Context, description: String = "Submitting Timesheet"): NotificationCompat.Builder {
+    fun buildProgressNotification(context: Context, description: String = context.getString(R.string.progress_notification_default_description)): NotificationCompat.Builder {
 
         //channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -60,22 +60,7 @@ class NotificationHelper {
                 .setAutoCancel(false)
     }
 
-    fun buildErrorNotification(context: Context, description: String = "Error submitting notification"): NotificationCompat.Builder {
-        //channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannel(context)
-        }
-
-        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
-                .setContentTitle(mClientName)
-                .setContentText(description)
-                .setSmallIcon(R.drawable.timesheet_notif_icon)
-                .setColor(context.resources.getColor(R.color.colorPrimary))
-                .setProgress(0, 0, false)
-                .setAutoCancel(false)
-    }
-
-    fun buildSuccessNotification(context: Context, description: String = "Notification submitted"): NotificationCompat.Builder {
+    fun buildSimpleNotification(context: Context, description: String): NotificationCompat.Builder {
         //channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel(context)
