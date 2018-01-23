@@ -2,7 +2,6 @@ package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.common.extensions.calculateWeekStart
 import rraya.nearsoft.com.timesheetsapp.common.extensions.yearMonthDayFormat
@@ -21,10 +20,15 @@ class TimeSheetPresenter(private val repo: IDataRepository, private val calendar
     }
 
     override fun loadTimeSheet() {
+        mTimesheetsView?.showProgressBar()
         val subscription = repo.getWeekDaysForWeekStarting(calendar.calculateWeekStart().yearMonthDayFormat())
                 .zipWith(repo.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, clientName) })
                 .doOnSuccess { timesheet -> mTimesheet = timesheet }
-                .subscribe({ timesheet -> mTimesheetsView?.showTimeSheetForm(timesheet) })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { mTimesheetsView?.hideProgressBar() }
+                .subscribe(
+                        { timesheet -> mTimesheetsView?.showTimeSheetForm(timesheet) },
+                        { error -> mTimesheetsView?.onErrorLoading(error) })
 
         subscribe(subscription)
 
@@ -38,15 +42,10 @@ class TimeSheetPresenter(private val repo: IDataRepository, private val calendar
     override fun submitTimeSheet() {
         mTimesheetsView?.showProgressBar()
         var subscription = repo.submitTimeSheet(mTimesheet)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    mTimesheetsView?.hideProgressBar()
-                    mTimesheetsView?.onSuccessSubmit()
-                }, {
-                    mTimesheetsView?.hideProgressBar()
-                    mTimesheetsView?.onErrorSubmit(it)
-                })
+                .doAfterTerminate { mTimesheetsView?.hideProgressBar() }
+                .subscribe({ mTimesheetsView?.onSuccessSubmit() },
+                        { mTimesheetsView?.onErrorSubmit(it) })
         subscribe(subscription)
     }
 

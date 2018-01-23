@@ -6,6 +6,7 @@ import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MockRepository : IDataRepository {
 
@@ -39,17 +40,15 @@ class MockRepository : IDataRepository {
     }
 
     override fun getClientName(): Single<String> {
-        Thread.sleep(5000)
-        return Single.just("Umbrella corp")
+        return Single.just("Umbrella corp").delay(5, TimeUnit.SECONDS)
     }
 
     override fun isCurrentWeekSubmitted(): Single<Boolean> {
-        Thread.sleep(5000)
-        return Single.just(false)
+        return Single.just(false).delay(5, TimeUnit.SECONDS)
     }
 
     override fun submitTimeSheet(timesheet: TimeSheet?): Single<Boolean> {
         Log.v("MockRepository", "Timesheets sent!!")
-        return Single.just(true)
+        return Single.just(true).delay(5, TimeUnit.SECONDS)
     }
 }
