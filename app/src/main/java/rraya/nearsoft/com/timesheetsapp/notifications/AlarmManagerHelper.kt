@@ -20,8 +20,8 @@ class AlarmManagerHelper {
 
         val calendar = Calendar.getInstance()
         calendar.setTimeInMillis(System.currentTimeMillis())
-//        calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
-//        calendar.set(Calendar.HOUR_OF_DAY, 12)
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+        calendar.set(Calendar.HOUR_OF_DAY, 12)
 
         val alarmReceiverIntent = Intent(context, AlarmReceiver::class.java)
         alarmReceiverIntent.putExtra(EXTRA_CLIENT_NAME, clientName)

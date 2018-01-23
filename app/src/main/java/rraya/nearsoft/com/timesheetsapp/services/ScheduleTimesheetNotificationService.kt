@@ -1,6 +1,5 @@
 package rraya.nearsoft.com.timesheetsapp.services
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -18,11 +17,10 @@ class ScheduleTimesheetNotificationService : DaggerIntentService("notificationTh
     @Inject lateinit var notificationHelper: NotificationHelper
 
     companion object {
-        //TODO: fix compatibility
-        @TargetApi(Build.VERSION_CODES.O)
         fun startService(context: Context?, startForeground: Boolean = false) {
             val scheduleNotificationService = Intent(context, ScheduleTimesheetNotificationService::class.java)
-            if (startForeground) { //TODO: here we should fix this `if` to add the chek of android O for compatibility
+
+            if (startForeground && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context?.startForegroundService(scheduleNotificationService)
             } else {
                 context?.startService(scheduleNotificationService)

@@ -1,6 +1,5 @@
 package rraya.nearsoft.com.timesheetsapp.services
 
-import android.annotation.TargetApi
 import android.app.Service
 import android.content.Intent
 import android.os.Build
@@ -44,29 +43,38 @@ class SubmitTimesheetService : DaggerService() {
         return Service.START_STICKY
     }
 
-    @TargetApi(Build.VERSION_CODES.N) //TODO: FIX retrocompatibility
     private fun submitTimsheet() {
         var subscription = repository.getWeekDaysForWeekStarting(calendar.calculateWeekStart().yearMonthDayFormat())
                 .subscribeOn(Schedulers.io())
                 .zipWith(repository.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, clientName) })
                 .flatMap { timesheet -> repository.submitTimeSheet(timesheet) }
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess { _ -> stopForeground(Service.STOP_FOREGROUND_DETACH) }
                 .doAfterSuccess { _ -> stopSelf() }
                 .subscribe(
-                        { isSuccessful ->
-                            run {
-                                if (isSuccessful) {
-                                    notificationHelper.notify(this, NotificationHelper.REPEATED_NOTIFICATION_ID, notificationHelper.buildSimpleNotification(this, getString(R.string.simple_notification_success_description)).build())
-                                } else {
-                                    notificationHelper.notify(this, NotificationHelper.REPEATED_NOTIFICATION_ID, notificationHelper.buildSimpleNotification(this, getString(R.string.simple_notification_error_description)).build())
-                                }
-                            }
-                        },
-                        { error -> notificationHelper.notify(this, NotificationHelper.REPEATED_NOTIFICATION_ID, notificationHelper.buildSimpleNotification(this, getString(R.string.simple_notification_error_description)).build()) }
+                        { isSuccessful -> handleSubmitResponse(isSuccessful) },
+                        { error -> handleSubmitResponse(false) }
                 )
 
         subscriptions.add(subscription)
+
+    }
+
+    private fun handleSubmitResponse(isSuccessful: Boolean) {
+
+        var notificationId = NotificationHelper.REPEATED_NOTIFICATION_ID
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(Service.STOP_FOREGROUND_DETACH)
+        } else {
+            stopForeground(false)
+            notificationId += 1
+        }
+
+        if (isSuccessful) {
+            notificationHelper.notify(this, notificationId, notificationHelper.buildSimpleNotification(this, getString(R.string.simple_notification_success_description)).build())
+        } else {
+            notificationHelper.notify(this, notificationId, notificationHelper.buildSimpleNotification(this, getString(R.string.simple_notification_error_description)).build())
+        }
 
     }
 
