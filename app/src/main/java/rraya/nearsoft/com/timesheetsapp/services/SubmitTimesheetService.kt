@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.common.extensions.calculateWeekStart
 import rraya.nearsoft.com.timesheetsapp.common.extensions.yearMonthDayFormat
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
@@ -29,6 +30,8 @@ class SubmitTimesheetService : DaggerService() {
 
     @Inject lateinit var repository: IDataRepository
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var calendar: Calendar
+
     private var subscriptions = CompositeDisposable()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -41,9 +44,9 @@ class SubmitTimesheetService : DaggerService() {
         return Service.START_STICKY
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
+    @TargetApi(Build.VERSION_CODES.N) //TODO: FIX retrocompatibility
     private fun submitTimsheet() {
-        var subscription = repository.getWeekDaysForWeekStarting(calculateWeekStart().yearMonthDayFormat())
+        var subscription = repository.getWeekDaysForWeekStarting(calendar.calculateWeekStart().yearMonthDayFormat())
                 .subscribeOn(Schedulers.io())
                 .zipWith(repository.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, clientName) })
                 .flatMap { timesheet -> repository.submitTimeSheet(timesheet) }
@@ -65,20 +68,6 @@ class SubmitTimesheetService : DaggerService() {
 
         subscriptions.add(subscription)
 
-    }
-
-    //TODO: refactor this duplicated code, it is in the timesheet form presenter too
-    private fun calculateWeekStart(): Date {
-        val calendar = Calendar.getInstance()
-        val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
-        return if (weekDay > Calendar.MONDAY) {
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            calendar.time
-        } else {
-            calendar.add(Calendar.DAY_OF_MONTH, -7)
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            calendar.time
-        }
     }
 
     override fun onBind(intent: Intent?): IBinder? {

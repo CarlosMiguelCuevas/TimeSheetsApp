@@ -8,6 +8,7 @@ import rraya.nearsoft.com.timesheetsapp.data.MockRepository
 import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.data.local.UserPrefs
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -23,6 +24,12 @@ class DataModule {
     @Singleton
     internal fun provideSplashPresenter(appContext: Context): IUserPrefs {
         return UserPrefs(appContext)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideCalendar(): Calendar {
+        return Calendar.getInstance()
     }
 
 }
