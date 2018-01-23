@@ -17,9 +17,7 @@ import javax.inject.Singleton
     DataModule::class,
     BindingActivityModule::class,
     BindingSplashFragmentModule::class,
-    BindingReceiverModule::class,
-    BindingServiceModule::class,
-    NotificationModule::class
+    BindingServiceReceiverModule::class
 ])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 

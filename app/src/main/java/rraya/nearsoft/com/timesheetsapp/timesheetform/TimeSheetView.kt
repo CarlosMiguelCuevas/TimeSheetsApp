@@ -16,7 +16,6 @@ import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
-import rraya.nearsoft.com.timesheetsapp.notifications.AlarmManagerHelper
 import rraya.nearsoft.com.timesheetsapp.services.ScheduleTimesheetNotificationService
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
 import javax.inject.Inject
@@ -26,7 +25,6 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
 
     private var mListener: OnSelectedDayFragmentInteractionListener? = null
     @Inject lateinit var presenter: TimesheetsPresenterContract.Presenter
-    @Inject lateinit var alarmHelper: AlarmManagerHelper
 
     private lateinit var adapter: DaysRecyclerViewAdapter
 
