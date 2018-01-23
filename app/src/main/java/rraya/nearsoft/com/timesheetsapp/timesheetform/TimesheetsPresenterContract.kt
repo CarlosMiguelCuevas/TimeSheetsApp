@@ -19,8 +19,6 @@ interface TimesheetsPresenterContract {
 
         fun hideSendTimesheetButton()
 
-        fun setTimeAlarm(clientName: String)
-
     }
 
     interface Presenter : BaseViewPresenterContract.Presenter {
@@ -32,8 +30,6 @@ interface TimesheetsPresenterContract {
         fun setView(view: View)
 
         fun dropView()
-
-        fun initTimeAlarm()
 
         fun getUrlForTimesheetEditing(): String
 

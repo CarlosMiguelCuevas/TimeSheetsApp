@@ -28,13 +28,16 @@
         <activity
             android:name=".confirmation.ConfirmationActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
+
         <receiver android:name=".notifications.AlarmReceiver" />
         <receiver android:name=".notifications.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <service android:name=".services.SubmitTimesheetService" />
+        <service android:name=".services.ScheduleTimesheetNotificationService" />
 
     </application>
 

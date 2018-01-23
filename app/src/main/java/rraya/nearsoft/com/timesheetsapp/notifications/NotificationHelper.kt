@@ -44,7 +44,7 @@ class NotificationHelper {
                 .setAutoCancel(true)
     }
 
-    fun buildProgressNotification(context: Context, description: String = context.getString(R.string.progress_notification_default_description)): NotificationCompat.Builder {
+    fun buildProgressNotification(context: Context, icon: Int, description: String): NotificationCompat.Builder {
 
         //channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -54,10 +54,18 @@ class NotificationHelper {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
                 .setContentTitle(mClientName)
                 .setContentText(description)
-                .setSmallIcon(R.drawable.upload_timesheet_notification_icon)
+                .setSmallIcon(icon)
                 .setColor(context.resources.getColor(R.color.colorPrimary))
                 .setProgress(0, 0, true)
                 .setAutoCancel(false)
+    }
+
+    fun buildDefaultProgressNotification(context: Context, description: String): NotificationCompat.Builder {
+        return buildProgressNotification(context, R.drawable.timesheet_notif_icon, description)
+    }
+
+    fun buildUploadProgressNotification(context: Context, description: String = context.getString(R.string.progress_notification_default_description)): NotificationCompat.Builder {
+        return buildProgressNotification(context, R.drawable.upload_timesheet_notification_icon, description)
     }
 
     fun buildSimpleNotification(context: Context, description: String): NotificationCompat.Builder {

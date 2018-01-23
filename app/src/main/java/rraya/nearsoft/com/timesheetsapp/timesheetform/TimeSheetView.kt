@@ -17,6 +17,7 @@ import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import rraya.nearsoft.com.timesheetsapp.notifications.AlarmManagerHelper
+import rraya.nearsoft.com.timesheetsapp.services.ScheduleTimesheetNotificationService
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
 import javax.inject.Inject
 
@@ -38,13 +39,15 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+
+        initTimeAlarm()
+
         return view
     }
 
     override fun onResume() {
         super.onResume()
         presenter.setView(this)
-        presenter.initTimeAlarm()
         presenter.loadTimeSheet()
 
         val editAction = View.OnClickListener {
@@ -57,6 +60,10 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         send_timesheet_button.setOnClickListener {
             presenter.submitTimeSheet()
         }
+    }
+
+    private fun initTimeAlarm() {
+        ScheduleTimesheetNotificationService.startService(context)
     }
 
     override fun showProgressBar() {
@@ -145,7 +152,4 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         presenter.dropView()
     }
 
-    override fun setTimeAlarm(clientName: String) {
-        alarmHelper.scheduleTimesheetReminder(context!!, clientName)
-    }
 }

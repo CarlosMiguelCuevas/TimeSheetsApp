@@ -1,21 +1,18 @@
 package rraya.nearsoft.com.timesheetsapp.notifications
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import dagger.android.DaggerBroadcastReceiver
-import javax.inject.Inject
+import rraya.nearsoft.com.timesheetsapp.services.ScheduleTimesheetNotificationService
 
 
-class BootReceiver : DaggerBroadcastReceiver() {
+class BootReceiver : BroadcastReceiver() {
 
-    @Inject
-    lateinit var alarmHelper: AlarmManagerHelper
 
     override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-        if (intent.action.equals("android.intent.action.BOOT_COMPLETED")) {
-            //TODO: change this, this should be in a job because we need to retrive the client name
-            alarmHelper.scheduleTimesheetReminder(context, "name provided for boot receiver")
+        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+            //Here the `true` is needed because the app is not in foreground
+            ScheduleTimesheetNotificationService.startService(context, true)
         }
     }
 

@@ -71,13 +71,4 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
         mTimesheetsView = null
     }
 
-    override fun initTimeAlarm() {
-        var subscription = repo.getClientName()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ clientName -> mTimesheetsView?.setTimeAlarm(clientName) })
-        subscribe(subscription)
-
-    }
-
 }

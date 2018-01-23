@@ -33,7 +33,7 @@ class SubmitTimesheetService : DaggerService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        val progressNotification = notificationHelper.buildProgressNotification(this).build()
+        val progressNotification = notificationHelper.buildUploadProgressNotification(this).build()
 
         startForeground(NotificationHelper.REPEATED_NOTIFICATION_ID, progressNotification)
         submitTimsheet()
