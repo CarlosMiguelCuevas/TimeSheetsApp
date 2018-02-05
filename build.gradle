@@ -1,14 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.21'
     repositories {
         google()
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-alpha05'
+        classpath 'com.android.tools.build:gradle:3.1.0-beta1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:3.1.0'
 
@@ -29,11 +29,11 @@ allprojects {
         minSdkVersion = 19
         targetSdkVersion = 27
         compileSdkVersion = 27
-        buildToolsVersion = '27.0.1'
+        buildToolsVersion = '27.0.3'
 
         //App dependencies
         supportLibraryVersion = '27.0.2'
-        constraintLayoutVersion = '1.1.0-beta3'
+        constraintLayoutVersion = '1.1.0-beta4'
         firebaseLibrariesVersion = '11.6.2'
         firebaseUiLibrariesVersion = '3.1.1'
         daggerLibrariesVersion = '2.11'

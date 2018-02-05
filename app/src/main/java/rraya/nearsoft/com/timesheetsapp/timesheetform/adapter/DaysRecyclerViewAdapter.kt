@@ -39,7 +39,6 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
         val dayOfWeekText: TextView = itemView.day_of_week
         val dateText: TextView = itemView.date
         val hoursText: TextView = itemView.hours
-        var mItem: Day? = null
 
         override fun toString(): String {
             return super.toString() + " '" + dateText.text + "'"
@@ -48,7 +47,7 @@ class DaysRecyclerViewAdapter(private var mValues: List<Day>, private val mListe
         fun bindViews(day: Day, mListener: TimeSheetView.OnSelectedDayFragmentInteractionListener?) {
             dayOfWeekText.text = day.date.dayOfTheWeekFormat()
             dateText.text = day.date.dayMonthFormat()
-            hoursText.text = day.hours.toString()
+            hoursText.text = day.totalHours.toString()
             itemView.setOnClickListener {
                 mListener?.onListFragmentInteraction(day)
             }

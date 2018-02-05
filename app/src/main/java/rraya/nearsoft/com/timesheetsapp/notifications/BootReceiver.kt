@@ -1,20 +1,18 @@
 package rraya.nearsoft.com.timesheetsapp.notifications
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import dagger.android.DaggerBroadcastReceiver
-import javax.inject.Inject
+import rraya.nearsoft.com.timesheetsapp.services.ScheduleTimesheetNotificationService
 
 
-class BootReceiver : DaggerBroadcastReceiver() {
+class BootReceiver : BroadcastReceiver() {
 
-    @Inject
-    lateinit var notificationHelper: NotificationHelper
 
     override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-        if (intent.action.equals("android.intent.action.BOOT_COMPLETED")) {
-            notificationHelper.scheduleTimesheetReminderNotification(context)
+        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
+            //Here the `true` is needed because the app is not in foreground
+            ScheduleTimesheetNotificationService.startService(context, true)
         }
     }
 

@@ -4,13 +4,13 @@ import com.google.gson.GsonBuilder
 import io.reactivex.Single
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
+import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 
 class DataRepositoryImpl(val api: TimesheetsApi, private val sharedPreferences: IUserPrefs) : IDataRepository {
-
 
     override fun getTimeSheetTokenFromSharedPreferences(): String {
         return sharedPreferences.getUserToken()
@@ -41,11 +41,19 @@ class DataRepositoryImpl(val api: TimesheetsApi, private val sharedPreferences: 
     }
 
 
-    override fun getWeekDaysForWeekStarting(currentDay: String): List<Day> {
+    override fun getWeekDaysForWeekStarting(startingDateString: String): Single<List<Day>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun submitTimeSheet(days: List<Day>?): Single<Boolean> {
+    override fun getClientName(): Single<String> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun submitTimeSheet(timesheet: TimeSheet?): Single<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun isCurrentWeekSubmitted(): Single<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -1,58 +1,31 @@
 package rraya.nearsoft.com.timesheetsapp.notifications
 
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import rraya.nearsoft.com.timesheetsapp.R
-import java.util.*
 
 class NotificationHelper {
 
-    private var alarmManager: AlarmManager? = null
-    private var alarmReceiverPedingIntent: PendingIntent? = null
-
     companion object {
-        val ALARM_PENDING_INTENT_ID = 100
-        val REPEATED_NOTIFICATION_ID = 101
-        val EDIT_PENDING_INTENT_ID = 102
-        private val NOTIFICATION_CHANNEL = "200"
+        val REPEATED_NOTIFICATION_ID = 201
+        val EDIT_PENDING_INTENT_ID = 202
+        val SUBMIT_PENDING_INTENT_ID = 203
+        private val NOTIFICATION_CHANNEL = "300"
     }
 
-    fun scheduleTimesheetReminderNotification(context: Context) {
-        val calendar = Calendar.getInstance()
-        calendar.setTimeInMillis(System.currentTimeMillis())
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
-        calendar.set(Calendar.HOUR_OF_DAY, 12)
+    var mClientName: String? = null
 
-        val alarmReceiverIntent = Intent(context, AlarmReceiver::class.java)
-        alarmReceiverPedingIntent = PendingIntent.getBroadcast(context, ALARM_PENDING_INTENT_ID, alarmReceiverIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    fun buildEditSendTimeSheetNotification(context: Context, pendingIntentEdit: PendingIntent?, pendingIntentSubmit: PendingIntent?, clientName: String, hours: String = "40"): NotificationCompat.Builder {
 
-        alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        mClientName = clientName
 
-        //I used setRepeateing instead of inexact because according to documentation `With setInexactRepeating(), you can't specify a custom interval the way you can with setRepeating()`
-        //https://developer.android.com/training/scheduling/alarms.html
-        alarmManager!!.setRepeating(AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis, AlarmManager.INTERVAL_DAY * 7, alarmReceiverPedingIntent)
-    }
-
-    fun cancelAlarmRTC() {
-        if (alarmManager != null) {
-            alarmManager!!.cancel(alarmReceiverPedingIntent)
-        }
-    }
-
-    fun notify(context: Context, id: Int, notification: Notification) {
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(id, notification)
-    }
-
-    fun buildEditSendTimeSheetNotification(context: Context, pendingIntentEdit: PendingIntent?, pendingIntentSend: PendingIntent?, clientName: String, hours: String = "40"): NotificationCompat.Builder {
-
-        //TODO Add action to send timesheet as is.
-        val sendAsIsIntent = null
-        val sendAsIsAction = NotificationCompat.Action(R.drawable.send_timesheet_icon, "Send", sendAsIsIntent)
+        val sendAsIsAction = NotificationCompat.Action(R.drawable.send_timesheet_icon, "Send", pendingIntentSubmit)
         val editAction = NotificationCompat.Action(R.drawable.edit_timesheet, "Edit", pendingIntentEdit)
 
         //channel
@@ -63,12 +36,59 @@ class NotificationHelper {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
                 .setContentIntent(pendingIntentEdit)
                 .setContentTitle(clientName)
-                .setContentText(hours)
+                .setContentText("${hours} Hours")
                 .setSmallIcon(R.drawable.timesheet_notif_icon)
                 .setColor(context.resources.getColor(R.color.colorPrimary))
                 .addAction(editAction)
                 .addAction(sendAsIsAction)
                 .setAutoCancel(true)
+    }
+
+    fun buildProgressNotification(context: Context, icon: Int, description: String): NotificationCompat.Builder {
+
+        //channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel(context)
+        }
+
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+                .setContentTitle(mClientName)
+                .setContentText(description)
+                .setSmallIcon(icon)
+                .setColor(context.resources.getColor(R.color.colorPrimary))
+                .setProgress(0, 0, true)
+                .setAutoCancel(false)
+    }
+
+    fun buildDefaultProgressNotification(context: Context, description: String): NotificationCompat.Builder {
+        return buildProgressNotification(context, R.drawable.timesheet_notif_icon, description)
+    }
+
+    fun buildUploadProgressNotification(context: Context, description: String = context.getString(R.string.progress_notification_default_description)): NotificationCompat.Builder {
+        return buildProgressNotification(context, R.drawable.upload_timesheet_notification_icon, description)
+    }
+
+    fun buildSimpleNotification(context: Context, description: String): NotificationCompat.Builder {
+        //channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel(context)
+        }
+
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+                .setContentTitle(mClientName)
+                .setContentText(description)
+                .setSmallIcon(R.drawable.timesheet_notif_icon)
+                .setColor(context.resources.getColor(R.color.colorPrimary))
+                .setProgress(0, 0, false)
+                .setAutoCancel(false)
+    }
+
+    fun notify(context: Context, id: Int, notification: Notification) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(id, notification)
+    }
+
+    fun dismissNotification(context: Context, id: Int) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(id)
     }
 
     @SuppressLint("NewApi")
@@ -78,4 +98,5 @@ class NotificationHelper {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(defaultChannel)
     }
+
 }

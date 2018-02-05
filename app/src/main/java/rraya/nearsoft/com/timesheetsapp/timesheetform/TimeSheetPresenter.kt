@@ -1,39 +1,39 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.functions.BiFunction
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
+import rraya.nearsoft.com.timesheetsapp.common.extensions.calculateWeekStart
 import rraya.nearsoft.com.timesheetsapp.common.extensions.yearMonthDayFormat
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import rraya.nearsoft.com.timesheetsapp.data.models.Client
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import java.util.*
 
 class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
 
-    private var timesheetsView: TimesheetsPresenterContract.View? = null
-    private var days: List<Day>? = null
+    private var mTimesheetsView: TimesheetsPresenterContract.View? = null
+    private var mTimesheet: TimeSheet? = null
+    private val calendar: Calendar = Calendar.getInstance()
 
     override fun setView(view: TimesheetsPresenterContract.View) {
-        timesheetsView = view
+        mTimesheetsView = view
     }
 
     override fun loadTimeSheet() {
-        val currentDay = calculateWeekStart()
-        days = repo.getWeekDaysForWeekStarting(currentDay.yearMonthDayFormat())
-        timesheetsView?.showDaysOfWeek(days)
-    }
+        mTimesheetsView?.showProgressBar()
+        val subscription = repo.getWeekDaysForWeekStarting(calendar.calculateWeekStart().yearMonthDayFormat())
+                .zipWith(repo.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, listOf(Client(clientName))) })
+                .doOnSuccess { timesheet -> mTimesheet = timesheet }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { mTimesheetsView?.hideProgressBar() }
+                .subscribe(
+                        { timesheet -> mTimesheetsView?.showTimeSheetForm(timesheet) },
+                        { error -> mTimesheetsView?.onErrorLoading(error) })
 
-    private fun calculateWeekStart(): Date {
-        val calendar = Calendar.getInstance()
-        val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
-        return if (weekDay > Calendar.MONDAY) {
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            calendar.time
-        } else {
-            calendar.add(Calendar.DAY_OF_MONTH, -7)
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            calendar.time
-        }
+        subscribe(subscription)
+
     }
 
     override fun isRightNowOnTime(): Boolean {
@@ -42,17 +42,12 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
     }
 
     override fun submitTimeSheet() {
-        timesheetsView?.showProgressBar()
-        var subscription = repo.submitTimeSheet(days)
-                .subscribeOn(Schedulers.io())
+        mTimesheetsView?.showProgressBar()
+        var subscription = repo.submitTimeSheet(mTimesheet)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    timesheetsView?.hideProgressBar()
-                    timesheetsView?.onSuccessSubmit()
-                }, {
-                    timesheetsView?.hideProgressBar()
-                    timesheetsView?.onErrorSubmit(it)
-                })
+                .doAfterTerminate { mTimesheetsView?.hideProgressBar() }
+                .subscribe({ mTimesheetsView?.onSuccessSubmit() },
+                        { mTimesheetsView?.onErrorSubmit(it) })
         subscribe(subscription)
     }
 
@@ -62,7 +57,7 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
     }
 
     override fun dropView() {
-        timesheetsView = null
+        mTimesheetsView = null
     }
 
 }

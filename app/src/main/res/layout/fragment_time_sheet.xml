@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".timesheetform.TimeSheetView">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true">
@@ -20,19 +20,19 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
                 android:paddingStart="20dp"
-                android:paddingEnd="20dp">
+                android:paddingTop="20dp">
 
                 <TextView
-                    android:id="@+id/clienteName"
+                    android:id="@+id/clientName"
                     style="@style/Switchfly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lineSpacingMultiplier="1.30"
-                    android:text="Client Name"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Client Name" />
 
 
                 <ImageView
@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/icon_calendar_orange"
-                    app:layout_constraintStart_toStartOf="@+id/clienteName"
-                    app:layout_constraintTop_toBottomOf="@+id/clienteName" />
+                    app:layout_constraintStart_toStartOf="@+id/clientName"
+                    app:layout_constraintTop_toBottomOf="@+id/clientName" />
 
                 <TextView
                     android:id="@+id/week_days_range"
@@ -50,11 +50,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="Week date to date"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/hoursTextView"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
-                    app:layout_constraintTop_toTopOf="@+id/imageView2" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView2"
+                    tools:text="Week date to date" />
 
                 <ImageButton
                     android:id="@+id/editHoursBtn"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackgroundBorderless"
                     android:src="@drawable/icon_edit_grey"
-                    app:layout_constraintEnd_toEndOf="@+id/clienteName"
+                    app:layout_constraintEnd_toEndOf="@+id/clientName"
                     app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:layout_marginEnd="8dp"
                     android:text="@string/fortyhours"
                     app:layout_constraintEnd_toStartOf="@+id/editHoursBtn"
-                    app:layout_constraintTop_toBottomOf="@+id/clienteName" />
+                    app:layout_constraintTop_toBottomOf="@+id/clientName" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -81,73 +81,73 @@
                 android:id="@+id/days_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
-
-            <LinearLayout
-                android:id="@+id/already_sent_layout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:visibility="gone"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/TimesheetSentText"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/timesheet_already_sent"/>
-
-                <Button
-                    android:id="@+id/edit_bottom_btn"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:text="@string/edit"
-                    android:textColor="@color/colorAccent"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/thin_border_round_btn_bg"/>
-
-            </LinearLayout>
+                android:layout_marginStart="20dp" />
 
         </LinearLayout>
+    </ScrollView>
 
-
-    </android.support.v4.widget.NestedScrollView>
-
+    <!--ButtonSection-->
+    <!--TODO:Right now when already sent it shows only the edit button,
+        TODO: which takes you to the web site, later we will show the send button when editing in the app -->
     <FrameLayout
         android:id="@+id/send_timesheet_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="visible"
         android:background="@drawable/white_gradient_bg"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/send_timesheet_button"
             android:layout_width="230dp"
             android:layout_height="48dp"
-            android:text="@string/send_timesheet"
             android:layout_gravity="center"
+            android:background="@drawable/orange_btn_bg"
+            android:text="@string/send_timesheet"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:background="@drawable/orange_btn_bg"
-            android:textAllCaps="true"/>
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/already_sent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/TimesheetSentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/timesheet_already_sent" />
+
+            <Button
+                android:id="@+id/edit_bottom_btn"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/thin_border_round_btn_bg"
+                android:text="@string/edit"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
 
     </FrameLayout>
 
-
-
+    <!--progress bar -->
     <FrameLayout
         android:id="@+id/loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@color/white_transparency">
+        android:background="@color/white_transparency"
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="80dp"
@@ -156,6 +156,5 @@
             android:indeterminate="true" />
 
     </FrameLayout>
-
 
 </FrameLayout>

@@ -3,8 +3,10 @@ package rraya.nearsoft.com.timesheetsapp.data
 import android.util.Log
 import io.reactivex.Single
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
+import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MockRepository : IDataRepository {
 
@@ -22,11 +24,11 @@ class MockRepository : IDataRepository {
         return Single.just("6gf7d8s96gfds77896fdsklnjvdfs")
     }
 
-    override fun getWeekDaysForWeekStarting(startingDateString: String): List<Day> {
+    override fun getWeekDaysForWeekStarting(startingDateString: String): Single<List<Day>> {
 
         val dayDummies: ArrayList<Day> = ArrayList()
-        val simpleDataformat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = simpleDataformat.parse(startingDateString)
+        val simpleDataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = simpleDataFormat.parse(startingDateString)
         val calendar = Calendar.getInstance()
         calendar.time = currentDate
         (0 until 7).forEach {
@@ -34,11 +36,19 @@ class MockRepository : IDataRepository {
             dayDummies.add(Day(dayDate, 8))
             calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
-        return dayDummies
+        return Single.just(dayDummies)
     }
 
-    override fun submitTimeSheet(days: List<Day>?): Single<Boolean> {
+    override fun getClientName(): Single<String> {
+        return Single.just("Umbrella corp").delay(5, TimeUnit.SECONDS)
+    }
+
+    override fun isCurrentWeekSubmitted(): Single<Boolean> {
+        return Single.just(false).delay(5, TimeUnit.SECONDS)
+    }
+
+    override fun submitTimeSheet(timesheet: TimeSheet?): Single<Boolean> {
         Log.v("MockRepository", "Timesheets sent!!")
-        return Single.just(true)
+        return Single.just(true).delay(5, TimeUnit.SECONDS)
     }
 }

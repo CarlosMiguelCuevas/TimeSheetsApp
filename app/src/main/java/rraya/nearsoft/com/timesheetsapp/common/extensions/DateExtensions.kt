@@ -18,3 +18,21 @@ fun Date.yearMonthDayFormat(localeFormat: Locale = Locale.getDefault()): String 
 fun Date.monthDayYearFormat(localeFormat: Locale = Locale.getDefault()): String {
     return SimpleDateFormat("MMM dd yyyy", localeFormat).format(this)
 }
+
+fun Calendar.calculateWeekStart(): Date {
+    val calendar = this
+    val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
+
+    if (weekDay <= Calendar.MONDAY) {
+        calendar.add(Calendar.DAY_OF_MONTH, -7)
+    }
+
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+    return calendar.time
+}
+
+fun Calendar.setDefaultTimeReminder() {
+    val calendar = this
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+    calendar.set(Calendar.HOUR_OF_DAY, 12)
+}
