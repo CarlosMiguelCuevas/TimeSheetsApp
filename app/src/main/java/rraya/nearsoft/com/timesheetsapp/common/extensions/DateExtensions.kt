@@ -22,12 +22,17 @@ fun Date.monthDayYearFormat(localeFormat: Locale = Locale.getDefault()): String 
 fun Calendar.calculateWeekStart(): Date {
     val calendar = this
     val weekDay = calendar.get(Calendar.DAY_OF_WEEK)
-    return if (weekDay > Calendar.MONDAY) {
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        calendar.time
-    } else {
+
+    if (weekDay <= Calendar.MONDAY) {
         calendar.add(Calendar.DAY_OF_MONTH, -7)
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        calendar.time
     }
+
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+    return calendar.time
+}
+
+fun Calendar.setDefaultTimeReminder() {
+    val calendar = this
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+    calendar.set(Calendar.HOUR_OF_DAY, 12)
 }

@@ -26,11 +26,5 @@ class DataModule {
         return UserPrefs(appContext)
     }
 
-    @Provides
-    @Singleton
-    internal fun provideCalendar(): Calendar {
-        return Calendar.getInstance()
-    }
-
 }
 

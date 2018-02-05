@@ -13,6 +13,7 @@ import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.common.extensions.calculateWeekStart
 import rraya.nearsoft.com.timesheetsapp.common.extensions.yearMonthDayFormat
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import rraya.nearsoft.com.timesheetsapp.data.models.Client
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import rraya.nearsoft.com.timesheetsapp.notifications.NotificationHelper
@@ -27,9 +28,11 @@ class SubmitTimesheetService : DaggerService() {
         val SEND_TIMESHEET = "SENDTIMESHEET"
     }
 
-    @Inject lateinit var repository: IDataRepository
-    @Inject lateinit var notificationHelper: NotificationHelper
-    @Inject lateinit var calendar: Calendar
+    @Inject
+    lateinit var repository: IDataRepository
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
+    private var calendar: Calendar = Calendar.getInstance()
 
     private var subscriptions = CompositeDisposable()
 
@@ -46,7 +49,7 @@ class SubmitTimesheetService : DaggerService() {
     private fun submitTimsheet() {
         var subscription = repository.getWeekDaysForWeekStarting(calendar.calculateWeekStart().yearMonthDayFormat())
                 .subscribeOn(Schedulers.io())
-                .zipWith(repository.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, clientName) })
+                .zipWith(repository.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, listOf(Client(clientName))) })
                 .flatMap { timesheet -> repository.submitTimeSheet(timesheet) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterSuccess { _ -> stopSelf() }

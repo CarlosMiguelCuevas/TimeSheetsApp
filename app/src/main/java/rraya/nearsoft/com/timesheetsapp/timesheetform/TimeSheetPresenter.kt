@@ -6,14 +6,16 @@ import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.common.extensions.calculateWeekStart
 import rraya.nearsoft.com.timesheetsapp.common.extensions.yearMonthDayFormat
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import rraya.nearsoft.com.timesheetsapp.data.models.Client
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import java.util.*
 
-class TimeSheetPresenter(private val repo: IDataRepository, private val calendar: Calendar) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
+class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
 
     private var mTimesheetsView: TimesheetsPresenterContract.View? = null
     private var mTimesheet: TimeSheet? = null
+    private val calendar: Calendar = Calendar.getInstance()
 
     override fun setView(view: TimesheetsPresenterContract.View) {
         mTimesheetsView = view
@@ -22,7 +24,7 @@ class TimeSheetPresenter(private val repo: IDataRepository, private val calendar
     override fun loadTimeSheet() {
         mTimesheetsView?.showProgressBar()
         val subscription = repo.getWeekDaysForWeekStarting(calendar.calculateWeekStart().yearMonthDayFormat())
-                .zipWith(repo.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, clientName) })
+                .zipWith(repo.getClientName(), BiFunction { dayList: List<Day>, clientName: String -> TimeSheet(dayList, listOf(Client(clientName))) })
                 .doOnSuccess { timesheet -> mTimesheet = timesheet }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate { mTimesheetsView?.hideProgressBar() }

@@ -14,12 +14,23 @@ class AlarmReceiver : DaggerBroadcastReceiver() {
     @Inject
     lateinit var notificationHelper: NotificationHelper
 
+    companion object {
+        val ALARM_PENDING_INTENT_ID = 100
+        val EXTRA_CLIENT_NAME = "EXTRACLIENTNAME"
+
+        fun getPendingIntentWith(context: Context, clientName: String): PendingIntent {
+            val alarmReceiverIntent = Intent(context, AlarmReceiver::class.java)
+            alarmReceiverIntent.putExtra(EXTRA_CLIENT_NAME, clientName)
+            return PendingIntent.getBroadcast(context, ALARM_PENDING_INTENT_ID, alarmReceiverIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
         val pendingIntentEditTimesheet = buildEditPendingIntent(context)
         val pendingIntentSubmitTimsheet = buildSendPendingIntent(context)
-        val client = intent.getStringExtra(AlarmManagerHelper.EXTRA_CLIENT_NAME)
+        val client = intent.getStringExtra(EXTRA_CLIENT_NAME)
         val reminderNotification = notificationHelper.buildEditSendTimeSheetNotification(context, pendingIntentEditTimesheet, pendingIntentSubmitTimsheet, client).build()
 
         notificationHelper.notify(context, NotificationHelper.REPEATED_NOTIFICATION_ID, reminderNotification)

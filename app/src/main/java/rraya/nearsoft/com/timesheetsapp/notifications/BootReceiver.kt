@@ -10,7 +10,7 @@ class BootReceiver : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
             //Here the `true` is needed because the app is not in foreground
             ScheduleTimesheetNotificationService.startService(context, true)
         }
