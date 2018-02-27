@@ -8,9 +8,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-beta1'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha04'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:3.1.0'
+        classpath 'com.google.gms:google-services:3.2.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -33,14 +33,14 @@ allprojects {
 
         //App dependencies
         supportLibraryVersion = '27.0.2'
-        constraintLayoutVersion = '1.1.0-beta4'
+        constraintLayoutVersion = '1.1.0-beta5'
         firebaseLibrariesVersion = '11.6.2'
-        firebaseUiLibrariesVersion = '3.1.1'
-        daggerLibrariesVersion = '2.11'
+        firebaseUiLibrariesVersion = '3.1.2'
+        daggerLibrariesVersion = '2.14.1'
         retrofitLibrariesVersion = '2.3.0'
         okHttpInterceptorLibrariesVersion = '3.8.0'
         rxJavaVersion = '2.0.8'
-        rxAndroidVersion = '2.0.1'
+        rxAndroidVersion = '2.0.2'
         gifLibraryVersion = '1.2.9'
 
         //Testing dependencies
