@@ -89,8 +89,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
-    //Gifs
-    implementation "pl.droidsonroids.gif:android-gif-drawable:$gifLibraryVersion"
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glideLibraryVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideLibraryVersion"
 }
 
 apply plugin: 'com.google.gms.google-services'

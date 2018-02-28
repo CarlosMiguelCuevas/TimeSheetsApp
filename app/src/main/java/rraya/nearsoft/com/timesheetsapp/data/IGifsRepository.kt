@@ -4,7 +4,7 @@ import io.reactivex.Single
 
 interface IGifsRepository {
 
-    fun getWellDoneGif(): Single<ByteArray>
+    fun getWellDoneGif(): Single<String>
 
-    fun getNotGoodGif(): Single<ByteArray>
+    fun getNotGoodGif(): Single<String>
 }

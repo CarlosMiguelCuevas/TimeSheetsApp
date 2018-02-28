@@ -10,8 +10,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_confirmation.*
-import pl.droidsonroids.gif.GifDrawable
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.common.extensions.loadImage
 import rraya.nearsoft.com.timesheetsapp.data.IGifsRepository
 import javax.inject.Inject
 
@@ -19,7 +19,8 @@ import javax.inject.Inject
 class ConfirmationActivity : DaggerActivity() {
 
     private var submittedOnTime: Boolean = false
-    @Inject lateinit var gifRepo: IGifsRepository
+    @Inject
+    lateinit var gifRepo: IGifsRepository
     private var subscriptions = CompositeDisposable()
 
 
@@ -42,8 +43,7 @@ class ConfirmationActivity : DaggerActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    val gifDrawable = GifDrawable(it)
-                    gifView.setImageDrawable(gifDrawable)
+                    gifView.loadImage(it, this)
                 }, {
                     Log.e(TAG, "Error loading gif", it)
                     //TODO: sorry not sorry, add the image or something default
@@ -52,7 +52,7 @@ class ConfirmationActivity : DaggerActivity() {
         subscribe(subscription)
     }
 
-    private fun defineTypeOfGif(submittedOnTime: Boolean): Single<ByteArray> {
+    private fun defineTypeOfGif(submittedOnTime: Boolean): Single<String> {
         if (submittedOnTime) {
             thank.text = getText(R.string.thank_you)
             doing_great.text = getText(R.string.doing_great)
