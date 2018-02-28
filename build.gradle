@@ -41,7 +41,7 @@ allprojects {
         okHttpInterceptorLibrariesVersion = '3.8.0'
         rxJavaVersion = '2.0.8'
         rxAndroidVersion = '2.0.2'
-        gifLibraryVersion = '1.2.9'
+        glideLibraryVersion = '4.6.1'
 
         //Testing dependencies
         junitVersion = '4.12'
