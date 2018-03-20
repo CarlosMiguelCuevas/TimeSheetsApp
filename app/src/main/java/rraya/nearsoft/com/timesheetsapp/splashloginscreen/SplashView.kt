@@ -1,23 +1,26 @@
 package rraya.nearsoft.com.timesheetsapp.splashloginscreen
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.firebase.ui.auth.IdpResponse
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_splash_view.*
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 import javax.inject.Inject
 
-class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
+class SplashView : Fragment(), SplashViewPresenterContract.View {
 
-    @Inject lateinit var presenter: SplashViewPresenterContract.Presenter
+    @Inject
+    lateinit var presenter: SplashViewPresenterContract.Presenter
 
     companion object {
         private val TAG = "SplashView"
@@ -42,7 +45,18 @@ class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_splash_view, container, false)
+        val view = inflater.inflate(R.layout.fragment_splash_view, container, false)
+        return view
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        injectDependencies()
+
+    }
+
+    private fun injectDependencies() {
+        TimeSheetsApp.component.SplashSubComponent().inject(this)
     }
 
     override fun onLoginError(error: Throwable) {

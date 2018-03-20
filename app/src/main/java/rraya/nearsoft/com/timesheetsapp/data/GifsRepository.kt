@@ -6,19 +6,23 @@ import rraya.nearsoft.com.timesheetsapp.network.GiphyResponse
 import java.util.*
 
 
-class GifsRepository(val api: GiphyApi) : IGifsRepository {
+class GifsRepository(val api: GiphyApi, private val submittedOnTime: Boolean = false) : IGifsRepository {
 
     companion object {
-        private val good = "well done"
-        private val notGood = "not good"
+        private const val good = "well done"
+        private const val notGood = "not good"
+        private const val fail = "fail"
     }
 
-    override fun getWellDoneGif(): Single<String> {
-        return handleApiResponse(good)
-    }
-
-    override fun getNotGoodGif(): Single<String> {
+    override fun getSuccessGif(): Single<String> {
+        if (submittedOnTime) {
+            return handleApiResponse(good)
+        }
         return handleApiResponse(notGood)
+    }
+
+    override fun getFailureGif(): Single<String> {
+        return handleApiResponse(fail)
     }
 
     private fun handleApiResponse(queryParameter: String): Single<String> {
@@ -30,6 +34,10 @@ class GifsRepository(val api: GiphyApi) : IGifsRepository {
         val arrLength = giphyResponse.imageDatas.size
         val randomNumber = Random().nextInt(arrLength)
         return giphyResponse.imageDatas[randomNumber].images.original.url
+    }
+
+    override fun isSubmittedOnTime(): Boolean {
+        return submittedOnTime
     }
 
 }

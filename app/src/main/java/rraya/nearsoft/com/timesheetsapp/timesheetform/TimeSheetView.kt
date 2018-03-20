@@ -1,17 +1,19 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_time_sheet.*
 import rraya.nearsoft.com.timesheetsapp.R
+import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
@@ -21,10 +23,11 @@ import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAd
 import javax.inject.Inject
 
 
-class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
+class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
 
     private var mListener: OnSelectedDayFragmentInteractionListener? = null
-    @Inject lateinit var presenter: TimesheetsPresenterContract.Presenter
+    @Inject
+    lateinit var presenter: TimesheetsPresenterContract.Presenter
 
     private lateinit var adapter: DaysRecyclerViewAdapter
 
@@ -41,6 +44,16 @@ class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
         initTimeAlarm()
 
         return view
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        injectDependencies()
+
+    }
+
+    private fun injectDependencies() {
+        TimeSheetsApp.component.TimeSheetFormhSubComponent().inject(this)
     }
 
     override fun onResume() {
