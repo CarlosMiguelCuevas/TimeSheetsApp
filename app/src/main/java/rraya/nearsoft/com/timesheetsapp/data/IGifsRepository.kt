@@ -4,7 +4,10 @@ import io.reactivex.Single
 
 interface IGifsRepository {
 
-    fun getWellDoneGif(): Single<String>
+    fun getSuccessGif(): Single<String>
 
-    fun getNotGoodGif(): Single<String>
+    fun getFailureGif(): Single<String>
+
+    fun isSubmittedOnTime(): Boolean
+
 }

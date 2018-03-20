@@ -67,8 +67,6 @@ dependencies {
 
     //Dagger2
     implementation "com.google.dagger:dagger:$daggerLibrariesVersion"
-    implementation "com.google.dagger:dagger-android:$daggerLibrariesVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerLibrariesVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerLibrariesVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerLibrariesVersion"
 

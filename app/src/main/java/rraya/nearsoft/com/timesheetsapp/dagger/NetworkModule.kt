@@ -23,7 +23,6 @@ class NetworkModule {
         private const val GIPHY_API_KEY = "GIPHY_API_KEY"
         private const val GIPHY_RETROFIT = "GIPHY_RETROFIT"
         private const val GIPHY_HTTP_CLIENT = "GIPHY_HTTP_CLIENT"
-        private const val GIPHY_INTERCEPTOR = "GIPHY_INTERCEPTOR"
     }
 
     @Provides
@@ -34,12 +33,14 @@ class NetworkModule {
     }
 
     @Provides
+    @Singleton
     @Named(GIPHY_BASE_URL)
     internal fun provideGiphyUrlString(): String {
         return BuildConfig.GIPHY_BACKEND
     }
 
     @Provides
+    @Singleton
     @Named(GIPHY_API_KEY)
     internal fun provideGiphyApiKeyString(): String {
         return BuildConfig.GIPHY_API_KEY

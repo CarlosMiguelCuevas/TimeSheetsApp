@@ -46,9 +46,17 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
         var subscription = repo.submitTimeSheet(mTimesheet)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate { mTimesheetsView?.hideProgressBar() }
-                .subscribe({ mTimesheetsView?.onSuccessSubmit() },
+                .subscribe({
+                    cacheSuccessGif()
+                    mTimesheetsView?.onSuccessSubmit()
+
+                },
                         { mTimesheetsView?.onErrorSubmit(it) })
         subscribe(subscription)
+    }
+
+    private fun cacheSuccessGif() {
+
     }
 
     override fun getUrlForTimesheetEditing(): String {

@@ -2,7 +2,7 @@ package rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger
 
 import dagger.Module
 import dagger.Provides
-import rraya.nearsoft.com.timesheetsapp.dagger.scopes.FragmentScope
+import rraya.nearsoft.com.timesheetsapp.dagger.scopes.ActivityViewScope
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetPresenter
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimesheetsPresenterContract
@@ -10,9 +10,9 @@ import rraya.nearsoft.com.timesheetsapp.timesheetform.TimesheetsPresenterContrac
 @Module
 class TimesheetModule {
 
-    @FragmentScope
+    @ActivityViewScope
     @Provides
-    internal fun prodiveTimesheetPresenter(dataRepository: IDataRepository): TimesheetsPresenterContract.Presenter {
+    internal fun provideTimesheetPresenter(dataRepository: IDataRepository): TimesheetsPresenterContract.Presenter {
         return TimeSheetPresenter(dataRepository)
     }
 }
