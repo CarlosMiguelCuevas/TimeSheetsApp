@@ -14,20 +14,27 @@ import com.firebase.ui.auth.IdpResponse
 import kotlinx.android.synthetic.main.fragment_splash_view.*
 import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
+import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.SplashModule
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 import javax.inject.Inject
+import javax.inject.Named
 
 class SplashView : Fragment(), SplashViewPresenterContract.View {
+
+    companion object {
+        private val TAG = "SplashView"
+        const val WELLCOME_MESSAGE: String = "Hola Enfermera"
+    }
 
     @Inject
     lateinit var presenter: SplashViewPresenterContract.Presenter
 
-    companion object {
-        private val TAG = "SplashView"
-    }
+    @field:[Inject Named("SplashMessage")]
+    lateinit var message: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        welcome_to_title.setText(message)
         signIn_button.setOnClickListener {
             hideErrorLayout()
             showProgressBar()
@@ -56,7 +63,12 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
     }
 
     private fun injectDependencies() {
-        TimeSheetsApp.component.SplashSubComponent().inject(this)
+//        Meramente educativo, esto es inutil, Asi se hacai antes:
+//        TimeSheetsApp.component.SplashSubComponent(SplashModule(WELLCOME_MESSAGE)).inject(this)
+        TimeSheetsApp.component.SplashSubComponentBuilder()
+                .splashModule(SplashModule(WELLCOME_MESSAGE))
+                .build()
+                .inject(this)
     }
 
     override fun onLoginError(error: Throwable) {

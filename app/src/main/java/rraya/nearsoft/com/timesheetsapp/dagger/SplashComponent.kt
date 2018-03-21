@@ -11,6 +11,12 @@ import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.SplashModule
 ])
 interface SplashComponent {
 
+    @Subcomponent.Builder
+    interface Builder {
+        fun splashModule(module: SplashModule): SplashComponent.Builder
+        fun build(): SplashComponent
+    }
+
     fun inject(target: SplashView)
 
 }
