@@ -19,6 +19,7 @@ import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import rraya.nearsoft.com.timesheetsapp.services.ScheduleTimesheetNotificationService
+import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.TimesheetModule
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
     }
 
     private fun injectDependencies() {
-        TimeSheetsApp.component.TimeSheetFormhSubComponent().inject(this)
+        TimeSheetsApp.component.TimeSheetFormhSubComponent(TimesheetModule()).inject(this)
     }
 
     override fun onResume() {
