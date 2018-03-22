@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp.splashloginscreen
+package rraya.nearsoft.com.timesheetsapp.confirmation
 
 import android.content.Context
 import android.os.Bundle
