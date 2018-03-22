@@ -13,20 +13,32 @@ import rraya.nearsoft.com.timesheetsapp.network.TokenBody
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class DataRepositoryImpl(val api: TimesheetsApi, private val sharedPreferences: IUserPrefs) : IDataRepository {
+class DataRepositoryImpl() : IDataRepository {
+
+    //    TODO:show in presentation, needed to accomplish @Binds
+    @Inject
+    constructor(api: TimesheetsApi, sharedPreferences: IUserPrefs) : this() {
+        mApi = api
+        mSharedPreferences = sharedPreferences
+    }
+
+    lateinit var mApi: TimesheetsApi
+    lateinit var mSharedPreferences: IUserPrefs
+
 
     override fun getTimeSheetTokenFromSharedPreferences(): String {
-        return sharedPreferences.getUserToken()
+        return mSharedPreferences.getUserToken()
     }
 
     override fun saveTimeSheetTokenIntoPreferences(token: String) {
-        sharedPreferences.setUserToken(token)
+        mSharedPreferences.setUserToken(token)
     }
 
     @Throws(Throwable::class)
     override fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<String> {
-        return api.getTSTokenFromGoogleToken(createRequestBody(googleToken))
+        return mApi.getTSTokenFromGoogleToken(createRequestBody(googleToken))
                 .map({
                     if (it.isSuccessful && it.body() != null) {
                         it.body()!!.token
