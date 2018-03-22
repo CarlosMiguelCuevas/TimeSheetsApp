@@ -3,7 +3,7 @@ package rraya.nearsoft.com.timesheetsapp.dagger
 import dagger.Subcomponent
 import rraya.nearsoft.com.timesheetsapp.confirmation.dagger.ConfirmationModule
 import rraya.nearsoft.com.timesheetsapp.dagger.scopes.ActivityViewScope
-import rraya.nearsoft.com.timesheetsapp.splashloginscreen.ConfirmationView
+import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationView
 
 @ActivityViewScope
 @Subcomponent(modules = [

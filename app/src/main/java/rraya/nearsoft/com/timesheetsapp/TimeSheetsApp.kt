@@ -8,7 +8,7 @@ import rraya.nearsoft.com.timesheetsapp.dagger.DaggerAppComponent
 class TimeSheetsApp : Application() {
 
     companion object {
-        lateinit public var component: AppComponent
+        lateinit var component: AppComponent
     }
 
     override fun onCreate() {

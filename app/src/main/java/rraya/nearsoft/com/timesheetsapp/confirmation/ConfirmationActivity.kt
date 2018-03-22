@@ -3,7 +3,6 @@ package rraya.nearsoft.com.timesheetsapp.confirmation
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.splashloginscreen.ConfirmationView
 
 
 class ConfirmationActivity : AppCompatActivity() {
