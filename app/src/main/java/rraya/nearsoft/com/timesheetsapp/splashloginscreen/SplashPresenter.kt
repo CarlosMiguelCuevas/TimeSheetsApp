@@ -28,8 +28,9 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     splashView?.hideProgressBar()
-                    dataRepository.saveTimeSheetTokenIntoPreferences(it)
-                    splashView?.onLoginSuccess()
+                    dataRepository.saveTimeSheetTokenIntoPreferences(it.token)
+                    dataRepository.saveTimeSheetUserIdIntoPreferences(it.userId)
+                    continueToNextActivity()
                 }, {
                     splashView?.hideProgressBar()
                     splashView?.onLoginError(it)
@@ -40,7 +41,7 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
 
     override fun tryLoginApp() {
         splashView?.hideProgressBar()
-        if (isTokenStored()) {
+        if (isTokenStored() && isUserIdStored()) {
             continueToNextActivity()
         } else {
             launchFirebaseLogin()
@@ -55,6 +56,11 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
     private fun isTokenStored(): Boolean {
         val token = dataRepository.getTimeSheetTokenFromSharedPreferences()
         return token.isNotEmpty()
+    }
+
+    private fun isUserIdStored(): Boolean {
+        val userId = dataRepository.getTimeSheetUserIdFromSharedPreferences()
+        return userId > 0
     }
 
     private fun launchFirebaseLogin() {
@@ -85,9 +91,8 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
     override fun firebaseLoginResponse() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.getIdToken(false)?.addOnCompleteListener {
-            if (it.isSuccessful && it.result.token?.isNotEmpty() ?: false) {
+            if (it.isSuccessful && it.result.token?.isNotEmpty() == true) {
                 loginInTimesheets(it.result.token!!)
-                continueToNextActivity()
             } else {
                 splashView?.onLoginError(it.exception ?: Throwable("something happened"))
             }

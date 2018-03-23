@@ -1,15 +1,13 @@
 package rraya.nearsoft.com.timesheetsapp.data
 
 import android.util.Log
-import com.google.gson.GsonBuilder
 import io.reactivex.Single
-import okhttp3.MediaType
-import okhttp3.RequestBody
 import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
 import rraya.nearsoft.com.timesheetsapp.network.TokenBody
+import rraya.nearsoft.com.timesheetsapp.network.TokenResponse
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -24,24 +22,17 @@ class DataRepositoryImpl(val api: TimesheetsApi, private val sharedPreferences: 
         sharedPreferences.setUserToken(token)
     }
 
-    @Throws(Throwable::class)
-    override fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<String> {
-        return api.getTSTokenFromGoogleToken(createRequestBody(googleToken))
-                .map({
-                    if (it.isSuccessful && it.body() != null) {
-                        it.body()!!.token
-                    } else {
-                        throw RuntimeException("Error del servidor.")
-                    }
-                }).doOnError({
-            throw RuntimeException("Error de conexión.")
-        })
+    override fun getTimeSheetUserIdFromSharedPreferences(): Int {
+        return sharedPreferences.getUserId()
     }
 
+    override fun saveTimeSheetUserIdIntoPreferences(userId: Int) {
+        sharedPreferences.setUserUserId(userId)
+    }
 
-    private fun createRequestBody(token: String): RequestBody {
-        val json = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(TokenBody(token))
-        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
+    @Throws(Throwable::class)
+    override fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<TokenResponse> {
+        return api.getTSTokenFromGoogleToken(TokenBody(googleToken))
     }
 
     //TODO:Replace for actual implementation
