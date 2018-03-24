@@ -9,28 +9,26 @@ class UserPrefs(val context: Context) : IUserPrefs {
         private val PREFS_NAME = "rraya.nearsoft.com.timesheetsapp.settings"
     }
 
+    private val settings = context.getSharedPreferences(PREFS_NAME, 0)
+
     override fun getUserToken(): String {
-        val settings = context.getSharedPreferences(PREFS_NAME, 0)
         return settings.getString(TOKEN_TAG, "")
     }
 
     override fun setUserToken(token: String) {
-        val settings = context.getSharedPreferences(PREFS_NAME, 0)
         val editor = settings.edit()
         editor.putString(TOKEN_TAG, token)
-        editor.commit()
+        editor.apply()
     }
 
     override fun getUserId(): Int {
-        val settings = context.getSharedPreferences(PREFS_NAME, 0)
         return settings.getInt(USER_ID_TAG, -1)
     }
 
     override fun setUserUserId(userId: Int) {
-        val settings = context.getSharedPreferences(PREFS_NAME, 0)
         val editor = settings.edit()
         editor.putInt(USER_ID_TAG, userId)
-        editor.commit()
+        editor.apply()
     }
 }
 

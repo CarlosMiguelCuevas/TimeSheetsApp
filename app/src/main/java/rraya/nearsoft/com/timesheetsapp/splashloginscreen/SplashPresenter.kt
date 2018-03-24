@@ -6,6 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import rraya.nearsoft.com.timesheetsapp.network.TokenResponse
 import java.util.*
 
 class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
@@ -28,8 +29,7 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     splashView?.hideProgressBar()
-                    dataRepository.saveTimeSheetTokenIntoPreferences(it.token)
-                    dataRepository.saveTimeSheetUserIdIntoPreferences(it.userId)
+                    saveDataIntoSharedPrefernces(it)
                     continueToNextActivity()
                 }, {
                     splashView?.hideProgressBar()
@@ -37,6 +37,11 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
                 })
 
         subscribe(getTokenSubcription)
+    }
+
+    private fun saveDataIntoSharedPrefernces(tokenResponse: TokenResponse){
+        dataRepository.saveTimeSheetTokenIntoPreferences(tokenResponse.token)
+        dataRepository.saveTimeSheetUserIdIntoPreferences(tokenResponse.userId)
     }
 
     override fun tryLoginApp() {
