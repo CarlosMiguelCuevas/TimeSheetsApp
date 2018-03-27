@@ -15,7 +15,6 @@ android {
         versionName "1.0"
         resConfigs "auto"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField 'String', 'HOST', '"http://nearsoft-invoices.herokuapp.com"'
         buildConfigField 'String', 'GIPHY_BACKEND', '"https://api.giphy.com"'
         buildConfigField 'String', 'GIPHY_API_KEY', '"dc6zaTOxFJmzC"'
     }
@@ -29,8 +28,18 @@ android {
 
     flavorDimensions "default"
     productFlavors {
-        mock {}
-        prod {}
+        local {
+            buildConfigField 'String', 'HOST', '"http://10.0.2.2:8000"'
+        }
+        mock {
+            buildConfigField 'String', 'HOST', '"http://10.0.2.2:8000"'
+        }
+        prod {
+            buildConfigField 'String', 'HOST', '"https://nearsoft-invoices.herokuapp.com"'
+        }
+        stage {
+            buildConfigField 'String', 'HOST', '"http://nearsoft-invoices-stage.herokuapp.com"'
+        }
     }
 
     // Remove mockRelease as it's not needed.

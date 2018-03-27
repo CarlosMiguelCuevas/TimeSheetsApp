@@ -6,4 +6,8 @@ interface IUserPrefs {
 
     fun setUserToken(token: String)
 
+    fun getUserId(): Int
+
+    fun setUserUserId(userId: Int)
+
 }

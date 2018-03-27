@@ -4,6 +4,7 @@ import android.util.Log
 import io.reactivex.Single
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
+import rraya.nearsoft.com.timesheetsapp.network.TokenResponse
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit
 class MockRepository : IDataRepository {
 
     private var mockedToken: String = "67v8f9ds6v7fd6svfds" //lets log the user
+    private var mockedUserId: Int = 1
 
     override fun getTimeSheetTokenFromSharedPreferences(): String {
         return mockedToken
@@ -20,8 +22,17 @@ class MockRepository : IDataRepository {
         mockedToken = token
     }
 
-    override fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<String> {
-        return Single.just("6gf7d8s96gfds77896fdsklnjvdfs")
+    override fun getTimeSheetUserIdFromSharedPreferences(): Int {
+        return mockedUserId;
+    }
+
+    override fun saveTimeSheetUserIdIntoPreferences(userId: Int) {
+        mockedUserId = userId
+    }
+
+    override fun getTimesheetsTokenFromGoogleToken(googleToken: String): Single<TokenResponse> {
+        val tokenRespone = TokenResponse(mockedToken, 1, 1)
+        return Single.just(tokenRespone)
     }
 
     override fun getWeekDaysForWeekStarting(startingDateString: String): Single<List<Day>> {

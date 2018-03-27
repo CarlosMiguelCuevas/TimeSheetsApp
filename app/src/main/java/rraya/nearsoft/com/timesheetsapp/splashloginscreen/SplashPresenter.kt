@@ -6,6 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
+import rraya.nearsoft.com.timesheetsapp.network.TokenResponse
 import java.util.*
 
 class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
@@ -28,8 +29,8 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     splashView?.hideProgressBar()
-                    dataRepository.saveTimeSheetTokenIntoPreferences(it)
-                    splashView?.onLoginSuccess()
+                    saveDataIntoSharedPrefernces(it)
+                    continueToNextActivity()
                 }, {
                     splashView?.hideProgressBar()
                     splashView?.onLoginError(it)
@@ -38,9 +39,14 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
         subscribe(getTokenSubcription)
     }
 
+    private fun saveDataIntoSharedPrefernces(tokenResponse: TokenResponse){
+        dataRepository.saveTimeSheetTokenIntoPreferences(tokenResponse.token)
+        dataRepository.saveTimeSheetUserIdIntoPreferences(tokenResponse.userId)
+    }
+
     override fun tryLoginApp() {
         splashView?.hideProgressBar()
-        if (isTokenStored()) {
+        if (isTokenStored() && isUserIdStored()) {
             continueToNextActivity()
         } else {
             launchFirebaseLogin()
@@ -55,6 +61,11 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
     private fun isTokenStored(): Boolean {
         val token = dataRepository.getTimeSheetTokenFromSharedPreferences()
         return token.isNotEmpty()
+    }
+
+    private fun isUserIdStored(): Boolean {
+        val userId = dataRepository.getTimeSheetUserIdFromSharedPreferences()
+        return userId > 0
     }
 
     private fun launchFirebaseLogin() {
@@ -85,9 +96,8 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
     override fun firebaseLoginResponse() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.getIdToken(false)?.addOnCompleteListener {
-            if (it.isSuccessful && it.result.token?.isNotEmpty() ?: false) {
+            if (it.isSuccessful && it.result.token?.isNotEmpty() == true) {
                 loginInTimesheets(it.result.token!!)
-                continueToNextActivity()
             } else {
                 splashView?.onLoginError(it.exception ?: Throwable("something happened"))
             }
