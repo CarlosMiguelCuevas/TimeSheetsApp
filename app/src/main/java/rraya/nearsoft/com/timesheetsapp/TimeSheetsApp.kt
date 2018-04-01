@@ -2,7 +2,6 @@ package rraya.nearsoft.com.timesheetsapp
 
 import android.app.Application
 import rraya.nearsoft.com.timesheetsapp.dagger.AppComponent
-import rraya.nearsoft.com.timesheetsapp.dagger.AppModule
 import rraya.nearsoft.com.timesheetsapp.dagger.DaggerAppComponent
 
 class TimeSheetsApp : Application() {
@@ -18,7 +17,8 @@ class TimeSheetsApp : Application() {
 
     private fun buildComponent(): AppComponent {
         return DaggerAppComponent.builder()
-                .appModule(AppModule(this))
+                .application(this)
+//                .appModule(AppModule(this)) TODO: presentation, asi se ahacie antes, pero con el buileder ya podemos usar el de arriba
 //                .dataModule( DataModule())
 //                .networkModule(NetworkModule())
 //                .giphyRepositoryModule(GiphyRepositoryModule())

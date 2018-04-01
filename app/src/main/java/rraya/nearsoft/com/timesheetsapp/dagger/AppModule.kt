@@ -6,12 +6,13 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+//TODO: presentation, gracias al builder ya no esta en el constructor
 @Module
-class AppModule(val application: Application) {
+class AppModule() {
 
     @Provides
     @Singleton
-    fun provideContext(): Context {
+    fun provideContext(application: Application): Context {
         return application
     }
 }
