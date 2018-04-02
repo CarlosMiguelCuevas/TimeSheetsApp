@@ -28,15 +28,15 @@
             android:name=".confirmation.ConfirmationActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
 
-        <receiver android:name=".notifications.AlarmReceiver" />
-        <receiver android:name=".notifications.BootReceiver">
+        <receiver android:name=".timesheetnotification.receivers.AlarmReceiver" />
+        <receiver android:name=".timesheetnotification.receivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.SubmitTimesheetService" />
-        <service android:name=".services.ScheduleTimesheetNotificationService" />
+        <service android:name=".timesheetnotification.services.SubmitTimesheetService" />
+        <service android:name=".timesheetnotification.services.ScheduleTimesheetNotificationService" />
 
     </application>
 

@@ -11,16 +11,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_time_sheet.*
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
-import rraya.nearsoft.com.timesheetsapp.services.ScheduleTimesheetNotificationService
-import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.TimesheetModule
 import rraya.nearsoft.com.timesheetsapp.timesheetform.adapter.DaysRecyclerViewAdapter
+import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.ScheduleTimesheetNotificationService
 import javax.inject.Inject
 
 
@@ -48,13 +47,8 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
     }
 
     override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this);
         super.onAttach(context)
-        injectDependencies()
-
-    }
-
-    private fun injectDependencies() {
-        TimeSheetsApp.component.TimeSheetFormhSubComponent(TimesheetModule()).inject(this)
     }
 
     override fun onResume() {

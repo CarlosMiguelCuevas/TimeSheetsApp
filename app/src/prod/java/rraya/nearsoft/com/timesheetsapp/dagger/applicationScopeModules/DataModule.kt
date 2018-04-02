@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp.dagger
+package rraya.nearsoft.com.timesheetsapp.dagger.applicationScopeModules
 
 import android.content.Context
 import dagger.Module
@@ -8,7 +8,6 @@ import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import rraya.nearsoft.com.timesheetsapp.data.local.IUserPrefs
 import rraya.nearsoft.com.timesheetsapp.data.local.UserPrefs
 import rraya.nearsoft.com.timesheetsapp.network.TimesheetsApi
-import java.util.*
 import javax.inject.Singleton
 
 @Module

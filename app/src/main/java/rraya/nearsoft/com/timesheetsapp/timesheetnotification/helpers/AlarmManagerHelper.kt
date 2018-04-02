@@ -1,9 +1,9 @@
-package rraya.nearsoft.com.timesheetsapp.notifications
+package rraya.nearsoft.com.timesheetsapp.timesheetnotification.helpers
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
-import rraya.nearsoft.com.timesheetsapp.common.extensions.setDefaultTimeReminder
+import rraya.nearsoft.com.timesheetsapp.timesheetnotification.receivers.AlarmReceiver
 import java.util.*
 
 class AlarmManagerHelper {
@@ -13,7 +13,7 @@ class AlarmManagerHelper {
         var alarmManager: AlarmManager? = null
         var alarmReceiverPedingIntent: PendingIntent? = null
         val calendar = Calendar.getInstance()
-        calendar.setDefaultTimeReminder()
+//        calendar.setDefaultTimeReminder()
 
         alarmReceiverPedingIntent = AlarmReceiver.getPendingIntentWith(context, clientName)
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

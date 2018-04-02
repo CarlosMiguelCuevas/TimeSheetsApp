@@ -1,12 +1,13 @@
-package rraya.nearsoft.com.timesheetsapp.notifications
+package rraya.nearsoft.com.timesheetsapp.timesheetnotification.receivers
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
-import rraya.nearsoft.com.timesheetsapp.services.SubmitTimesheetService
+import dagger.android.AndroidInjection
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
+import rraya.nearsoft.com.timesheetsapp.timesheetnotification.helpers.NotificationHelper
+import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.SubmitTimesheetService
 import javax.inject.Inject
 
 
@@ -26,13 +27,9 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun injectDependencies() {
-        TimeSheetsApp.component.NotificationSubComponent().inject(this)
-    }
-
     override fun onReceive(context: Context, intent: Intent) {
 
-        injectDependencies()
+        AndroidInjection.inject(this, context);
 
         val pendingIntentEditTimesheet = buildEditPendingIntent(context)
         val pendingIntentSubmitTimsheet = buildSendPendingIntent(context)

@@ -1,22 +1,22 @@
-package rraya.nearsoft.com.timesheetsapp.services
+package rraya.nearsoft.com.timesheetsapp.timesheetnotification.services
 
 import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import rraya.nearsoft.com.timesheetsapp.common.extensions.calculateWeekStart
 import rraya.nearsoft.com.timesheetsapp.common.extensions.yearMonthDayFormat
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import rraya.nearsoft.com.timesheetsapp.data.models.Client
 import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
-import rraya.nearsoft.com.timesheetsapp.notifications.NotificationHelper
+import rraya.nearsoft.com.timesheetsapp.timesheetnotification.helpers.NotificationHelper
 import java.util.*
 import javax.inject.Inject
 
@@ -37,12 +37,8 @@ class SubmitTimesheetService : Service() {
     private var subscriptions = CompositeDisposable()
 
     override fun onCreate() {
+        AndroidInjection.inject(this)
         super.onCreate()
-        injectDependencies()
-    }
-
-    private fun injectDependencies() {
-        TimeSheetsApp.component.NotificationSubComponent().inject(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

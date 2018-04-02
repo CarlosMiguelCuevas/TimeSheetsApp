@@ -11,10 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.firebase.ui.auth.IdpResponse
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_splash_view.*
 import rraya.nearsoft.com.timesheetsapp.R
-import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
-import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.SplashModule
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 import javax.inject.Inject
 import javax.inject.Named
@@ -23,7 +22,6 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
 
     companion object {
         private val TAG = "SplashView"
-        const val WELLCOME_MESSAGE: String = "Hola Enfermera"
     }
 
     @Inject
@@ -57,19 +55,19 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
     }
 
     override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this);//TODO: [new] presentation, con esto inyectamos en el fragment
         super.onAttach(context)
-        injectDependencies()
-
     }
 
-    private fun injectDependencies() {
-//        Meramente educativo, esto es inutil, Asi se hacai antes:
-//        TimeSheetsApp.component.SplashSubComponent(SplashModule(WELLCOME_MESSAGE)).inject(this)
-        TimeSheetsApp.component.SplashSubComponentBuilder()
-                .splashModule(SplashModule(WELLCOME_MESSAGE))
-                .build()
-                .inject(this)
-    }
+//    TODO:presentation, we don't need this anymore
+//    private fun injectDependencies() {
+////        Meramente educativo, esto es inutil, Asi se hacai antes:
+////        TimeSheetsApp.component.SplashSubComponent(SplashFragmentModule(WELLCOME_MESSAGE)).inject(this)
+//        TimeSheetsApp.component.SplashSubComponentBuilder()
+//                .splashModule(SplashFragmentModule(WELLCOME_MESSAGE))
+//                .build()
+//                .inject(this)
+//    }
 
     override fun onLoginError(error: Throwable) {
         Log.e(TAG, "Error logging in to the server")
