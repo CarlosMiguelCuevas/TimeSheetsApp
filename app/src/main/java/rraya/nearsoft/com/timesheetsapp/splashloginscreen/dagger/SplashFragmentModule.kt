@@ -2,25 +2,26 @@ package rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger
 
 import dagger.Module
 import dagger.Provides
-import rraya.nearsoft.com.timesheetsapp.dagger.scopes.ActivityViewScope
+import rraya.nearsoft.com.timesheetsapp.dagger.scopes.FragmentScope
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import rraya.nearsoft.com.timesheetsapp.splashloginscreen.SplashPresenter
 import rraya.nearsoft.com.timesheetsapp.splashloginscreen.SplashViewPresenterContract
 import javax.inject.Named
 
 @Module
-class SplashModule(var messageToShow: String) {
+class SplashFragmentModule() {
+    //TODO: [new] presentation, provee lo que usa el fragment
 
-    @ActivityViewScope
+    @FragmentScope
     @Provides
     internal fun provideSplashPresenter(dataRepository: IDataRepository): SplashViewPresenterContract.Presenter {
         return SplashPresenter(dataRepository)
     }
 
-    @ActivityViewScope
+    @FragmentScope
     @Named("SplashMessage")
     @Provides
     internal fun provideMessage(): String {
-        return messageToShow
+        return "Hola Enfermera"
     }
 }

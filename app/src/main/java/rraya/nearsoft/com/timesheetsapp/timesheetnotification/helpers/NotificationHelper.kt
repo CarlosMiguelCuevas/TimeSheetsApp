@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp.notifications
+package rraya.nearsoft.com.timesheetsapp.timesheetnotification.helpers
 
 import android.annotation.SuppressLint
 import android.app.Notification

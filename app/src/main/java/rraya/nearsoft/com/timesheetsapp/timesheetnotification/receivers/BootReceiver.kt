@@ -1,9 +1,9 @@
-package rraya.nearsoft.com.timesheetsapp.notifications
+package rraya.nearsoft.com.timesheetsapp.timesheetnotification.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import rraya.nearsoft.com.timesheetsapp.services.ScheduleTimesheetNotificationService
+import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.ScheduleTimesheetNotificationService
 
 
 class BootReceiver : BroadcastReceiver() {

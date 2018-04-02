@@ -1,4 +1,4 @@
-package rraya.nearsoft.com.timesheetsapp.dagger
+package rraya.nearsoft.com.timesheetsapp.dagger.applicationScopeModules
 
 import android.content.Context
 import dagger.Module
