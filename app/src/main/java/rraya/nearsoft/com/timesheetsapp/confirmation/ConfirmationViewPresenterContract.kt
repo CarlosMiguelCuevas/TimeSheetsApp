@@ -24,10 +24,6 @@ interface ConfirmationViewPresenterContract {
 
         fun loadGif()
 
-        fun setView(view: ConfirmationViewPresenterContract.View)
-
-        fun dropView()
-
     }
 
 }

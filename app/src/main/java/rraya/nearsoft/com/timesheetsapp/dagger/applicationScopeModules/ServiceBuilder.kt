@@ -25,22 +25,16 @@ import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.SubmitTim
 
 
 @Module
-abstract class ActivityBuilder {
-
-    //TODO: presentation, es la lista de activityes (services y receivers) que estan en el grafo y su respectivo componetne (subcomponente, el cual esta referencuado en el appp module)
-    @Binds
-    @IntoMap
-    @ActivityKey(SplashActivity::class)//TODO: presentation, notice this is activityKey
-    internal abstract fun bindSplashActivity(builder: SplashActivityComponent.Builder): AndroidInjector.Factory<out Activity>
+abstract class ServiceBuilder {
 
     @Binds
     @IntoMap
-    @ActivityKey(TimeSheetActivity::class)
-    internal abstract fun bindFormActivity(builder: TimeSheetFormActivityComponent.Builder): AndroidInjector.Factory<out Activity>
+    @ServiceKey(ScheduleTimesheetNotificationService::class)//TODO: presentation, notice is Service Key
+    internal abstract fun bindScheduleService(builder: ScheduleServiceComponent.Builder): AndroidInjector.Factory<out Service>
 
     @Binds
     @IntoMap
-    @ActivityKey(ConfirmationActivity::class)
-    internal abstract fun bindConfirmActivity(builder: ConfirmationActivityComponent.Builder): AndroidInjector.Factory<out Activity>
+    @ServiceKey(SubmitTimesheetService::class)
+    internal abstract fun bindSubmitService(builder: SubmitServiceComponent.Builder): AndroidInjector.Factory<out Service>
 
 }

@@ -42,7 +42,6 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter.setView(this)
         presenter.tryLoginApp()
 
     }
@@ -127,6 +126,5 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
     override fun onStop() {
         super.onStop()
         presenter.unSubscribe()
-        presenter.dropView()
     }
 }

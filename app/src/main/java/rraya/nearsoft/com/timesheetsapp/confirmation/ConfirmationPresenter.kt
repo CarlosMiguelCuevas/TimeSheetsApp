@@ -8,16 +8,12 @@ import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationViewPresenterContract
 import rraya.nearsoft.com.timesheetsapp.data.IGifsRepository
 
-class ConfirmationPresenter(private val gifRepository: IGifsRepository) : RxBasePresenter(), ConfirmationViewPresenterContract.Presenter {
+class ConfirmationPresenter(private val gifRepository: IGifsRepository, private val view: ConfirmationViewPresenterContract.View) : RxBasePresenter(), ConfirmationViewPresenterContract.Presenter {
 
-    private var mConfirmationView: ConfirmationViewPresenterContract.View? = null
+    private var mConfirmationView: ConfirmationViewPresenterContract.View? = view
 
     companion object {
         const val TAG = "ConfirmationActivity"
-    }
-
-    override fun setView(view: ConfirmationViewPresenterContract.View) {
-        mConfirmationView = view
     }
 
     override fun closeApp() {
@@ -47,10 +43,6 @@ class ConfirmationPresenter(private val gifRepository: IGifsRepository) : RxBase
 
         subscribe(subscription)
 
-    }
-
-    override fun dropView() {
-        mConfirmationView = null
     }
 
 }

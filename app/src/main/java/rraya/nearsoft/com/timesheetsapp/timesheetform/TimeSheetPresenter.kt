@@ -11,15 +11,11 @@ import rraya.nearsoft.com.timesheetsapp.data.models.Day
 import rraya.nearsoft.com.timesheetsapp.data.models.TimeSheet
 import java.util.*
 
-class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
+class TimeSheetPresenter(private val repo: IDataRepository, private val view: TimesheetsPresenterContract.View) : RxBasePresenter(), TimesheetsPresenterContract.Presenter {
 
-    private var mTimesheetsView: TimesheetsPresenterContract.View? = null
+    private var mTimesheetsView: TimesheetsPresenterContract.View? = view
     private var mTimesheet: TimeSheet? = null
     private val calendar: Calendar = Calendar.getInstance()
-
-    override fun setView(view: TimesheetsPresenterContract.View) {
-        mTimesheetsView = view
-    }
 
     override fun loadTimeSheet() {
         mTimesheetsView?.showProgressBar()
@@ -62,10 +58,6 @@ class TimeSheetPresenter(private val repo: IDataRepository) : RxBasePresenter(),
     override fun getUrlForTimesheetEditing(): String {
         //TODO Perhaps build it correctly using a builder?
         return "http://google.com"
-    }
-
-    override fun dropView() {
-        mTimesheetsView = null
     }
 
 }

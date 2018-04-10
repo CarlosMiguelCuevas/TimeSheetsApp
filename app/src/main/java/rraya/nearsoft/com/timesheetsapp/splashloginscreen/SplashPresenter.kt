@@ -8,17 +8,14 @@ import rraya.nearsoft.com.timesheetsapp.common.RxBasePresenter
 import rraya.nearsoft.com.timesheetsapp.data.IDataRepository
 import java.util.*
 
-class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
+class SplashPresenter(private var dataRepository: IDataRepository, private var view: SplashViewPresenterContract.View) : RxBasePresenter(), SplashViewPresenterContract.Presenter {
 
     companion object {
         private val RC_SIGN_IN: Int = 1
     }
 
-    private var splashView: SplashViewPresenterContract.View? = null
+    private var splashView: SplashViewPresenterContract.View? = view
 
-    override fun setView(view: SplashViewPresenterContract.View) {
-        splashView = view
-    }
 
     override fun loginInTimesheets(idToken: String) {
         splashView?.showProgressBar()
@@ -77,10 +74,6 @@ class SplashPresenter(private var dataRepository: IDataRepository) : RxBasePrese
         return requestCode == RC_SIGN_IN
     }
 
-    override fun dropView() {
-
-        splashView = null
-    }
 
     override fun firebaseLoginResponse() {
         val user = FirebaseAuth.getInstance().currentUser
