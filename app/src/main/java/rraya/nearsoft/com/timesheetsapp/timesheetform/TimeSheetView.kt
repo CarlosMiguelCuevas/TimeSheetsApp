@@ -53,7 +53,6 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter.setView(this)
         presenter.loadTimeSheet()
 
         val editAction = View.OnClickListener {
@@ -155,7 +154,6 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
     override fun onStop() {
         super.onStop()
         presenter.unSubscribe()
-        presenter.dropView()
     }
 
 }

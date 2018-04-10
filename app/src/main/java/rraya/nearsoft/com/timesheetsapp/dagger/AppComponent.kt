@@ -13,6 +13,8 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidInjectionModule::class, //TODO:[new] presentation add this module to inject teh activities and components
     ActivityBuilder::class, //TODO:[new] presentation add this module to mapp the activities (also services and broadcast receivers)
+    ServiceBuilder::class, //TODO:[new] presentation add this module to mapp the services (also services and broadcast receivers)
+    ReceiverBuilder::class, //TODO:[new] presentation add this module to mapp the receivers (also services and broadcast receivers)
     AppModule::class, //TODO:[new] see inside
     NetworkModule::class,
     DataModule::class,
