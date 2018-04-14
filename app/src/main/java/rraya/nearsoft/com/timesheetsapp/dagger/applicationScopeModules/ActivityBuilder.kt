@@ -1,46 +1,27 @@
 package rraya.nearsoft.com.timesheetsapp.dagger.applicationScopeModules
 
-import android.app.Activity
-import android.app.Service
-import android.content.BroadcastReceiver
-import dagger.Binds
 import dagger.Module
-import dagger.android.ActivityKey
-import dagger.android.AndroidInjector
-import dagger.android.BroadcastReceiverKey
-import dagger.android.ServiceKey
-import dagger.multibindings.IntoMap
+import dagger.android.ContributesAndroidInjector
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
-import rraya.nearsoft.com.timesheetsapp.confirmation.dagger.ConfirmationActivityComponent
+import rraya.nearsoft.com.timesheetsapp.confirmation.dagger.ConfirmationActivityModule
 import rraya.nearsoft.com.timesheetsapp.splashloginscreen.SplashActivity
-import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.SplashActivityComponent
+import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.FragmentBuilder
+import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.SplashActivityModule
+import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.TimesheetFormActivityModule
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
-import rraya.nearsoft.com.timesheetsapp.timesheetform.dagger.TimeSheetFormActivityComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.dagger.NotificationComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.dagger.ScheduleServiceComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.dagger.SubmitServiceComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.receivers.AlarmReceiver
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.ScheduleTimesheetNotificationService
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.SubmitTimesheetService
 
 
 @Module
 abstract class ActivityBuilder {
 
-    //TODO: presentation, es la lista de activityes (services y receivers) que estan en el grafo y su respectivo componetne (subcomponente, el cual esta referencuado en el appp module)
-    @Binds
-    @IntoMap
-    @ActivityKey(SplashActivity::class)//TODO: presentation, notice this is activityKey
-    internal abstract fun bindSplashActivity(builder: SplashActivityComponent.Builder): AndroidInjector.Factory<out Activity>
+    //TODO: presentation, we replace the call to teh component for this, wich creates  subcomponet for us,usinfg specified modules
+    @ContributesAndroidInjector(modules = [SplashActivityModule::class, FragmentBuilder::class])
+    internal abstract fun bindSplashActivity(): SplashActivity
 
-    @Binds
-    @IntoMap
-    @ActivityKey(TimeSheetActivity::class)
-    internal abstract fun bindFormActivity(builder: TimeSheetFormActivityComponent.Builder): AndroidInjector.Factory<out Activity>
+    @ContributesAndroidInjector(modules = [TimesheetFormActivityModule::class, rraya.nearsoft.com.timesheetsapp.timesheetform.dagger.FragmentBuilder::class])
+    internal abstract fun bindFormActivity(): TimeSheetActivity
 
-    @Binds
-    @IntoMap
-    @ActivityKey(ConfirmationActivity::class)
-    internal abstract fun bindConfirmActivity(builder: ConfirmationActivityComponent.Builder): AndroidInjector.Factory<out Activity>
+    @ContributesAndroidInjector(modules = [ConfirmationActivityModule::class, rraya.nearsoft.com.timesheetsapp.confirmation.dagger.FragmentBuilder::class])
+    internal abstract fun bindConfirmActivity(): ConfirmationActivity
 
 }
