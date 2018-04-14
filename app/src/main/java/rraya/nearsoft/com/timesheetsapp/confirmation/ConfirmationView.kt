@@ -21,7 +21,6 @@ class ConfirmationView : Fragment(), ConfirmationViewPresenterContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_confirmation, container, false)
-        presenter.setView(this)
         return view
     }
 
@@ -68,7 +67,6 @@ class ConfirmationView : Fragment(), ConfirmationViewPresenterContract.View {
     override fun onStop() {
         super.onStop()
         presenter.unSubscribe()
-        presenter.dropView()
     }
 
     override fun onAttach(context: Context?) {

@@ -5,7 +5,7 @@ import dagger.Provides
 import rraya.nearsoft.com.timesheetsapp.confirmation.ConfirmationActivity
 import rraya.nearsoft.com.timesheetsapp.dagger.scopes.ActivityScope
 
-@Module(subcomponents = [ConfirmationFragmentComponent::class])
+@Module
 class ConfirmationActivityModule {
 
     @ActivityScope
@@ -13,4 +13,5 @@ class ConfirmationActivityModule {
     internal fun provideConfirmationActivity(activity: ConfirmationActivity): ConfirmationActivity {
         return activity
     }
+
 }

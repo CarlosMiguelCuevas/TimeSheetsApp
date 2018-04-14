@@ -4,23 +4,10 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import rraya.nearsoft.com.timesheetsapp.confirmation.dagger.ConfirmationActivityComponent
-import rraya.nearsoft.com.timesheetsapp.splashloginscreen.dagger.SplashActivityComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetform.dagger.TimeSheetFormActivityComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.dagger.NotificationComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.dagger.ScheduleServiceComponent
-import rraya.nearsoft.com.timesheetsapp.timesheetnotification.dagger.SubmitServiceComponent
 import javax.inject.Singleton
 
-//TODO:[new] presentation, add subcomponents here
-@Module(subcomponents = [
-    SplashActivityComponent::class,
-    TimeSheetFormActivityComponent::class,
-    ConfirmationActivityComponent::class,
-    NotificationComponent::class,
-    ScheduleServiceComponent::class,
-    SubmitServiceComponent::class
-])
+//TODO:[new] presentation, we deleted submodules from here
+@Module
 class AppModule() {
 
     @Provides

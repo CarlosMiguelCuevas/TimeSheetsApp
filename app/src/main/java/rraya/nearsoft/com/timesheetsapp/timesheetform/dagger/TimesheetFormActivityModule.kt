@@ -4,9 +4,8 @@ import dagger.Module
 import dagger.Provides
 import rraya.nearsoft.com.timesheetsapp.dagger.scopes.ActivityScope
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
-import rraya.nearsoft.com.timesheetsapp.timesheetform.dagger.TimeSheetFormFragmentComponent
 
-@Module(subcomponents = [TimeSheetFormFragmentComponent::class])
+@Module
 class TimesheetFormActivityModule {
 
     @ActivityScope
