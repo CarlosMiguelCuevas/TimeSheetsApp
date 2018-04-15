@@ -1,24 +1,22 @@
 package rraya.nearsoft.com.timesheetsapp.splashloginscreen
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.firebase.ui.auth.IdpResponse
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_splash_view.*
 import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 import javax.inject.Inject
 import javax.inject.Named
 
-class SplashView : Fragment(), SplashViewPresenterContract.View {
+class SplashView : DaggerFragment(), SplashViewPresenterContract.View {
 
     companion object {
         private val TAG = "SplashView"
@@ -51,11 +49,6 @@ class SplashView : Fragment(), SplashViewPresenterContract.View {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_splash_view, container, false)
         return view
-    }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this);//TODO: [new] presentation, con esto inyectamos en el fragment
-        super.onAttach(context)
     }
 
 //    TODO:presentation, we don't need this anymore

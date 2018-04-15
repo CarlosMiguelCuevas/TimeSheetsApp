@@ -1,17 +1,15 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetform
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_time_sheet.*
 import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.common.extensions.monthDayYearFormat
@@ -23,7 +21,7 @@ import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.ScheduleT
 import javax.inject.Inject
 
 
-class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
+class TimeSheetView : DaggerFragment(), TimesheetsPresenterContract.View {
 
     private var mListener: OnSelectedDayFragmentInteractionListener? = null
     @Inject
@@ -44,11 +42,6 @@ class TimeSheetView : Fragment(), TimesheetsPresenterContract.View {
         initTimeAlarm()
 
         return view
-    }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context)
     }
 
     override fun onResume() {

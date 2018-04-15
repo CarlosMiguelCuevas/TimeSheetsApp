@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import dagger.android.AndroidInjection
+import dagger.android.DaggerService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
@@ -20,7 +20,7 @@ import rraya.nearsoft.com.timesheetsapp.timesheetnotification.helpers.Notificati
 import java.util.*
 import javax.inject.Inject
 
-class SubmitTimesheetService : Service() {
+class SubmitTimesheetService : DaggerService() {
 
     companion object {
         val SERVICE_TYPE = "SERVICETYPE"
@@ -35,11 +35,6 @@ class SubmitTimesheetService : Service() {
     private var calendar: Calendar = Calendar.getInstance()
 
     private var subscriptions = CompositeDisposable()
-
-    override fun onCreate() {
-        AndroidInjection.inject(this)
-        super.onCreate()
-    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 

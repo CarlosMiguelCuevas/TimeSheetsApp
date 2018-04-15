@@ -1,24 +1,13 @@
 package rraya.nearsoft.com.timesheetsapp.confirmation
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import rraya.nearsoft.com.timesheetsapp.R
-import javax.inject.Inject
 
 
-class ConfirmationActivity : AppCompatActivity(), HasSupportFragmentInjector {
-
-    @Inject
-    lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return fragmentDispatchingAndroidInjector
-    }
+class ConfirmationActivity : DaggerAppCompatActivity(), HasSupportFragmentInjector {
 
     companion object {
         const val DID_SUBMIT_ON_TIME = "DID SUBMIT ON TIME"
