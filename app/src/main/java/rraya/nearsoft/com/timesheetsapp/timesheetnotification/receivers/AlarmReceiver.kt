@@ -1,17 +1,16 @@
 package rraya.nearsoft.com.timesheetsapp.timesheetnotification.receivers
 
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import dagger.android.AndroidInjection
+import dagger.android.DaggerBroadcastReceiver
 import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 import rraya.nearsoft.com.timesheetsapp.timesheetnotification.helpers.NotificationHelper
 import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.SubmitTimesheetService
 import javax.inject.Inject
 
 
-class AlarmReceiver : BroadcastReceiver() {
+class AlarmReceiver : DaggerBroadcastReceiver() { //TODO: inherit from this and ger rid of injecting boilerplate
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
@@ -28,9 +27,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        AndroidInjection.inject(this, context);
-
+        super.onReceive(context, intent)
         val pendingIntentEditTimesheet = buildEditPendingIntent(context)
         val pendingIntentSubmitTimsheet = buildSendPendingIntent(context)
         val client = intent.getStringExtra(EXTRA_CLIENT_NAME)

@@ -1,19 +1,17 @@
 package rraya.nearsoft.com.timesheetsapp.confirmation
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_confirmation.*
 import rraya.nearsoft.com.timesheetsapp.R
 import rraya.nearsoft.com.timesheetsapp.common.extensions.loadImage
 import rraya.nearsoft.com.timesheetsapp.common.extensions.preLoadImage
 import javax.inject.Inject
 
-class ConfirmationView : Fragment(), ConfirmationViewPresenterContract.View {
+class ConfirmationView : DaggerFragment(), ConfirmationViewPresenterContract.View {
 
     @Inject
     lateinit var presenter: ConfirmationViewPresenterContract.Presenter
@@ -67,11 +65,6 @@ class ConfirmationView : Fragment(), ConfirmationViewPresenterContract.View {
     override fun onStop() {
         super.onStop()
         presenter.unSubscribe()
-    }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context)
     }
 
 }

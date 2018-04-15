@@ -3,7 +3,9 @@ package rraya.nearsoft.com.timesheetsapp.dagger
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
+import dagger.android.support.DaggerApplication
 import rraya.nearsoft.com.timesheetsapp.TimeSheetsApp
 import rraya.nearsoft.com.timesheetsapp.dagger.applicationScopeModules.*
 import javax.inject.Singleton
@@ -11,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
-    AndroidInjectionModule::class, //TODO:[new] presentation add this module to inject teh activities and components
+    AndroidSupportInjectionModule::class, //TODO:[new] presentation add this module to inject teh activities and components
     ActivityBuilder::class, //TODO:[new] presentation add this module to mapp the activities (also services and broadcast receivers)
     ServiceBuilder::class, //TODO:[new] presentation add this module to mapp the services (also services and broadcast receivers)
     ReceiverBuilder::class, //TODO:[new] presentation add this module to mapp the receivers (also services and broadcast receivers)
@@ -20,7 +22,7 @@ import javax.inject.Singleton
     DataModule::class,
     GiphyRepositoryModule::class
 ])
-interface AppComponent {
+interface AppComponent : AndroidInjector<DaggerApplication> { //TODO:presentacion, hacemos que herede esta interfaz
 
     //TODO: presentation, chequen este es otra forma de hacerlo, con ets ebuilder ya no es necesario mandar el obejcto en application, para el modulo, de app module, agregar al garph el application
     @Component.Builder
