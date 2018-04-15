@@ -11,7 +11,6 @@ import javax.inject.Named
 
 @Module
 class SplashFragmentModule() {
-    //TODO: [new] presentation, provee lo que usa el fragment
 
     @FragmentScope
     @Provides
@@ -31,4 +30,5 @@ class SplashFragmentModule() {
     internal fun providesView(splashView: SplashView): SplashViewPresenterContract.View {
         return splashView
     }
+
 }

@@ -14,7 +14,6 @@ import rraya.nearsoft.com.timesheetsapp.timesheetform.TimeSheetActivity
 @Module
 abstract class ActivityBuilder {
 
-    //TODO: presentation, we replace the call to teh component for this, wich creates  subcomponet for us,usinfg specified modules
     @ContributesAndroidInjector(modules = [SplashActivityModule::class, FragmentBuilder::class])
     internal abstract fun bindSplashActivity(): SplashActivity
 

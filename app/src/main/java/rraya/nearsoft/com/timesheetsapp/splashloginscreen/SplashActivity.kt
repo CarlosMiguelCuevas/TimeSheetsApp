@@ -5,7 +5,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import rraya.nearsoft.com.timesheetsapp.R
 
 
-class SplashActivity : DaggerAppCompatActivity() {//TODO: [new] presentation, en el fragemntimpelentamso est aienrfaz
+class SplashActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

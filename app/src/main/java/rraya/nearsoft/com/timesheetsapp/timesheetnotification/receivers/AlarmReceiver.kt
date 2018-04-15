@@ -10,7 +10,7 @@ import rraya.nearsoft.com.timesheetsapp.timesheetnotification.services.SubmitTim
 import javax.inject.Inject
 
 
-class AlarmReceiver : DaggerBroadcastReceiver() { //TODO: inherit from this and ger rid of injecting boilerplate
+class AlarmReceiver : DaggerBroadcastReceiver() {
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
