@@ -13,7 +13,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        resConfigs "auto"
+        resConfigs "en", "es"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'GIPHY_BACKEND', '"https://api.giphy.com"'
         buildConfigField 'String', 'GIPHY_API_KEY', '"dc6zaTOxFJmzC"'
